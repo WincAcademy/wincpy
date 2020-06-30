@@ -6,11 +6,11 @@ def exec_assignment_code(filename):
         assignment_code = fp.read()
 
     assignment_state = {}
-    print('===         Output         ===')
+    print('            Output            ')
     print('==============================')
     exec(assignment_code, assignment_state)
     print('==============================')
-    print('===    Einde van output    ===\n')
+    print('       Einde van output       \n')
 
     del assignment_state['__builtins__']
     return assignment_state
