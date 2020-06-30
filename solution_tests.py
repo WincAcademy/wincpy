@@ -77,6 +77,13 @@ class TestRekenen(TestCase):
             self.assertEqual(self.assignment_state[key], val,
                              f'Er gaat iets mis bij de variabele {key}')
 
+    def test_output(self):
+        process = subprocess.run(
+            ['python', self.filename], capture_output=True, text=True
+        )
+        self.assertEqual(float(process.stdout), 66.5, 'Het eindbedrag klopt niet.')
+
+
 
 class TestComments(TestCase):
     filename = '03_comments.py'
