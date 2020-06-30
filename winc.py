@@ -5,7 +5,7 @@ from solution_tests import *
 
 
 def check(assignment_nr):
-    tests = [TestPrint, TestVariabelen, TestRekenen]
+    tests = [TestPrint, TestVariabelen, TestRekenen, TestComments]
 
     test_suite = unittest.defaultTestLoader.loadTestsFromTestCase(
                     tests[assignment_nr]

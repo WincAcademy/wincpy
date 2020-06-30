@@ -72,4 +72,48 @@ class TestRekenen(TestCase):
     def test_values(self):
         for key, val in self.expected_state.items():
             self.assertEqual(self.assignment_state[key], val,
-                    f'Er gaat iets mis bij de variabele {key}')
+                             f'Er gaat iets mis bij de variabele {key}')
+
+
+class TestComments(TestCase):
+    filename = '03_comments.py'
+
+    @classmethod
+    def setUpClass(self):
+        self.assignment_text = open(self.filename).read()
+        self.assignment_state = exec_assignment_code(self.filename)
+
+    def test_end_of_line_comments(self):
+        end_of_line_comment_count = 0
+        for line in self.assignment_text.split('\n'):
+            line = line.replace(' ', '')
+            try:
+                hash_index = line.index('#')
+                if hash_index > 0:
+                    end_of_line_comment_count += 1
+            except ValueError:
+                # No comment on this line
+                pass
+        self.assertGreaterEqual(end_of_line_comment_count, 2,
+                                'Deze oplossing bevat nog geen twee end-of-line comments.')
+
+    def test_single_line_comments(self):
+        single_line_comment_count = 0
+        for line in self.assignment_text.split('\n'):
+            line = line.replace(' ', '')
+            if line != '' and line[0] == '#':
+                single_line_comment_count += 1
+
+        self.assertGreaterEqual(single_line_comment_count, 2,
+                                'Deze oplossing bevat nog geen twee single-line comments.')
+
+    def test_multiline_comments(self):
+        multiline_comment_count = 0
+        for line in self.assignment_text.split('\n'):
+            line = line.replace(' ', '')
+            # If we're here, we already ran the code, so the multiline comment
+            # is also properly terminated somewhere.
+            if line != '' and line[0:3] == '"""':
+                multiline_comment_count += 1
+        self.assertGreaterEqual(multiline_comment_count, 2,
+                                'Deze oplossing bevat nog geen twee multiline comments.')
