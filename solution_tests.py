@@ -3,6 +3,9 @@ from unittest import TestCase
 
 from helpers import exec_assignment_code
 
+# Hide unittest module's stuff from traceback
+__unittest = True
+
 
 class TestPrint(TestCase):
     filename = '00_print.py'
