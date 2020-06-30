@@ -1,3 +1,4 @@
+import sys
 import unittest
 from argparse import ArgumentParser
 
@@ -5,11 +6,15 @@ from solution_tests import *
 
 
 def check(assignment_nr):
+    print("""
+\t\t\t█░█░█ █ █▄░█ █▀▀ █▀█ █▄█
+\t\t\t▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░
+""")
     tests = [TestPrint, TestVariabelen, TestRekenen, TestComments]
 
     test_suite = unittest.defaultTestLoader.loadTestsFromTestCase(
-                    tests[assignment_nr]
-                )
+        tests[assignment_nr]
+    )
     unittest.TextTestRunner().run(test_suite)
 
 
