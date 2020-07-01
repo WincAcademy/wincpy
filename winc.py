@@ -50,8 +50,10 @@ def report(result, raise_error=False):
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='Kijkt je Winc opdrachten na.')
-    parser.add_argument(dest='solution', type=str)
-    parser.add_argument('-t', '--traceback', action='store_true')
+    parser.add_argument(dest='solution', type=str,
+            help='Filename of the solution to test.')
+    parser.add_argument('-t', '--traceback', action='store_true',
+            help='Enable to show traceback for the first error and exit.')
     args = parser.parse_args()
     try:
         assignment_nr, _ = args.solution.split('_')
