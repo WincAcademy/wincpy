@@ -1,26 +1,57 @@
+import inspect
 import sys
-import unittest
 from argparse import ArgumentParser
 
-from solution_tests import *
+import style
+from tests import *
 
 
-def check(assignment_nr):
-    print("""
-\t\t\t█░█░█ █ █▄░█ █▀▀ █▀█ █▄█
-\t\t\t▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░
-""")
-    tests = [TestPrint, TestVariabelen, TestRekenen, TestComments]
+def check(assignment_nr, raise_errors=False):
+    """
+    Checks an assignment by assignment number.
+    """
+    print("""\t\t\t
+    █░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
+    ▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n""")
 
-    test_suite = unittest.defaultTestLoader.loadTestsFromTestCase(
-        tests[assignment_nr]
-    )
-    unittest.TextTestRunner().run(test_suite)
+    tests = gather_tests()
+    result = tests[assignment_nr]()
+    report(result, raise_error=raise_errors)
+
+
+def gather_tests():
+    functions = inspect.getmembers(sys.modules['tests'], inspect.isfunction)
+    tests = [f for fname, f in functions if fname.split('_')[0] == 'test']
+    return tests
+
+
+def report(result, raise_error=False):
+    """
+    Reports the result of the test to the student.
+    """
+    for requirement, score, error in result:
+        if score:
+            sys.stdout.write(
+                    style.color.green
+                    + style.icon.thumbsup
+                    + requirement
+                    + '\n'
+                    + style.color.end)
+        else:
+            sys.stdout.write(
+                    style.color.red
+                    + style.icon.thumbsdown
+                    + requirement
+                    + '\n'
+                    + style.color.end)
+            if raise_error:
+                raise(error)
 
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='Kijkt je Winc opdrachten na.')
     parser.add_argument(dest='solution', type=str)
+    parser.add_argument('-t', '--traceback', action='store_true')
     args = parser.parse_args()
     try:
         assignment_nr, _ = args.solution.split('_')
@@ -32,4 +63,7 @@ if __name__ == '__main__':
                 \n\nBijvoorbeeld:\
                 \n\n\t00_print.py")
 
-    check(assignment_nr)
+    if not args.traceback:
+        sys.tracebacklimit = 0
+
+    check(assignment_nr, args.traceback)
