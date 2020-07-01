@@ -1,6 +1,6 @@
 import subprocess
 
-from helpers import exec_assignment_code
+from wincpy.helpers import exec_assignment_code
 
 
 def test_print(filename='00_print.py'):
@@ -9,6 +9,7 @@ def test_print(filename='00_print.py'):
     process = subprocess.run(
         ['python', filename], capture_output=True, text=True
     )
+
     requirement = 'Er wordt iets geprint.'
     try:
         assert process.stdout != ''

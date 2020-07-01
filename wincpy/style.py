@@ -24,6 +24,6 @@ class color:
 
 class layout:
     class divider:
-        width = 40
+        width = 50
         level_1 = '=' * width
         level_2 = '-' * width

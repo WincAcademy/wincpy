@@ -1,4 +1,4 @@
-import style
+from wincpy import style
 
 def exec_assignment_code(filename):
     """ Execs the code in filename and returns a dictionary with the variables
