@@ -12,8 +12,8 @@ def check(assignment_nr, solution_path, raise_errors=False):
     Checks an assignment by assignment number.
     """
     print("""\t\t\t
-    █░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
-    ▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n""")
+█░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
+▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n""")
 
     tests = gather_tests()
     try:
@@ -34,6 +34,8 @@ def report(result, raise_error=False):
     """
     Reports the result of the test to the student.
     """
+    print(style.color.gray + 'Testresultaat' + style.color.end)
+    print(style.layout.divider.level_1)
     for requirement, score, error in result:
         if score:
             sys.stdout.write(
@@ -51,6 +53,7 @@ def report(result, raise_error=False):
                     + style.color.end)
             if raise_error:
                 raise(error)
+    print(style.layout.divider.level_1)
 
 
 if __name__ == '__main__':

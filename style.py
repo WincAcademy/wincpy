@@ -18,4 +18,12 @@ class color:
     winc_blue = '\033[38;2;74;144;226m'
     red = '\033[38;2;212;36;33m'
     green = '\033[38;2;46;220;104m'
+    gray = '\033[38;2;152;164;174m'
     end = '\033[m'
+
+
+class layout:
+    class divider:
+        width = 40
+        level_1 = '=' * width
+        level_2 = '-' * width
