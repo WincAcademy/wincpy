@@ -1,12 +1,13 @@
 import inspect
 import sys
+import os
 from argparse import ArgumentParser
 
 import style
 from tests import *
 
 
-def check(assignment_nr, raise_errors=False):
+def check(assignment_nr, solution_path, raise_errors=False):
     """
     Checks an assignment by assignment number.
     """
@@ -15,7 +16,11 @@ def check(assignment_nr, raise_errors=False):
     ▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n""")
 
     tests = gather_tests()
-    result = tests[assignment_nr]()
+    try:
+        result = tests[assignment_nr](solution_path)
+    except IndexError as e:
+        print(f'{style.color.red}Voor deze opdracht bestaat nog geen test.{style.color.end}')
+        sys.exit(1)
     report(result, raise_error=raise_errors)
 
 
@@ -55,9 +60,13 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--traceback', action='store_true',
             help='Enable to show traceback for the first error and exit.')
     args = parser.parse_args()
+
+    if not args.traceback:
+        sys.tracebacklimit = 0
+
     try:
-        assignment_nr, _ = args.solution.split('_')
-        assignment_nr = int(assignment_nr)
+        solution_basename = os.path.basename(args.solution)
+        assignment_nr = int(solution_basename.split('_')[0])
     except:
         raise ValueError("\n=========================\
                 \nDe gegeven bestandsnaam is niet correct. Het format is:\
@@ -65,7 +74,8 @@ if __name__ == '__main__':
                 \n\nBijvoorbeeld:\
                 \n\n\t00_print.py")
 
-    if not args.traceback:
-        sys.tracebacklimit = 0
+    if not os.path.exists(args.solution):
+        raise ValueError('Het opgegeven bestand bestaat niet.')
 
-    check(assignment_nr, args.traceback)
+
+    check(assignment_nr, args.solution, args.traceback)

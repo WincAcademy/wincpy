@@ -9,10 +9,12 @@ def test_print(filename='00_print.py'):
     process = subprocess.run(
         ['python', filename], capture_output=True, text=True
     )
+    requirement = 'Er wordt iets geprint.'
     try:
-        assert process.stdout != '', 'Er wordt niets geprint.'
+        assert process.stdout != ''
+        result.append((requirement, True, None))
     except AssertionError as e:
-        result.append(e)
+        result.append((requirement, False, e))
 
     return result
 
