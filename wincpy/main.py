@@ -34,7 +34,6 @@ def main(stdout, stderr):
     check(assignment_nr, args.solution, args.traceback)
 
 
-
 def check(assignment_nr, solution_path, raise_errors=False):
     """
     Checks an assignment by assignment number.
@@ -65,7 +64,7 @@ def report(result, raise_error=False):
     """
     print(style.color.gray + 'Testresultaat' + style.color.end)
     print(style.layout.divider.level_1)
-    for requirement, score, error in result:
+    for requirement, score in result:
         if score:
             sys.stdout.write(
                 style.color.green
@@ -80,6 +79,4 @@ def report(result, raise_error=False):
                 + requirement
                 + '\n'
                 + style.color.end)
-            if raise_error:
-                raise(error)
     print(style.layout.divider.level_1)

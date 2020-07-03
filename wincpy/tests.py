@@ -6,16 +6,12 @@ from wincpy.helpers import exec_assignment_code
 def test_print(filename='00_print.py'):
     result = []
 
-    process = subprocess.run(
+    output = subprocess.run(
         ['python', filename], capture_output=True, text=True
-    )
+    ).stdout
 
     requirement = 'Er wordt iets geprint.'
-    try:
-        assert process.stdout != ''
-        result.append((requirement, True, None))
-    except AssertionError as e:
-        result.append((requirement, False, e))
+    result.append((requirement, output != ''))
 
     return result
 
@@ -27,24 +23,12 @@ def test_variabelen(filename='01_variabelen.py'):
     types_in_state = [type(var) for var in assignment_state.values()]
 
     requirement = 'Er wordt een bool gedeclareerd.'
-    try:
-        assert bool in types_in_state
-        result.append((requirement, True, None))
-    except AssertionError as e:
-        result.append((requirement, False, e))
+    result.append((requirement, bool in types_in_state))
 
     requirement = 'Er wordt een string gedeclareerd.'
-    try:
-        assert str in types_in_state
-        result.append((requirement, True, None))
-    except AssertionError as e:
-        result.append((requirement, False, e))
+    result.append((requirement, str in types_in_state))
 
     requirement = 'Er wordt een int gedeclareerd.'
-    try:
-        assert int in types_in_state
-        result.append((requirement, True, None))
-    except AssertionError as e:
-        result.append((requirement, False, e))
+    result.append((requirement, int in types_in_state))
 
     return result
