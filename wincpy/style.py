@@ -27,3 +27,5 @@ class layout:
         width = 50
         level_1 = '=' * width
         level_2 = '-' * width
+
+    list_item = '├───'

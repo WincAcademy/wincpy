@@ -11,12 +11,14 @@ def main(stdout, stderr):
     parser = ArgumentParser(description='Kijkt je Winc opdrachten na.')
     parser.add_argument(dest='solution', type=str,
                         help='Filename of the solution to test.')
-    parser.add_argument('-t', '--traceback', action='store_true',
-                        help='Enable to show traceback for the first error and exit.')
+    # parser.add_argument('-t', '--traceback', action='store_true',
+                        # help='Enable to show traceback for the first error and exit.')
     args = parser.parse_args()
 
-    if not args.traceback:
-        sys.tracebacklimit = 0
+    print("""\t\t\t
+█░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
+▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n""")
+
 
     try:
         solution_basename = os.path.basename(args.solution)
@@ -31,17 +33,14 @@ def main(stdout, stderr):
     if not os.path.exists(args.solution):
         raise ValueError('Het opgegeven bestand bestaat niet.')
 
-    check(assignment_nr, args.solution, args.traceback)
+    result = check(assignment_nr, args.solution)
+    report(result)
 
 
-def check(assignment_nr, solution_path, raise_errors=False):
+def check(assignment_nr, solution_path):
     """
     Checks an assignment by assignment number.
     """
-    print("""\t\t\t
-█░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
-▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n""")
-
     tests = gather_tests()
     try:
         result = tests[assignment_nr](solution_path)
@@ -49,7 +48,7 @@ def check(assignment_nr, solution_path, raise_errors=False):
         print(
             f'{style.color.red}Voor deze opdracht bestaat nog geen test.{style.color.end}')
         sys.exit(1)
-    report(result, raise_error=raise_errors)
+    return result
 
 
 def gather_tests():
@@ -58,7 +57,7 @@ def gather_tests():
     return tests
 
 
-def report(result, raise_error=False):
+def report(result):
     """
     Reports the result of the test to the student.
     """
