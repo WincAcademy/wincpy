@@ -51,8 +51,8 @@ def test_002_rekenen(filename='02_rekenen.py'):
         'totaal_prijs_met_korting_afgerond': 66.5}
 
     output = subprocess.run(
-            ['python', filename], capture_output=True, text=True
-            ).stdout
+        ['python', filename], capture_output=True, text=True
+    ).stdout
 
     assignment_state = exec_assignment_code(filename)
     result += compare_states(expected_state, assignment_state)
@@ -67,7 +67,6 @@ def test_003_comments(filename='03_comments.py'):
     result = []
 
     assignment_text = open(filename).read()
-    assignment_state = exec_assignment_code(filename)
 
     requirement = 'De oplossing bevat twee end-of-line comments.'
     end_of_line_comment_count = 0
@@ -99,5 +98,35 @@ def test_003_comments(filename='03_comments.py'):
         if line != '' and line[0:3] == '"""':
             multiline_comment_count += 1
     result.append((requirement, multiline_comment_count >= 2))
+
+    return result
+
+
+def test_004_strings(filename='04_strings.py'):
+    result = []
+    expected_state = {
+            'goal1': 35,
+            'goal2': 54,
+            'scoorders': 'Ruud Gullit, Marco van Basten',
+            'report': 'Ruud Gullit scoorde in de 35e minuut.'\
+                     +'\nMarco van Basten scoorde in de 54e minuut.'}
+
+    assignment_state = exec_assignment_code(filename)
+    result += compare_states(expected_state, assignment_state)
+
+    try:
+        speler = assignment_state['player']
+    except:
+        requirement = 'Je hebt een variabele `player`.'
+        result.append((requirement, False))
+        return result
+
+    expected_state = {
+            'firstname': speler[speler.find(' ') + 1:] + ', ' + speler[:speler.find(' ')],
+            'lastname_len': len(speler[speler.find(' ') + 1:]),
+            'name_short': speler[0] + speler[speler.find(' '):],
+            'chant': ((speler[:speler.find(' ')] + '! ') * len(speler[:speler.find(' ')]))[:-1]
+            }
+    result += compare_states(expected_state, assignment_state)
 
     return result
