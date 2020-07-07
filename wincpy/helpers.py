@@ -1,3 +1,5 @@
+import sys
+
 from wincpy import style
 
 
@@ -11,7 +13,15 @@ def exec_assignment_code(filename):
     actual_state = {}
     print(style.color.gray + 'Output van ' + filename + style.color.end)
     print(style.layout.divider.level_1)
-    exec(assignment_code, actual_state)
+    try:
+        exec(assignment_code, actual_state)
+    except:
+        print(style.color.red
+              + 'De code kon niet uitgevoerd worden.\
+                \nDebug eerst met de standaard Python interpreter!'
+              + style.color.end)
+        sys.exit(1)
+
     print(style.layout.divider.level_1 + '\n')
 
     del actual_state['__builtins__']
@@ -43,6 +53,7 @@ def compare_states(expected_state, actual_state):
     if not result[-1][1]:
         diff = es_tupleset - as_tupleset
         for key, _ in diff:
-            result.append((f'{style.layout.list_item} Er gaat iets mis bij de variabele {key}.', False))
+            result.append(
+                (f'{style.layout.list_item} Er gaat iets mis bij de variabele {key}.', False))
 
     return result
