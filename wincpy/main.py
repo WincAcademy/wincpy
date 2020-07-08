@@ -1,60 +1,89 @@
+import importlib
 import inspect
+import json
 import os
+import shutil
 import sys
+import urllib.request
 from argparse import ArgumentParser
 
-from wincpy import style, tests, helpers
-# import style
-# from tests import *
+from wincpy import helpers, solutions, starts, style, tests
+
 
 def main(stdout, stderr):
-    parser = ArgumentParser(description='Kijkt je Winc opdrachten na.')
-    parser.add_argument(dest='solution', type=str,
-                        help='Filename of the solution to test.')
-    # parser.add_argument('-t', '--traceback', action='store_true',
-                        # help='Enable to show traceback for the first error and exit.')
+    parser = ArgumentParser(description='The Winc Python tool.')
+    subparsers = parser.add_subparsers(dest='action',
+                                       help='What wincpy should do in this run.')
+    start_parser = subparsers.add_parser('start',
+                                         help='Start a new assignment.')
+    check_parser = subparsers.add_parser('check',
+                                         help='Check an existing assignment.')
+
+    start_parser.add_argument('winc_id', type=str,
+                              help='Winc ID of an assignment to start.')
+    check_parser.add_argument('path', type=str,
+                              help='Path containing assignment to check.')
+
     args = parser.parse_args()
 
-    print("""\t\t\t
-█░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
-▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n""")
+    print(style.misc.logo)
+
+    if args.action == 'start':
+        start(args)
+    elif args.action == 'check':
+        result = check(args)
+        report(result)
 
 
-    try:
-        solution_basename = os.path.basename(args.solution)
-        assignment_nr = int(solution_basename.split('_')[0])
-    except:
-        raise ValueError("\n=========================\
-                \nDe gegeven bestandsnaam is niet correct. Het format is:\
-                \n\n\topdrachtnummer_opdrachtnaam.py\
-                \n\nBijvoorbeeld:\
-                \n\n\t00_print.py")
-
-    if not os.path.exists(args.solution):
-        raise ValueError('Het opgegeven bestand bestaat niet.')
-
-    result = check(assignment_nr, args.solution)
-    report(result)
-
-
-def check(assignment_nr, solution_path):
-    """
-    Checks an assignment by assignment number.
-    """
-    tests = gather_tests()
-    try:
-        result = tests[assignment_nr](solution_path)
-    except IndexError:
-        print(
-            f'{style.color.red}Voor deze opdracht bestaat nog geen test.{style.color.end}')
+def start(args):
+    iddb = helpers.get_iddb()
+    if args.winc_id not in iddb:
+        sys.stderr.write("Unknown Winc ID; can't start assignment.\n")
         sys.exit(1)
+
+    human_name = iddb[args.winc_id]['human_name']
+    print(f'Starting assignment {human_name} with ID {args.winc_id}')
+
+    starts_abspath = starts.__path__[0]
+    starts_dirs = list(os.walk(starts_abspath))[0][1]
+    starts_dirs = {d: os.path.join(starts_abspath, d) for d in starts_dirs}
+
+    # Winc ID is known, but does not require a particular start.
+    if args.winc_id not in starts_dirs:
+        try:
+            shutil.copytree(starts_dirs['tabula_rasa'], human_name)
+        except:
+            sys.stderr.write(
+                f"Error: could not create directory {human_name}. Exiting.")
+        with open(os.path.join(human_name, '__init__.py'), 'w') as fp:
+            fp.write(f"__winc_id__ = '{args.winc_id}'\n")
+            fp.write(f"__human_name__ = '{human_name}'")
+    else:
+        try:
+            shutil.copytree(starts_dirs[args.winc_id], human_name)
+        except:
+            sys.stderr.write(
+                f"Error: could not create directory {human_name}. Exiting.\n")
+    print('Done.')
+
+
+def check(args):
+    try:
+        sys.path.insert(1, os.getcwd())
+        student_module = importlib.import_module(args.path)
+    except:
+        sys.stderr.write(f'{style.color.red}Could not import a module from {args.path}{style.color.end}\n')
+        sys.exit(1)
+
+    try:
+        test = importlib.import_module(f'.{student_module.__winc_id__}', 'wincpy.tests')
+    except ImportError:
+        sys.stderr.write(f'{style.color.red}There is no test for this assignment yet.{style.color.end}\n')
+        sys.exit(1)
+
+    result = test.run(student_module)
+
     return result
-
-
-def gather_tests():
-    functions = inspect.getmembers(sys.modules['wincpy.tests'], inspect.isfunction)
-    tests = [f for fname, f in functions if fname.split('_')[0] == 'test']
-    return tests
 
 
 def report(result):

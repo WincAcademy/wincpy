@@ -29,3 +29,8 @@ class layout:
         level_2 = '-' * width
 
     list_item = '├───'
+
+class misc:
+    logo = """\t\t\t
+    █░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
+    ▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n"""

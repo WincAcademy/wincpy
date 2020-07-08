@@ -1,3 +1,5 @@
+import os
+import subprocess
 import sys
 
 from wincpy import style
@@ -10,11 +12,11 @@ def exec_assignment_code(filename):
     with open(filename, 'r') as fp:
         assignment_code = fp.read()
 
-    actual_state = {}
+    state = {}
     print(style.color.gray + 'Output van ' + filename + style.color.end)
     print(style.layout.divider.level_1)
     try:
-        exec(assignment_code, actual_state)
+        exec(assignment_code, state)
     except:
         print(style.color.red
               + 'De code kon niet uitgevoerd worden.\
@@ -24,8 +26,13 @@ def exec_assignment_code(filename):
 
     print(style.layout.divider.level_1 + '\n')
 
-    del actual_state['__builtins__']
-    return actual_state
+    del state['__builtins__']
+
+    output = subprocess.run(
+        ['python', filename], capture_output=True, text=True
+    ).stdout
+
+    return output, state
 
 
 def compare_states(expected_state, actual_state):
@@ -57,3 +64,23 @@ def compare_states(expected_state, actual_state):
                 (f'{style.layout.list_item} Er gaat iets mis bij de variabele {key}.', False))
 
     return result
+
+
+def get_main_abspath(module):
+    main_abspath = os.path.join(module.__path__[0], 'main.py')
+    if not os.path.exists(main_abspath):
+        raise FileNotFoundError
+    return main_abspath
+
+
+def get_iddb():
+    iddb_url = 'https://raw.githubusercontent.com/WincAcademy/wincid/master/iddb.json'
+    iddb_bytes = urllib.request.urlopen(iddb_url, timeout=1).read()
+    iddb = json.loads(iddb_bytes)
+    try:
+        iddb_bytes = urllib.request.urlopen(iddb_url, timeout=1).read()
+        iddb = json.loads(iddb_bytes)
+    except:
+        sys.stderr.write('Could not load database.\n')
+        sys.exit(1)
+    return iddb
