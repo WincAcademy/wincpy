@@ -1,6 +1,8 @@
 import os
 import subprocess
 import sys
+import urllib.request
+import json
 
 from wincpy import style
 

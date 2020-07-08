@@ -1,10 +1,8 @@
 import importlib
 import inspect
-import json
 import os
 import shutil
 import sys
-import urllib.request
 from argparse import ArgumentParser
 
 from wincpy import helpers, solutions, starts, style, tests
