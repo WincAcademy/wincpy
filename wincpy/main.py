@@ -10,7 +10,7 @@ from wincpy import helpers, solutions, starts, style, tests
 
 def main(stdout, stderr):
     parser = ArgumentParser(description='The Winc Python tool.')
-    subparsers = parser.add_subparsers(dest='action',
+    subparsers = parser.add_subparsers(dest='action', required=True,
                                        help='What wincpy should do in this run.')
     start_parser = subparsers.add_parser('start',
                                          help='Start a new assignment.')
@@ -40,7 +40,8 @@ def start(args):
         sys.exit(1)
 
     human_name = iddb[args.winc_id]['human_name']
-    print(f'Starting assignment {human_name} with ID {args.winc_id}')
+    print(f'{style.color.green}Starting assignment: {human_name}{style.color.end}\n'
+          + f'Winc ID: {args.winc_id}')
 
     starts_abspath = starts.__path__[0]
     starts_dirs = list(os.walk(starts_abspath))[0][1]
@@ -52,7 +53,8 @@ def start(args):
             shutil.copytree(starts_dirs['tabula_rasa'], human_name)
         except:
             sys.stderr.write(
-                f"Error: could not create directory {human_name}. Exiting.")
+                f"{style.color.red}Error: could not create directory '{human_name}'. Exiting.\n{style.color.end}")
+            sys.exit(1)
         with open(os.path.join(human_name, '__init__.py'), 'w') as fp:
             fp.write(f"__winc_id__ = '{args.winc_id}'\n")
             fp.write(f"__human_name__ = '{human_name}'")
@@ -62,7 +64,8 @@ def start(args):
         except:
             sys.stderr.write(
                 f"Error: could not create directory {human_name}. Exiting.\n")
-    print('Done.')
+            sys.exit(1)
+    print(f'You can find the assignment files in the folder: {human_name}')
 
 
 def check(args):
@@ -70,7 +73,10 @@ def check(args):
         sys.path.insert(1, os.getcwd())
         student_module = importlib.import_module(args.path)
     except:
-        sys.stderr.write(f'{style.color.red}Could not import a module from {args.path}{style.color.end}\n')
+        if not os.path.isdir(args.path):
+            sys.stderr.write(f'{style.color.red}Module does not exist.{style.color.end}\n')
+        else:
+            sys.stderr.write(f'{style.color.red}Could not import module from {args.path}{style.color.end}\n')
         sys.exit(1)
 
     try:
