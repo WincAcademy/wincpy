@@ -19,7 +19,7 @@ def main(stdout, stderr):
 
     start_parser.add_argument('winc_id', type=str,
                               help='Winc ID of an assignment to start.')
-    check_parser.add_argument('path', type=str,
+    check_parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
                               help='Path containing assignment to check.')
 
     args = parser.parse_args()
@@ -69,20 +69,32 @@ def start(args):
 
 
 def check(args):
+    arg_abspath = os.path.abspath(args.path)
+    parent_abspath, student_module_name = os.path.split(arg_abspath)
+    sys.path.insert(1, parent_abspath)
+
     try:
-        sys.path.insert(1, os.getcwd())
-        student_module = importlib.import_module(args.path)
-    except:
-        if not os.path.isdir(args.path):
-            sys.stderr.write(f'{style.color.red}Directory does not exist.{style.color.end}\n')
-        else:
-            sys.stderr.write(f'{style.color.red}Could not import module from {args.path}{style.color.end}\n')
+        student_module = importlib.import_module(student_module_name)
+    except ImportError:
+        sys.stderr.write(style.color.red
+                         + f'Could not import module {student_module_name} from {parent_abspath}\n'
+                         + style.color.end)
         sys.exit(1)
 
     try:
-        test = importlib.import_module(f'.{student_module.__winc_id__}', 'wincpy.tests')
+        winc_id = student_module.__winc_id__
+    except AttributeError:
+        sys.stderr.write(style.color.red
+                         + 'This module does not have a Winc ID.\n'
+                         + style.color.end)
+        sys.exit(1)
+
+    try:
+        test = importlib.import_module(f'.{winc_id}', 'wincpy.tests')
     except ImportError:
-        sys.stderr.write(f'{style.color.red}There is no test for this assignment yet.{style.color.end}\n')
+        sys.stderr.write(style.color.red
+                         + 'There is no test for this assignment yet.\n'
+                         + style.color.end)
         sys.exit(1)
 
     result = test.run(student_module)
