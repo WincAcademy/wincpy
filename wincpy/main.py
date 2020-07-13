@@ -65,7 +65,7 @@ def start(args):
             sys.stderr.write(
                 f"Error: could not create directory {human_name}. Exiting.\n")
             sys.exit(1)
-    print(f'You can find the assignment files in the folder: {human_name}')
+    print(f'You can find the assignment files in the directory: {human_name}')
 
 
 def check(args):
@@ -74,7 +74,7 @@ def check(args):
         student_module = importlib.import_module(args.path)
     except:
         if not os.path.isdir(args.path):
-            sys.stderr.write(f'{style.color.red}Module does not exist.{style.color.end}\n')
+            sys.stderr.write(f'{style.color.red}Directory does not exist.{style.color.end}\n')
         else:
             sys.stderr.write(f'{style.color.red}Could not import module from {args.path}{style.color.end}\n')
         sys.exit(1)
