@@ -30,6 +30,7 @@ class layout:
 
     list_item = '├───'
 
+
 class misc:
     logo = """\t\t\t
     █░█░█ █ █▄░█ █▀▀ █▀█ █▄█\n\
