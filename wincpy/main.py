@@ -106,7 +106,7 @@ def report(result):
     """
     Reports the result of the test to the student.
     """
-    print(style.color.gray + 'Testresultaat' + style.color.end)
+    print(style.color.gray + 'Test result' + style.color.end)
     print(style.layout.divider.level_1)
     for requirement, score in result:
         if score:

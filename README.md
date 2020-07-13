@@ -32,9 +32,10 @@ wincpy 042_example.py
 
 ## TODO
 
+- [ ] Translate tests.
 - [ ] Write test for `62311a1767294e058dc13c953e8690a4` (casting)
-- [ ] Translate some Dutch snippets still lying around.
-- [ ] Change abspath to relative path in user-facing string 'Output from ..' 
+- [x] Translate some Dutch snippets still lying around.
+- [x] Change abspath to relative path in user-facing string 'Output from ..' 
 - [x] Be more flexible with student module path designation on `wincpy check`
     - [x] Support `wincpy check .`
     - [x] Support `wincpy check example/`

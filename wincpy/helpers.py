@@ -15,14 +15,16 @@ def exec_assignment_code(filename):
         assignment_code = fp.read()
 
     state = {}
-    print(style.color.gray + 'Output van ' + filename + style.color.end)
+    print(style.color.gray
+          + 'Output from running ' + os.path.split(filename)[1]
+          + style.color.end)
     print(style.layout.divider.level_1)
+
     try:
         exec(assignment_code, state)
     except:
         print(style.color.red
-              + 'De code kon niet uitgevoerd worden.\
-                \nDebug eerst met de standaard Python interpreter!'
+              + 'Your code could not be executed successfully.\n'
               + style.color.end)
         sys.exit(1)
 
