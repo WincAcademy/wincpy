@@ -36,7 +36,9 @@ def main(stdout, stderr):
 def start(args):
     iddb = helpers.get_iddb()
     if args.winc_id not in iddb:
-        sys.stderr.write("Unknown Winc ID; can't start assignment.\n")
+        sys.stderr.write(style.color.red
+                         + "Unknown Winc ID; can't start assignment.\n"
+                         + style.color.end)
         sys.exit(1)
 
     human_name = iddb[args.winc_id]['human_name']
