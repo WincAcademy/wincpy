@@ -10,13 +10,17 @@ for malicious effects.
 
 ## Usage
 
+!Outdated! -> Todo for @stfwn
+
 ```bash
 wincpy 042_example.py
 ```
 
 ## Workflow for new assignments
 
-1. Write an assignment description and enter it into TalentLMS.
+!Outdated! -> Todo for @stfwn
+
+1. Write an assignment description.
 2. Write a solution in `solutions/042_example.py`
 3. Write tests in `tests.py`
     1. Define a new function `test_042_example.py`.
@@ -32,11 +36,6 @@ wincpy 042_example.py
 
 ## TODO
 
-- [ ] Translate tests.
-- [ ] Write test for `62311a1767294e058dc13c953e8690a4` (casting)
-- [x] Translate some Dutch snippets still lying around.
-- [x] Change abspath to relative path in user-facing string 'Output from ..' 
-- [x] Be more flexible with student module path designation on `wincpy check`
-    - [x] Support `wincpy check .`
-    - [x] Support `wincpy check example/`
-    - [x] Support `wincpy check ./this/here/example/`
+- [ ] Apply fix so that non-code files are also included with setuptools
+  packaging. Currently non-`.py` files are ignored. This breaks any starts and
+  solutions that contain such files. See: https://python-packaging.readthedocs.io/en/latest/non-code-files.html
