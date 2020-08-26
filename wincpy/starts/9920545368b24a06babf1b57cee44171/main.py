@@ -18,29 +18,29 @@ candice_needs = ['electrician', 'painter']
 alfred_contracts = []
 for need in alfred_needs:
     if need == alice_profession:
-        alfred_contracts.append(alice_profession)
+        alfred_contracts.append(alice_name)
     elif need == bob_profession:
-        alfred_contracts.append(bob_profession)
+        alfred_contracts.append(bob_name)
     elif need == craig_profession:
-        alfred_contracts.append(craig_profession)
+        alfred_contracts.append(craig_name)
 
 bert_contracts = []
 for need in bert_needs:
     if need == alice_profession:
-        bert_contracts.append(alice_profession)
+        bert_contracts.append(alice_name)
     elif need == bob_profession:
-        bert_contracts.append(bob_profession)
+        bert_contracts.append(bob_name)
     elif need == craig_profession:
-        bert_contracts.append(craig_profession)
+        bert_contracts.append(craig_name)
 
 candice_contracts = []
 for need in candice_needs:
     if need == alice_profession:
-        candice_contracts.append(alice_profession)
+        candice_contracts.append(alice_name)
     elif need == bob_profession:
-        candice_contracts.append(bob_profession)
+        candice_contracts.append(bob_name)
     elif need == craig_profession:
-        candice_contracts.append(craig_profession)
+        candice_contracts.append(craig_name)
 
 print("Alfred's contracts:", alfred_contracts)
 print("Bert's contracts:", bert_contracts)
