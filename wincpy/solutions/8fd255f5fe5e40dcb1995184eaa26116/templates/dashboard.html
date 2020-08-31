@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Hi, {{ username }}!</h2>
+<p>Your username starts with <code>'{{ username.upper()[0] }}'</code>.</p>
+<p>Here are some other words that start with that letter:
+<ul>
+    {% for word in words %}
+        {% if word.startswith(username.lower()[0]) %}
+            <li>{{ word }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endblock content %}
+
