@@ -1,2 +1,5 @@
 __pycache__
 .mypy_cache
+.syncthing.*
+.tmp
+.pytest_cache
