@@ -10,13 +10,13 @@ def run(student_module):
     _, assignment_state = exec_assignment_code(main_abspath)
     types_in_state = [type(var) for var in assignment_state.values()]
 
-    requirement = 'Er wordt een bool gedeclareerd.'
+    requirement = "There's a bool in your code."
     result.append((requirement, bool in types_in_state))
 
-    requirement = 'Er wordt een string gedeclareerd.'
+    requirement = "There's a string in your code."
     result.append((requirement, str in types_in_state))
 
-    requirement = 'Er wordt een int gedeclareerd.'
+    requirement = "There's an int in your code."
     result.append((requirement, int in types_in_state))
 
     return result
