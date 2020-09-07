@@ -47,7 +47,7 @@ def compare_states(expected_state, actual_state):
 
     result = []
 
-    requirement = 'Alle variabelen zijn goed gedeclareerd.'
+    requirement = 'All variables were declared correctly.'
     expected_var_names = set(expected_state)
     actual_var_names = set(actual_state)
     remainder = expected_var_names - actual_var_names
@@ -55,9 +55,9 @@ def compare_states(expected_state, actual_state):
     if remainder is not None:
         for key in remainder:
             result.append(
-                (f'--> Er gaat iets mis bij de variabele {key}.', False))
+                (f'--> Something goes wrong at variable {key}.', False))
 
-    requirement = 'Alle variabelen bevatten de juiste waarden.'
+    requirement = 'All variables contain the correct values.'
     es_tupleset = set(expected_state.items())
     as_tupleset = set(actual_state.items())
     result.append((requirement, es_tupleset <= as_tupleset))
@@ -65,7 +65,7 @@ def compare_states(expected_state, actual_state):
         diff = es_tupleset - as_tupleset
         for key, _ in diff:
             result.append(
-                (f'{style.layout.list_item} Er gaat iets mis bij de variabele {key}.', False))
+                (f'{style.layout.list_item} Something is wrong with variable {key}.', False))
 
     return result
 
