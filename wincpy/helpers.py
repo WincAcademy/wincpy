@@ -47,7 +47,7 @@ def compare_states(expected_state, actual_state):
 
     result = []
 
-    requirement = 'All variables were declared correctly.'
+    requirement = 'All variables are declared correctly.'
     expected_var_names = set(expected_state)
     actual_var_names = set(actual_state)
     remainder = expected_var_names - actual_var_names
