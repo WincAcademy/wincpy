@@ -5,8 +5,8 @@ __winc_id__ = '7599944cfbd94b47beffdbab7a208931'
 
 def run(student_module):
     result = []
-    main_abspath = get_main_abspath(student_module)
 
+    main_abspath = get_main_abspath(student_module)
     output, state = exec_assignment_code(main_abspath)
 
     requirement = 'one is True'
