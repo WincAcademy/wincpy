@@ -1,21 +1,22 @@
-prei = 2
-aardappel = 3
-spruitje = 7
+broccoli = 2
+leek = 2
+potato = 3
+brussel_sprout = 7
 
-totaal = prei + aardappel + spruitje
-gemiddelde_prijs = round((prei + aardappel + spruitje) / 3, 2)
+sum_one_each = broccoli + leek + potato + brussel_sprout
+avg_price = sum_one_each / 4
 
-aantal_prei = 2
-aantal_aardappel = 7
-aantal_spruitje = 10
+num_leek = 2
+num_broccoli = 5
+num_potato = 7
+num_brussel_sprout = 10
 
-totaal_prijs = aantal_prei * prei\
-               + aantal_aardappel * aardappel\
-               + aantal_spruitje * spruitje
+sum_total = num_leek * leek\
+            + num_broccoli * broccoli\
+            + num_potato * potato\
+            + num_brussel_sprout * brussel_sprout
 
-korting_percentage = 30
-te_betalen_percentage = 1 - korting_percentage / 100
+discount_percentage = 30
+discounted_sum_total = sum_total * (1 - discount_percentage / 100)
 
-totaal_prijs_met_korting_afgerond = round(totaal_prijs * te_betalen_percentage, 2)
-
-print(totaal_prijs_met_korting_afgerond)
+print(discounted_sum_total)
