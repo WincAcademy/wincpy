@@ -10,7 +10,7 @@ def run(student_module):
 
     assignment_text = open(main_abspath).read()
 
-    requirement = 'De oplossing bevat twee end-of-line comments.'
+    requirement = 'The solution contains two end-of-line comments.'
     end_of_line_comment_count = 0
     for line in assignment_text.split('\n'):
         line = line.replace(' ', '')
@@ -23,7 +23,7 @@ def run(student_module):
             pass
     result.append((requirement, end_of_line_comment_count >= 2))
 
-    requirement = 'De oplossing bevat twee single-line comments.'
+    requirement = 'The solution contains two single-line comments.'
     single_line_comment_count = 0
     for line in assignment_text.split('\n'):
         line = line.replace(' ', '')
@@ -31,7 +31,7 @@ def run(student_module):
             single_line_comment_count += 1
     result.append((requirement, single_line_comment_count >= 2))
 
-    requirement = 'De oplossing bevat twee multiline comments.'
+    requirement = 'The solution contains two multiline comments.'
     multiline_comment_count = 0
     for line in assignment_text.split('\n'):
         line = line.replace(' ', '')
