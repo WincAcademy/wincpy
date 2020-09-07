@@ -1,14 +1,14 @@
-preiPrijs = 2
-print(f'Prei kost {str(preiPrijs)} euro per kilo.')
+leek_price = 2
+print(f'Leek is {str(leek_price)} euro per kilo.')
 
-bestelling = 'prei 4'
-bestellingHoeveelheid = int(bestelling[bestelling.find(' '):])
-totaalprijs = preiPrijs * bestellingHoeveelheid
-print(totaalprijs)
+order = 'leek 4'
+order_amount = int(order[order.find(' '):])
+sum_total = leek_price * order_amount
+print(sum_total)
 
-broccoliPrijs = 2.34
-bestelling = 'broccoli 1.6'
-bestellingHoeveelheid = float(bestelling[bestelling.find(' '):])
-totaalprijs = round(broccoliPrijs * bestellingHoeveelheid, 2)
-print(f'{bestellingHoeveelheid} kilo broccoli kost {totaalprijs} euro')
+broccli_price = 2.34
+order = 'broccoli 1.6'
+order_amount = float(order[order.find(' '):])
+sum_total = round(broccli_price * order_amount, 2)
+print(f'{sum_total}kg broccoli costs {sum_total}e')
 
