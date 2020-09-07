@@ -10,8 +10,11 @@ __winc_id__ = ''
 
 def run(student_module):
     result = []
+
     main_abspath = get_main_abspath(student_module)
+    output, state = exec_assignment_code(main_abspath)
 
     # Do stuff
+    # result.append((requirement_string, True/False))
 
     return result
