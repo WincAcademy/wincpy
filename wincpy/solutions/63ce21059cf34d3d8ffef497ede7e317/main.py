@@ -1,29 +1,33 @@
-prei = 2
-aardappel = 3
-spruitje = 7 # dure spruitjes
+broccoli = 2
+leek = 2
+potato = 3
+brussel_sprout = 7 # Expensive!
 
-totaal = prei + aardappel + spruitje
-print(totaal)
+sum_one_each = broccoli + leek + potato + brussel_sprout
+avg_price = sum_one_each / 4 # Glad I could reuse sum_one_each here.
 
-gemiddelde_prijs = round((prei + aardappel + spruitje) / 3, 2)
-print(gemiddelde_prijs)
+num_leek = 2
+num_broccoli = 5
+num_potato = 7
+num_brussel_sprout = 10
 
-aantal_prei = 2
-aantal_aardappel = 7
-aantal_spruitje = 10 # en dan ook nog 10 daarvan
+"""This is a big one. I need multiple lines to explain this.
+Fortunately I have this multiline comment.
 
-totaal_prijs = aantal_prei * prei\
-               + aantal_aardappel * aardappel\
-               + aantal_spruitje * spruitje
-print(totaal_prijs)
+"\" at the end of a line tells Python to continue reading this instruction
+on the next line.
+"""
 
-# Note: korting wordt nog niet gespecificeerd in de opdracht.
-korting_percentage = 30
-te_betalen_percentage = 1 - korting_percentage / 100
+sum_total = num_leek * leek\
+            + num_broccoli * broccoli\
+            + num_potato * potato\
+            + num_brussel_sprout * brussel_sprout
 
-""" Trek je porto-met-niks maar. """
-totaal_prijs_met_korting_afgerond = round(totaal_prijs * te_betalen_percentage, 2)
+# Thanks for that discount.
+discount_percentage = 30
+discounted_sum_total = sum_total * (1 - discount_percentage / 100)
 
-# Joepie, we zijn klaar.
-print(totaal_prijs_met_korting_afgerond)
-""" Dit is het einde van de geschiedenis. """
+""" We're almost done! """
+print(discounted_sum_total)
+
+# Done!
