@@ -11,6 +11,8 @@ def won_golden_globe(film_name):
 
 
 def remove_toto_albums(mess):
+    # Reader has not yet had instruction about for-loops.
+    # If you have: how could you improve this code by making use of them?
     if 'Fahrenheit' in mess:
         mess.remove('Fahrenheit')
     if 'The Seventh One' in mess:
