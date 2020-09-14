@@ -1,4 +1,4 @@
-from helpers import get_countries
+from .helpers import get_countries
 
 
 def shortest_names(countries):
