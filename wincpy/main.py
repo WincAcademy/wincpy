@@ -93,12 +93,14 @@ def check(args):
 
     try:
         test = importlib.import_module(f'.{winc_id}', 'wincpy.tests')
+        # solution_module = importlib.import_module(f'.{winc_id}', 'wincpy.solutions')
     except ImportError:
         sys.stderr.write(style.color.red
                          + 'There is no test for this assignment yet.\n'
                          + style.color.end)
         sys.exit(1)
 
+    # result = test.run(student_module, solution_module)
     result = test.run(student_module)
 
     return result
