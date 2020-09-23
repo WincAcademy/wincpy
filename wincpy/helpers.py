@@ -71,7 +71,10 @@ def compare_states(expected_state, actual_state):
 
 
 def get_main_abspath(module):
-    main_abspath = os.path.join(module.__path__[0], 'main.py')
+    try:
+        main_abspath = os.path.join(module.__path__[0], 'main.py')
+    except:
+        main_abspath = module.__file__
     if not os.path.exists(main_abspath):
         raise FileNotFoundError
     return main_abspath
