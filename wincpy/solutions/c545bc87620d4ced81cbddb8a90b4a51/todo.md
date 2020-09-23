@@ -1,0 +1,2 @@
+import shizzle between wincpy and running `main.py` standalone
+?????????

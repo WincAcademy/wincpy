@@ -1,5 +1,5 @@
-from .helpers import get_countries
-
+import os
+import json
 
 def shortest_names(countries):
     shortest_len = float('inf')
@@ -38,7 +38,7 @@ def most_vowels(countries):
             if position > 2:
                 break
 
-    return leaderboard[:3]
+    return [x[0] for x in leaderboard[:3]]
 
 
 def shortest_alphabet_set(countries):
@@ -58,9 +58,18 @@ def shortest_alphabet_set(countries):
         if letters_needed == []:
             return countries_used
 
+""" This is a helper function. Don't delete it! """
+def get_countries():
+    module_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    data_fp = open(os.path.join(module_path, 'countries.json'), 'r')
+    return json.load(data_fp)['countries']
 
-countries = get_countries()
-print(shortest_names(countries))
-print(most_vowels(countries))
-print(shortest_alphabet_set(countries))
-print(len(shortest_alphabet_set(countries)))
+
+""" This block is only run if this file is called directly from the command line. """
+if __name__ == '__main__':
+    countries = get_countries()
+    # You can run your own tests here.
+    print(shortest_names(countries))
+    print(most_vowels(countries))
+    print(shortest_alphabet_set(countries))
+    print(len(shortest_alphabet_set(countries)))
