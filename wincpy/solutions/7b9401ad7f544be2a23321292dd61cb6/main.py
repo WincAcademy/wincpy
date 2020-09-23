@@ -1,15 +1,9 @@
-# PART 1
-
+__winc_id__ = '7b9401ad7f544be2a23321292dd61cb6'
+__human_name__ = 'arguments'
 
 def greet(name, template='Hello, <name>!'):
     return template.replace('<name>', name)
 
-
-print(greet('Doc'))
-print(greet('Doc', "What's up, <name>!"))
-
-
-# PART 2
 
 def force(mass, body='earth'):
     gravity_per_body = {
@@ -34,8 +28,17 @@ def pull(m1, m2, d):
     return G * (m1 * m2) / (d ** 2)
 
 
-# Car example
-print(pull(800, 1500, 3))
+if __name__ == '__main__':
+    print(greet('Doc'))
+    print(greet('Doc', "What's up, <name>!"))
 
-# Earth & an apple
-print(pull(0.1, 5.972 * 10**24, 6.371 * 10**6))
+    print(force(10, 'sun'))
+    print(force(10, 'pluto'))
+    print(force(10, 'saturn'))
+    print(force(50, 'earth'))
+
+    # Car example
+    print(pull(800, 1500, 3))
+
+    # Earth & an apple
+    print(pull(0.1, 5.972 * 10**24, 6.371 * 10**6))
