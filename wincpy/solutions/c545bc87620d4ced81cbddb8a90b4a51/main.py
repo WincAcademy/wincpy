@@ -1,5 +1,7 @@
-import os
-import json
+from helpers import get_countries
+
+__winc_id__ = 'c545bc87620d4ced81cbddb8a90b4a51'
+__human_name__ = 'for'
 
 def shortest_names(countries):
     shortest_len = float('inf')
@@ -57,13 +59,6 @@ def shortest_alphabet_set(countries):
                     countries_used.append(country)
         if letters_needed == []:
             return countries_used
-
-""" This is a helper function. Don't delete it! """
-def get_countries():
-    module_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    data_fp = open(os.path.join(module_path, 'countries.json'), 'r')
-    return json.load(data_fp)['countries']
-
 
 """ This block is only run if this file is called directly from the command line. """
 if __name__ == '__main__':
