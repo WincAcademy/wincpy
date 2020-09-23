@@ -1,5 +1,9 @@
 from helpers import random_koala_fact
 
+__winc_id__ = 'c0dc6e00dfac46aab88296601c32669f'
+__human_name__ = 'while'
+
+
 def unique_koala_facts(num_requested):
     loops, max_loops = 0, 1000
     facts = []
@@ -37,6 +41,8 @@ def koala_weight():
     return int(fact.split('kg')[0].split(' ')[-1])
 
 
-print(unique_koala_facts(20))
-print(num_joey_facts())
-print(koala_weight())
+if __name__ == '__main__':
+    print(unique_koala_facts(20))
+    print(len(unique_koala_facts(50)))
+    print(num_joey_facts())
+    print(koala_weight())
