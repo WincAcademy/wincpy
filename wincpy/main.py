@@ -72,24 +72,37 @@ def start(args):
 
 def check(args):
     arg_abspath = os.path.abspath(args.path)
-    parent_abspath, student_module_name = os.path.split(arg_abspath)
-    sys.path.insert(1, parent_abspath)
+    sys.path.insert(1, arg_abspath)
 
     try:
-        student_module = importlib.import_module(student_module_name)
+        student_module = importlib.import_module('main')
     except ImportError:
         sys.stderr.write(style.color.red
-                         + f'Could not import module {student_module_name} from {parent_abspath}\n'
-                         + style.color.end)
+                        + f'Could not import module {student_module_name} from {parent_abspath}\n'
+                        + style.color.end)
         sys.exit(1)
-
     try:
         winc_id = student_module.__winc_id__
     except AttributeError:
-        sys.stderr.write(style.color.red
-                         + 'This module does not have a Winc ID.\n'
-                         + style.color.end)
-        sys.exit(1)
+        try:
+            """ This block exists for backwards compatibility. Can be removed
+            iff all starts and all solutions are no longer structured as a
+            package with an __init__.py but simple folders with a main.py
+            entrypoint. """
+            parent_abspath, student_module_name = os.path.split(arg_abspath)
+            sys.path.insert(1, parent_abspath)
+            student_module = importlib.import_module(student_module_name)
+            winc_id = student_module.__winc_id__
+        except ImportError:
+            sys.stderr.write(style.color.red
+                            + f'Could not import module {student_module_name} from {parent_abspath}\n'
+                            + style.color.end)
+        except AttributeError:
+            sys.stderr.write(style.color.red
+                             + 'This module does not have a Winc ID.\n'
+                             + 'Is it a Winc module?\n'
+                             + style.color.end)
+            sys.exit(1)
 
     try:
         test = importlib.import_module(f'.{winc_id}', 'wincpy.tests')
