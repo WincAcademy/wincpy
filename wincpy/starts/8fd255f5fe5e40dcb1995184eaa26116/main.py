@@ -1,8 +1,10 @@
 import os
 
 from flask import Flask, redirect, render_template, request, session, url_for
+from helpers import get_users, hash_password
 
-from .helpers import get_users, hash_password
+__winc_id__ = '8fd255f5fe5e40dcb1995184eaa26116'
+__human_name__ = 'authentication'
 
 app = Flask(__name__)
 
