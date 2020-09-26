@@ -4,6 +4,7 @@ import os
 import shutil
 import sys
 from argparse import ArgumentParser
+import subprocess
 
 from wincpy import helpers, solutions, starts, style, tests
 
@@ -16,6 +17,8 @@ def main(stdout, stderr):
                                          help='Start a new assignment.')
     check_parser = subparsers.add_parser('check',
                                          help='Check an existing assignment.')
+    update_parser = subparsers.add_parser('update',
+                                         help='Update wincpy using pip.')
 
     start_parser.add_argument('winc_id', type=str,
                               help='Winc ID of an assignment to start.')
@@ -31,6 +34,13 @@ def main(stdout, stderr):
     elif args.action == 'check':
         result = check(args)
         report(result)
+    elif args.action == 'update':
+        subprocess.run([
+            'pip',
+            'install',
+            'https://github.com/WincAcademy/wincpy/archive/latest.tar.gz',
+            '--user',
+            '--upgrade'], check=True)
 
 
 def start(args):
@@ -81,6 +91,7 @@ def check(args):
                         + f'Could not import module {student_module_name} from {parent_abspath}\n'
                         + style.color.end)
         sys.exit(1)
+
     try:
         winc_id = student_module.__winc_id__
     except AttributeError:
