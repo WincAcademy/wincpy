@@ -17,8 +17,9 @@ def gather_package_data_paths():
         # Trim off 'wincpy/'
         root = root[7:]
         for f in files:
-            if '.py' not in f:
-                package_data_paths.append(os.path.join(root, f))
+            # We don't exclude non-Python files because then Python files that
+            # are in a folder without __init__.py in it are omitted.
+            package_data_paths.append(os.path.join(root, f))
     return package_data_paths
 
 

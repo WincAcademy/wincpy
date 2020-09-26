@@ -17,16 +17,19 @@ def main(stdout, stderr):
                                          help='Start a new assignment.')
     check_parser = subparsers.add_parser('check',
                                          help='Check an existing assignment.')
-    # Update and solution parsers don't have any extra arguments, but we must
-    # add them as subparsers to have them available as actions.
+    solve_parser = subparsers.add_parser('solve',
+                                         help="Place Winc's solution here.")
+
+    # Update parser doesn't have any extra arguments, but we must add it as
+    # subparser to have it available as an actions together with the rest.
     update_parser = subparsers.add_parser('update',
                                          help='Update wincpy using pip.')
-    solution_parser = subparsers.add_parser('solve',
-                                         help="Place Winc's solution here.")
 
     start_parser.add_argument('winc_id', type=str,
                               help='Winc ID of an assignment to start.')
     check_parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
+                              help='Path containing assignment to check.')
+    solve_parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
                               help='Path containing assignment to check.')
 
     args = parser.parse_args()
@@ -139,5 +142,27 @@ def update():
     subprocess.run(['pip', 'install', release_url, '--user', '--upgrade'],
                    check=True)
 
-def solve():
-    sys.stdout.write("TODO")
+
+def solve(args):
+    student_module = helpers.get_student_module(args.path)
+    winc_id = student_module.__winc_id__
+
+    solutions_abspath = solutions.__path__[0]
+    solution_abspath = os.path.join(solutions_abspath, winc_id)
+    if not os.path.isdir(solution_abspath):
+        sys.stderr.write(style.color.red
+                         + 'There is no solution available for this exercise.\n'
+                         + style.color.end)
+        sys.exit(1)
+
+    try:
+        dest_dir = student_module.__human_name__ + '_example_solution'
+        shutil.copytree(solution_abspath, dest_dir)
+        sys.stdout.write(style.color.green
+                         + f'You can now find the example solution in {dest_dir}\n'
+                         + style.color.end)
+    except:
+        sys.stderr.write(style.color.red
+                         + f'Unable to write solution to folder {dest_dir}\n'
+                         + style.color.end)
+        sys.exit(1)
