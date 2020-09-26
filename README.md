@@ -8,7 +8,7 @@ yourself, inspect the file for malicious effects.
 
 ## Installation
 
-`pip install git+https://github.com/WincAcademy/wincpy.git`
+`pip install git+https://github.com/WincAcademy/wincpy@release`
 
 ## Usage
 ```bash
