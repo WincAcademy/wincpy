@@ -17,8 +17,12 @@ def main(stdout, stderr):
                                          help='Start a new assignment.')
     check_parser = subparsers.add_parser('check',
                                          help='Check an existing assignment.')
+    # Update and solution parsers don't have any extra arguments, but we must
+    # add them as subparsers to have them available as actions.
     update_parser = subparsers.add_parser('update',
                                          help='Update wincpy using pip.')
+    solution_parser = subparsers.add_parser('solve',
+                                         help="Place Winc's solution here.")
 
     start_parser.add_argument('winc_id', type=str,
                               help='Winc ID of an assignment to start.')
@@ -36,6 +40,16 @@ def main(stdout, stderr):
         report(result)
     elif args.action == 'update':
         update()
+    elif args.action == 'solve':
+        result = check(args)
+        passed = sum([x for _, x in result]) == len(result)
+        if passed:
+            solve(args)
+        else:
+            sys.stdout.write(style.color.red
+                             + "You should solve the exercise before viewing Winc's solution."
+                             + style.color.end)
+            sys.exit(1)
 
 
 def start(args):
@@ -57,14 +71,16 @@ def start(args):
     # Winc ID is known, but does not require a particular start.
     if args.winc_id not in starts_dirs:
         try:
-            shutil.copytree(starts_dirs['tabula_rasa'], human_name)
+            os.mkdir(human_name)
         except:
             sys.stderr.write(
                 f"{style.color.red}Error: could not create directory '{human_name}'. Exiting.\n{style.color.end}")
             sys.exit(1)
-        with open(os.path.join(human_name, '__init__.py'), 'w') as fp:
-            fp.write(f"__winc_id__ = '{args.winc_id}'\n")
-            fp.write(f"__human_name__ = '{human_name}'")
+        with open(os.path.join(human_name, 'main.py'), 'w') as fp:
+            fp.write('# Do not modify these lines\n'
+                     + f"__winc_id__ = '{args.winc_id}'\n"
+                     + f"__human_name__ = '{human_name}'\n\n"
+                     + '# Add your code after this line\n')
     else:
         try:
             shutil.copytree(starts_dirs[args.winc_id], human_name)
@@ -72,44 +88,13 @@ def start(args):
             sys.stderr.write(
                 f"Error: could not create directory {human_name}. Exiting.\n")
             sys.exit(1)
-    print(f'You can find the assignment files in the directory: {human_name}')
+    print(f'You can find your starting files in the directory: {human_name}')
 
 
 def check(args):
-    arg_abspath = os.path.abspath(args.path)
-    sys.path.insert(1, arg_abspath)
+    student_module = helpers.get_student_module(args.path)
 
-    try:
-        student_module = importlib.import_module('main')
-    except ImportError:
-        sys.stderr.write(style.color.red
-                        + f'Could not import module {student_module_name} from {parent_abspath}\n'
-                        + style.color.end)
-        sys.exit(1)
-
-    try:
-        winc_id = student_module.__winc_id__
-    except AttributeError:
-        try:
-            """ This block exists for backwards compatibility. Can be removed
-            iff all starts and all solutions are no longer structured as a
-            package with an __init__.py but simple folders with a main.py
-            entrypoint. """
-            parent_abspath, student_module_name = os.path.split(arg_abspath)
-            sys.path.insert(1, parent_abspath)
-            student_module = importlib.import_module(student_module_name)
-            winc_id = student_module.__winc_id__
-        except ImportError:
-            sys.stderr.write(style.color.red
-                            + f'Could not import module {student_module_name} from {parent_abspath}\n'
-                            + style.color.end)
-        except AttributeError:
-            sys.stderr.write(style.color.red
-                             + 'This module does not have a Winc ID.\n'
-                             + 'Is it a Winc module?\n'
-                             + style.color.end)
-            sys.exit(1)
-
+    winc_id = student_module.__winc_id__
     try:
         test = importlib.import_module(f'.{winc_id}', 'wincpy.tests')
         # solution_module = importlib.import_module(f'.{winc_id}', 'wincpy.solutions')
@@ -154,3 +139,5 @@ def update():
     subprocess.run(['pip', 'install', release_url, '--user', '--upgrade'],
                    check=True)
 
+def solve():
+    sys.stdout.write("TODO")

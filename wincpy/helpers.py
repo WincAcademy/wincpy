@@ -3,6 +3,7 @@ import subprocess
 import sys
 import urllib.request
 import json
+import importlib
 
 from wincpy import style
 
@@ -91,3 +92,36 @@ def get_iddb():
         sys.stderr.write('Could not load database.\n')
         sys.exit(1)
     return iddb
+
+
+def get_student_module(path):
+    arg_abspath = os.path.abspath(path)
+    parent_abspath, student_module_name = os.path.split(arg_abspath)
+    sys.path.insert(1, arg_abspath)
+
+    try:
+        student_module = importlib.import_module('main')
+    except ImportError:
+        sys.stderr.write(style.color.red
+                         + f'Could not import module {student_module_name} from {parent_abspath}\n'
+                         + style.color.end)
+        sys.exit(1)
+
+    if not hasattr(student_module, '__winc_id__'):
+        try:
+            # Try to import old-style package for backwards compatibility.
+            sys.path.insert(1, parent_abspath)
+            student_module = importlib.import_module(student_module_name)
+        except ImportError:
+            # There's just no Winc module around here.
+            sys.stderr.write(style.color.red
+                             + f'Could not import module {student_module_name} from {parent_abspath}\n'
+                             + style.color.end)
+        if not hasattr(student_module, '__winc_id__'):
+            sys.stderr.write(style.color.red
+                             + 'This module does not have a Winc ID.\n'
+                             + 'Is it a Winc module?\n'
+                             + style.color.end)
+            sys.exit(1)
+
+    return student_module
