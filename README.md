@@ -86,9 +86,3 @@ any time. **Test your changes before you commit to the release branch.**
     3. (optional) Go to your start dir and run `wincpy check`.
 6. If everything works as expected, commit and push the added files to the
    remote for this repository on GitHub.
-
-## TODO
-
-- [ ] Apply fix so that non-code files are also included with setuptools
-  packaging. Currently non-`.py` files are ignored. This breaks any starts and
-  solutions that contain such files. See: https://python-packaging.readthedocs.io/en/latest/non-code-files.html
