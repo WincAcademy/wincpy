@@ -35,12 +35,7 @@ def main(stdout, stderr):
         result = check(args)
         report(result)
     elif args.action == 'update':
-        subprocess.run([
-            'pip',
-            'install',
-            'https://github.com/WincAcademy/wincpy/archive/latest.tar.gz',
-            '--user',
-            '--upgrade'], check=True)
+        update()
 
 
 def start(args):
@@ -152,3 +147,9 @@ def report(result):
                 + '\n'
                 + style.color.end)
     print(style.layout.divider.level_1)
+
+def update():
+    release_url = 'git+https://github.com/WincAcademy/wincpy@release'
+    subprocess.run(['pip', 'install', release_url, '--user', '--upgrade'],
+                   check=True)
+
