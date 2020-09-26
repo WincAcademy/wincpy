@@ -35,10 +35,6 @@ def main(stdout, stderr):
         result = check(args)
         report(result)
     elif args.action == 'update':
-        # DEBUG
-        print('This is release.')
-        sys.exit(0)
-        # END OF DEBUG
         update()
 
 
