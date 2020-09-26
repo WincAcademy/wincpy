@@ -35,6 +35,10 @@ def main(stdout, stderr):
         result = check(args)
         report(result)
     elif args.action == 'update':
+        # DEBUG
+        print('This is master.')
+        sys.exit(0)
+        # END OF DEBUG
         update()
 
 
@@ -147,6 +151,7 @@ def report(result):
                 + '\n'
                 + style.color.end)
     print(style.layout.divider.level_1)
+
 
 def update():
     release_url = 'git+https://github.com/WincAcademy/wincpy@release'
