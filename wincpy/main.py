@@ -36,7 +36,7 @@ def main(stdout, stderr):
         report(result)
     elif args.action == 'update':
         # DEBUG
-        print('This is master.')
+        print('This is release.')
         sys.exit(0)
         # END OF DEBUG
         update()
