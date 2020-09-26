@@ -45,9 +45,13 @@ optional arguments:
   -h, --help  show this help message and exit
 ```
 
-## FAQ
+## Develop
 
-### How do I add a new exercise?
+**Important:** students install from the release branch, and Wincpy updates
+itself from this branch as well. Students may update their version of Wincpy at
+any time. **Test your changes before you commit to the release branch.**
+
+### Adding exercises
 
 0. Write your exercise text.
 1. Generate a new Winc ID with [wincid](https://github.com/WincAcademy/wincid).
