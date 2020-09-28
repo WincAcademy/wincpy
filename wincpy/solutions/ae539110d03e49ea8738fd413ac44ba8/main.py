@@ -2,6 +2,9 @@ import os
 import shutil
 from zipfile import ZipFile
 
+__winc_id__ = 'ae539110d03e49ea8738fd413ac44ba8'
+__human_name__ = 'files'
+
 
 def clean_cache():
     shutil.rmtree('cache', ignore_errors=True)
@@ -27,7 +30,8 @@ def find_password(file_paths):
                 return line.split(' ')[-1]
 
 
-cache_path = 'cache'
-zip_path = 'data.zip'
-cache_zip(zip_path, cache_path)
-print(find_password(cached_files('cache')))
+if __name__ == '__main__':
+    cache_path = 'cache'
+    zip_path = 'data.zip'
+    cache_zip(zip_path, cache_path)
+    print(find_password(cached_files('cache')))
