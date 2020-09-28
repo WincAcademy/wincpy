@@ -61,22 +61,23 @@ class Commentator():
         return 'These two players might as well be twins!'
 
 
-alice = Player('Alice', 0.8, 0.2, 0.6)
-bob = Player('Bob', 0.5, 0.2, 0.6)
-candice = Player('Candice', 0.8, 0.2, 0.7)
-dirk = Player('Dirk', 0.5, 0.2, 0.6)
-eric = Player('Eric', 0.5, 0.2, 0.6)
+if __name__ == '__main__':
+    alice = Player('Alice', 0.8, 0.2, 0.6)
+    bob = Player('Bob', 0.5, 0.2, 0.6)
+    candice = Player('Candice', 0.8, 0.2, 0.7)
+    dirk = Player('Dirk', 0.5, 0.2, 0.6)
+    eric = Player('Eric', 0.5, 0.2, 0.6)
 
-print(alice.strength())
-print(bob.introduce())
+    print(alice.strength())
+    print(bob.introduce())
 
-ray = Commentator('Ray')
+    ray = Commentator('Ray')
 
-# Winner: Alice
-print(ray.compare_players(alice, bob, 'speed'))
+    # Winner: Alice
+    print(ray.compare_players(alice, bob, 'speed'))
 
-# Winner: Candice
-print(ray.compare_players(alice, candice, 'accuracy'))
+    # Winner: Candice
+    print(ray.compare_players(alice, candice, 'accuracy'))
 
-# Winner: twins!
-print(ray.compare_players(dirk, eric, 'speed'))
+    # Winner: twins!
+    print(ray.compare_players(dirk, eric, 'speed'))
