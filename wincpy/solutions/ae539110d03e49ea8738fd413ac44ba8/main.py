@@ -17,9 +17,11 @@ def cache_zip(zip_path, cache_path):
         _zip.extractall(cache_path)
 
 
-def cached_files(cache_path):
-    paths = [os.path.join(cache_path, x) for x in os.listdir(cache_path)]
-    return [path for path in paths if os.path.isfile(path)]
+def cached_files():
+    cache_abspath = os.path.abspath('cache')
+    paths = [os.path.join(cache_abspath, x) for x in os.listdir('cache')]
+    abspaths = [path for path in paths if os.path.isfile(path)]
+    return abspaths
 
 
 def find_password(file_paths):
@@ -34,4 +36,4 @@ if __name__ == '__main__':
     cache_path = 'cache'
     zip_path = 'data.zip'
     cache_zip(zip_path, cache_path)
-    print(find_password(cached_files('cache')))
+    print(find_password(cached_files()))
