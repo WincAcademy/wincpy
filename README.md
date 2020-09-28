@@ -11,39 +11,45 @@ yourself, inspect the file for malicious effects.
 `pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade`
 
 ## Usage
-```bash
-$ wincpy --help
-usage: wincpy [-h] {start,check} ...
 
-The Winc Python tool.
+- `wincpy start winc_id`
 
-positional arguments:
-  {start,check}  What wincpy should do in this run.
-    start        Start a new assignment.
-    check        Check an existing assignment.
+  Creates a new folder in the current working directory with the human name of
+  the exercise (e.g. 'print', 'functions' or 'classes') that contains the files
+  required to do the exercise. This mechanic allows us to provide data files or
+  boilerplate that the student can work with during the exercise.
 
-optional arguments:
-  -h, --help     show this help message and exit
+  Here `winc_id` should be replaced by an identifier that corresponds to a
+  specific exercise. For students, the Winc ID can be found at the top of the
+  exercise instruction page.
 
-$ wincpy start --help
+- `wincpy check [path]`
 
-usage: wincpy start [-h] winc_id
+  Checks an exercise for correctness and provides feedback on whether various
+  components of the exercise are implemented correctly.
 
-positional arguments:
-  winc_id     Winc ID of an assignment to start.
+  Here `[path]` is an optional path (relative or absolute) to the directory
+  containing the implementation to be checked. If it is omitted, the current
+  working directory is used.
 
-optional arguments:
-  -h, --help  show this help message and exit
+- `wincpy solve [path]`
 
-$ wincpy check --help
-usage: wincpy check [-h] [path]
+  Checks an exercise for correctness and creates a new folder containing Winc's
+  own solution for the exercise for a student to review and learn from. This
+  command does *not* provide feedback to the student about their
+  implementation; correctness is only a requirement for obtaining the reference
+  solution.
 
-positional arguments:
-  path        Path containing assignment to check.
+  Here `[path]` is an optional path (relative or absolute) to the directory
+  containing the implementation to be checked and solved. If it is omitted, the
+  current working directory is used.
 
-optional arguments:
-  -h, --help  show this help message and exit
-```
+- `wincpy update`
+
+  Updates Wincpy to the version on the *release*-branch of this repository on
+  GitHub. Requires a working installation of pip in `$PATH`.
+
+See also `wincpy --help`.
 
 ## Develop
 
