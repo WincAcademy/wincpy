@@ -33,9 +33,15 @@ def exec_assignment_code(filename):
 
     del state['__builtins__']
 
-    output = subprocess.run(
-        ['python', filename], capture_output=True, text=True
-    ).stdout
+    try:
+        output = subprocess.run(
+            ['python', filename], capture_output=True, text=True
+        ).stdout
+    except:
+        # User might have python under python3
+        output = subprocess.run(
+            ['python3', filename], capture_output=True, text=True
+        ).stdout
 
     return output, state
 
