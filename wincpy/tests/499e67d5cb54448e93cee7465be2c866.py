@@ -1,5 +1,3 @@
-import subprocess
-
 from wincpy.helpers import exec_assignment_code, compare_states, get_main_abspath
 
 __winc_id__ = '499e67d5cb54448e93cee7465be2c866'
@@ -16,10 +14,10 @@ def run(student_module):
         'brussel_sprout': 7,
         'sum_one_each': 14,
         'avg_price': 3.5,
-        'num_broccoli': 5,
-        'num_leek': 2,
-        'num_potato': 7,
-        'num_brussel_sprout': 10,
+        'num_broccolis': 5,
+        'num_leeks': 2,
+        'num_potatoes': 7,
+        'num_brussel_sprouts': 10,
         'sum_total': 105,
         'discount_percentage': 30,
         'discounted_sum_total': 73.5}
