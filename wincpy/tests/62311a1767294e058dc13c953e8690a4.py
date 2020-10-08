@@ -10,7 +10,6 @@ def run(student_module):
     output, state = exec_assignment_code(main_abspath)
 
     # Do stuff
-    # result.append((requirement_string, True/False))
     expected_output = ['Leek is 2 euro per kilo.',
                        '8',
                        '3.74kg broccoli costs 3.74e']
@@ -18,6 +17,9 @@ def run(student_module):
         if line == '':
             continue
         requirement = f'Printed value {i} is correct.'
-        result.append((requirement, line == expected_output[i]))
+        try:
+            result.append((requirement, line == expected_output[i]))
+        except:
+            result.append((requirement, False))
 
     return result
