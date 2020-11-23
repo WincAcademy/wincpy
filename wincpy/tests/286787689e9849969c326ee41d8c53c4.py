@@ -9,14 +9,14 @@ def run(student_module):
         setup_data(student_module.models)
     except peewee.ImproperlyConfigured:
         return [("Database can be initialized", False)]
-    cheapest_dish = student_module.queries.cheapest_dish()
-    vegetarian_dishes = student_module.queries.vegetarian_dishes()
-    best_restaurant = student_module.queries.best_average_rating()
+    cheapest_dish = student_module.cheapest_dish()
+    vegetarian_dishes = student_module.vegetarian_dishes()
+    best_restaurant = student_module.best_average_rating()
     current_rating_count = student_module.models.Rating.select().count()
-    student_module.queries.add_rating_to_restaurant()
+    student_module.add_rating_to_restaurant()
     new_rating_count = student_module.models.Rating.select().count()
-    date_restaurants = student_module.queries.dinner_date_possible()
-    new_dish = student_module.queries.add_dish_to_menu()
+    date_restaurants = student_module.dinner_date_possible()
+    new_dish = student_module.add_dish_to_menu()
 
     result = [
         ("Models have correct mappings", True),
