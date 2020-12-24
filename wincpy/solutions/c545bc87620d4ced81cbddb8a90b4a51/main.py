@@ -43,13 +43,11 @@ def most_vowels(countries):
     return [x[0] for x in leaderboard[:3]]
 
 
-def shortest_alphabet_set(countries):
+def alphabet_set(countries):
     # Assembles alphabet 
     countries = [country.lower() for country in countries]
 
-    letters_needed = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-                'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-                'y', 'z']
+    letters_needed = list('abcdefghijklmnopqrstuvwxyz')
     countries_used = []
     for country in countries:
         for char in country:
@@ -57,14 +55,14 @@ def shortest_alphabet_set(countries):
                 letters_needed.remove(char)
                 if country not in countries_used:
                     countries_used.append(country)
-        if letters_needed == []:
+        if len(letters_needed) == 0:
             return countries_used
 
 """ This block is only run if this file is called directly from the command line. """
 if __name__ == '__main__':
     countries = get_countries()
     # You can run your own tests here.
-    # print(shortest_names(countries))
+    print(shortest_names(countries))
     print(most_vowels(countries))
-    # print(shortest_alphabet_set(countries))
-    # print(len(shortest_alphabet_set(countries)))
+    print(alphabet_set(countries))
+    print(len(alphabet_set(countries)))
