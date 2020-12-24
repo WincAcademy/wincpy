@@ -23,9 +23,9 @@ def run(student_module):
 
     requirement = 'most_vowels() is correct'
     result.append((requirement,
-                   sm.most_vowels(sm.get_countries())
-                   == ['South Georgia and the South Sandwich Islands',
+                   set(sm.most_vowels(sm.get_countries()))
+                   == {'South Georgia and the South Sandwich Islands',
                        'Micronesia, Federated States of',
-                       'The Democratic Republic of Congo']))
+                       'United States Minor Outlying Islands'}))
 
     return result

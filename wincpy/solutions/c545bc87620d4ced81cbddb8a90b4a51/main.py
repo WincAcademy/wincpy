@@ -29,7 +29,7 @@ def most_vowels(countries):
         # Count vowels
         vowel_count = 0
         for char in country_name:
-            if char in vowels:
+            if char.lower() in vowels:
                 vowel_count += 1
 
         # Insert into leaderboard if deserving.
@@ -64,7 +64,7 @@ def shortest_alphabet_set(countries):
 if __name__ == '__main__':
     countries = get_countries()
     # You can run your own tests here.
-    print(shortest_names(countries))
+    # print(shortest_names(countries))
     print(most_vowels(countries))
-    print(shortest_alphabet_set(countries))
-    print(len(shortest_alphabet_set(countries)))
+    # print(shortest_alphabet_set(countries))
+    # print(len(shortest_alphabet_set(countries)))
