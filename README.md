@@ -3,8 +3,8 @@
 This is a tool students use to start exercises and check how they are doing on
 them.
 
-Note: this rool runs student code. If you're every running it on students' code
-yourself, inspect the file for malicious effects.
+Note: `wincpy check` runs the code under inspection. If you're every running it
+on students' code yourself, inspect the file for malicious effects.
 
 ## Installation
 
@@ -55,7 +55,9 @@ See also `wincpy --help`.
 
 **Important:** students install from the release branch, and Wincpy updates
 itself from this branch as well. Students may update their version of Wincpy at
-any time. **Test your changes before you commit to the release branch.**
+any time. **Test your changes before you commit to the release branch.** Also:
+don't forget to bump the version when you merge into the release branch,
+otherwise pip will not update the local installation.
 
 ### Adding exercises
 
@@ -91,4 +93,5 @@ any time. **Test your changes before you commit to the release branch.**
     2. Go to your solution dir and run `wincpy check`.
     3. (optional) Go to your start dir and run `wincpy check`.
 6. If everything works as expected, commit and push the added files to the
-   remote for this repository on GitHub.
+   master branch for this repository on GitHub. If you're feeling daring today,
+   merge into release.
