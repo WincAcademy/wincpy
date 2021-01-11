@@ -39,6 +39,7 @@ def run(student_module):
     student_module.cache_zip(zip_path, cache_path)
     result.append((requirement, len(os.listdir(cache_path)) == 1000))
 
+    requirement = 'cached_files() returns a list of absolute paths to all the files in the cache'
     cached_stuff = [os.path.join(cache_path, f) for f in os.listdir(cache_path)]
     cached_files = [f for f in cached_stuff if os.path.isfile(f)]
     cached_files_student = student_module.cached_files()
