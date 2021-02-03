@@ -2,8 +2,13 @@ import os
 
 from flask import Flask, redirect, render_template, request, session, url_for
 
-from .helpers import get_users, hash_password
+from helpers import get_users, hash_password
 
+# Don't modify this
+__winc_id__ = '8fd255f5fe5e40dcb1995184eaa26116'
+__human_name__ = 'authentication'
+
+# You can modify everything from here
 app = Flask(__name__)
 
 app.secret_key = os.urandom(16)
