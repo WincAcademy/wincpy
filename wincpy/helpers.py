@@ -105,6 +105,11 @@ def get_student_module(path):
     parent_abspath, student_module_name = os.path.split(arg_abspath)
     sys.path.insert(1, arg_abspath)
 
+    # Redirect stdout to the void while importing
+    prev_stdout = sys.stdout
+    devnull = open(os.devnull, 'w')
+    sys.stdout = devnull
+
     try:
         student_module = importlib.import_module('main')
     except ImportError:
@@ -130,4 +135,7 @@ def get_student_module(path):
                              + style.color.end)
             sys.exit(1)
 
+    # Restore stdout
+    sys.stdout = prev_stdout
+    devnull.close()
     return student_module
