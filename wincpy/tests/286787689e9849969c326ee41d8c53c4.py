@@ -82,7 +82,8 @@ def run(student_module):
         ("New dish created", new_dish),
         (
             "New dish contains cheese",
-            "cheese" in [x.name for x in new_dish.ingredients],
+            "cheese" in [x.name for x in new_dish.ingredients] if new_dish
+            else False,
         ),
         (
             "Cheese not created twice",
