@@ -12,7 +12,7 @@ def run(student_module):
     # Do stuff
     expected_output = ['Leek is 2 euro per kilo.',
                        '8',
-                       '3.74kg broccoli costs 3.74e']
+                       '1.6kg broccoli costs 3.74e']
     for i, line in enumerate(output.split('\n')):
         if line == '':
             continue

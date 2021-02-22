@@ -10,7 +10,7 @@ def run(student_module):
             'goal_0': 32,
             'goal_1': 54,
             'scorers': 'Ruud Gullit 32, Marco van Basten 54',
-            'report': 'Ruud Gullit scored in the 32th minute\n' +
+            'report': 'Ruud Gullit scored in the 32nd minute\n' +
                       'Marco van Basten scored in the 54th minute'}
 
     _, assignment_state = exec_assignment_code(main_abspath)
