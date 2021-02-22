@@ -19,10 +19,14 @@ def run(student_module):
                    sm.add(5, 1, 4) == 10
                    and sm.add(1, 1, 9) == 11))
 
-    requirement = 'scottish_greet() is correct.'
-    result.append((requirement,
-                   sm.scottish_greet('Ian', False) == 'Hello, Ian!'
-                   and sm.scottish_greet('Ian', True) == 'Hello, wee Ian!'))
+    # Try block is for backwards compatibility.
+    try:
+        requirement = 'scottish_greet() is correct.'
+        result.append((requirement,
+                    sm.scottish_greet('Ian', False) == 'Hello, Ian!'
+                    and sm.scottish_greet('Ian', True) == 'Hello, wee Ian!'))
+    except AttributeError:
+        pass
 
     requirement = 'postive() is correct.'
     result.append((requirement,
@@ -36,26 +40,34 @@ def run(student_module):
                    and sm.negative(-5) is True
                    and sm.negative(0) is False))
 
-    requirement = 'sign() is correct.'
-    result.append((requirement,
-                   sm.sign(5) == 1
-                   and sm.sign(-5) == -1
-                   and sm.sign(0) == 0))
+    # Try block is for backwards compatibility.
+    try:
+        requirement = 'sign() is correct.'
+        result.append((requirement,
+                    sm.sign(5) == 1
+                    and sm.sign(-5) == -1
+                    and sm.sign(0) == 0))
+    except AttributeError:
+        pass
 
-    requirement = 'nag() is correct.'
-    result.append((requirement,
-                   sm.nag(1, 'ok', 3) is False
-                   and sm.nag('ok', 2, 3) is False
-                   and sm.nag('ok', 'ok', 'wrong') is False
-                   and sm.nag('Jennie', 'bike', 2) ==
-                   "Jennie.. Why can't I have a bike?!\n"
-                   "Jennie.. Why can't I have a bike?!"
-                   and sm.nag('Daddy', 'Nord Lead 4', 5) ==
-                   "Daddy..... Why can't I have a Nord Lead 4?!\n"
-                   "Daddy..... Why can't I have a Nord Lead 4?!\n"
-                   "Daddy..... Why can't I have a Nord Lead 4?!\n"
-                   "Daddy..... Why can't I have a Nord Lead 4?!\n"
-                   "Daddy..... Why can't I have a Nord Lead 4?!"))
 
+    # Try block is for backwards compatibility.
+    try:
+        requirement = 'nag() is correct.'
+        result.append((requirement,
+                    sm.nag(1, 'ok', 3) is False
+                    and sm.nag('ok', 2, 3) is False
+                    and sm.nag('ok', 'ok', 'wrong') is False
+                    and sm.nag('Jennie', 'bike', 2) ==
+                    "Jennie.. Why can't I have a bike?!\n"
+                    "Jennie.. Why can't I have a bike?!"
+                    and sm.nag('Daddy', 'Nord Lead 4', 5) ==
+                    "Daddy..... Why can't I have a Nord Lead 4?!\n"
+                    "Daddy..... Why can't I have a Nord Lead 4?!\n"
+                    "Daddy..... Why can't I have a Nord Lead 4?!\n"
+                    "Daddy..... Why can't I have a Nord Lead 4?!\n"
+                    "Daddy..... Why can't I have a Nord Lead 4?!"))
+    except AttributeError:
+        pass
 
     return result
