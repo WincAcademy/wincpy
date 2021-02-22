@@ -14,8 +14,8 @@ alfred_needs = ['painter', 'plumber']
 bert_name = 'Bert Bertson'
 bert_address = 'Bertslane 231'
 bert_needs = ['plumber']
-candice_name = 'Clyde Clydeson'
-candice_address = 'Clydeslane 312'
+candice_name = 'Candice Candicedottir'
+candice_address = 'Candicelane 312'
 candice_needs = ['electrician', 'painter']
 
 alfred_contracts = []

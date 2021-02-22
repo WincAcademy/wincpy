@@ -36,7 +36,7 @@ specialists = {
 homeowners = [
     Homeowner('Alfred Alfredson', 'Alfredslane 123', [Painter, Plumber]),
     Homeowner('Bert Bertson', 'Bertslane 231', [Plumber]),
-    Homeowner('Clyde Clydeson', 'Clydeslane 312', [Electrician, Painter])
+    Homeowner('Candice Candicedottir', 'Candicelane 312', [Electrician, Painter])
 ]
 
 for homeowner in homeowners:
