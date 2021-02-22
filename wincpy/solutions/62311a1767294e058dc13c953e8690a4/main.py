@@ -10,4 +10,4 @@ broccoli_price = 2.34
 order = "broccoli 1.6"
 order_amount = float(order[order.find(" ") :])
 sum_total = round(broccoli_price * order_amount, 2)
-print(str(sum_total) + "kg broccoli costs " + str(sum_total) + "e")
+print(str(order_amount) + "kg broccoli costs " + str(sum_total) + "e")
