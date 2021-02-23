@@ -41,6 +41,11 @@ def main(stdout, stderr):
     elif args.action == 'check':
         result = check(args)
         report(result)
+        if all([score for _, score in result]):
+            sys.exit(0)
+        else:
+            # No runtime errors but the solution didn't pass.
+            sys.exit(2)
     elif args.action == 'update':
         update()
     elif args.action == 'solve':
