@@ -1,4 +1,4 @@
-Name: Check Solutions
+name: Check Solutions
 
 on:
   push
