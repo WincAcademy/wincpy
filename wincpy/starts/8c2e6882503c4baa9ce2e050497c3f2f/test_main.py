@@ -1,26 +1,44 @@
+import io
+import os
 import subprocess
 from subprocess import PIPE
-import os
+import sys
+
+import main
 
 import pytest
 
-def test_main():
+def test_main(capsys):
     # Test on a short snippet first
-    stdin = 'abcdef'
-    exit_code, result = subprocess.getstatusoutput('echo abcdef | python main.py f')
-    assert exit_code == 0 and (result == '1abcde' or result == 'abcde1')
+    sys.stdin = io.StringIO('abcdef')
+    sys.argv = ['main.py', 'f']
+
+    main.main()
+
+    captured = capsys.readouterr()
+    assert captured.out == 'abcde'
+    assert captured.err == '1'
 
     # Test filtering 'a'
     text = open('random.txt', 'r').read()
-    filtered_text = text.replace('a', '')[:-1]
-    filtered_count = str(text.count('a'))
-    exit_code, result = subprocess.getstatusoutput('cat random.txt | python main.py a')
-    assert exit_code == 0 and (result == filtered_count + filtered_text
-                               or result == filtered_text + filtered_count)
+
+    filtered_text = open('filtered_a.txt').read()
+    filtered_count = '342'
+
+    sys.stdin = io.StringIO(text)
+    sys.argv = ['main.py', 'a']
+    main.main()
+    captured = capsys.readouterr()
+    assert captured.out == filtered_text
+    assert captured.err == filtered_count
 
     # Test filtering '7'
-    filtered_text = text.replace('7', '')[:-1]
-    filtered_count = str(text.count('7'))
-    exit_code, result = subprocess.getstatusoutput('cat random.txt | python main.py 7')
-    assert exit_code == 0 and (result == filtered_count + filtered_text
-                               or result == filtered_text + filtered_count)
+    filtered_text = open('filtered_7.txt').read()
+    filtered_count = '320'
+
+    sys.stdin = io.StringIO(text)
+    sys.argv = ['main.py', '7']
+    main.main()
+    captured = capsys.readouterr()
+    assert captured.out == filtered_text
+    assert captured.err == filtered_count
