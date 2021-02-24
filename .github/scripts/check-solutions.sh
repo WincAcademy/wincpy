@@ -3,7 +3,8 @@ then
     cd $GITHUB_WORKSPACE
 fi
 
-pip install .
+echo "Installing wincpy.."
+pip install . > /dev/null
 
 if [ $? != 0 ]
 then
@@ -15,6 +16,7 @@ top_level=$PWD
 solutions=$(find wincpy/solutions -mindepth 1 -maxdepth 1 -type d)
 passed=true
 
+echo "Running wincpy check on each solution.."
 for solution in $solutions
 do
     cd $solution
@@ -30,4 +32,6 @@ done
 if [ $passed == false ]
 then
     exit 1
+else
+    echo "All solutions pass."
 fi
