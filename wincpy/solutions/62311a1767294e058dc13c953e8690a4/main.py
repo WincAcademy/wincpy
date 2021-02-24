@@ -1,5 +1,10 @@
+# Don't modify these lines.
+__winc_id__ = '62311a1767294e058dc13c953e8690a4'
+__human_name__ = 'casting'
+
+# Your solution below this line.
 leek_price = 2
-print("Leek is" + str(leek_price) + " euro per kilo.")
+print("Leek is " + str(leek_price) + " euro per kilo.")
 
 order = "leek 4"
 order_amount = int(order[order.find(" ") :])
