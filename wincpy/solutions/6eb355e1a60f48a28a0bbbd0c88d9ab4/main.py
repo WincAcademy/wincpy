@@ -1,3 +1,6 @@
+__winc_id__ = '6eb355e1a60f48a28a0bbbd0c88d9ab4'
+__human_name__ = 'lists'
+
 def alphabetical_order(films):
     return sorted(films)
 
@@ -25,8 +28,8 @@ def remove_toto_albums(mess):
         mess.remove('35th Anniversary - Live in Poland')
     if 'Toto XIV' in mess:
         mess.remove('Toto XIV')
-    if 'Old is New' in mess:
-        mess.remove('Old is New')
+    if 'Old Is New' in mess:
+        mess.remove('Old Is New')
     if '40 Tours Around The Sun - Live in Holland' in mess:
         mess.remove('40 Tours Around The Sun - Live in Holland')
     return mess
