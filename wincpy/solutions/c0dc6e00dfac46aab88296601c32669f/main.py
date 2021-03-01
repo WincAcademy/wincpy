@@ -16,6 +16,7 @@ def unique_koala_facts(num_requested):
         loops += 1
     return facts
 
+
 def num_joey_facts():
     first_fact = random_koala_fact()
     times_seen_first_fact = 0
@@ -33,6 +34,7 @@ def num_joey_facts():
             if 'joey' in fact.lower():
                 num_joey_facts += 1
     return num_joey_facts
+
 
 def koala_weight():
     fact = random_koala_fact()

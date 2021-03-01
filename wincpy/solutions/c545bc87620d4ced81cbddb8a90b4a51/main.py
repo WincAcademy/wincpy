@@ -3,6 +3,7 @@ from helpers import get_countries
 __winc_id__ = 'c545bc87620d4ced81cbddb8a90b4a51'
 __human_name__ = 'for'
 
+
 def shortest_names(countries):
     shortest_len = float('inf')
     shortest_names = []
@@ -44,7 +45,7 @@ def most_vowels(countries):
 
 
 def alphabet_set(countries):
-    # Assembles alphabet 
+    # Assembles alphabet
     countries = [country.lower() for country in countries]
 
     letters_needed = list('abcdefghijklmnopqrstuvwxyz')
@@ -57,6 +58,7 @@ def alphabet_set(countries):
                     countries_used.append(country)
         if len(letters_needed) == 0:
             return countries_used
+
 
 """ This block is only run if this file is called directly from the command line. """
 if __name__ == '__main__':
