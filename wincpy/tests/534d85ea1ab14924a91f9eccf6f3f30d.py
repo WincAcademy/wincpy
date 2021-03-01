@@ -1,4 +1,5 @@
 import inspect
+import re
 
 from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
 
@@ -22,7 +23,7 @@ def run(student_module):
                                 and sm.add(3.2, 'Hello') == 0))
 
     requirement = "add() uses try..except and not if-else"
-    src = inspect.getsource(sm.add)
+    src = strip_comments(inspect.getsource(sm.add))
     result.append((requirement, "try" in src and "if" not in src))
 
     requirement = "read_file() has the correct functionality"
@@ -31,7 +32,7 @@ def run(student_module):
                                 and sm.read_file('doesnotexist9912.xtx') == ''))
 
     requirement = "read_file() uses try..except and not if-else"
-    src = inspect.getsource(sm.read_file)
+    src = strip_comments(inspect.getsource(sm.read_file))
     result.append((requirement, "try" in src and "if" not in src))
 
     requirement = "get_item_from_list() has the correct functionality"
@@ -41,7 +42,21 @@ def run(student_module):
                                 and sm.get_item_from_list(foo, 10) is None))
 
     requirement = "get_item_from_list() uses try..except and not if-else"
-    src = inspect.getsource(sm.get_item_from_list)
+    src = strip_comments(inspect.getsource(sm.get_item_from_list))
     result.append((requirement, "try" in src and "if" not in src))
 
     return result
+
+
+def strip_comments(src):
+    single_line_comment = re.compile(r'#.*\n')
+    multiline_comment = re.compile(r'""".*"""')
+
+    cleaned_src = src
+    for match in single_line_comment.finditer(src):
+        cleaned_src = cleaned_src[:match.start()] + cleaned_src[match.end():]
+
+    for match in multiline_comment.finditer(src):
+        cleaned_src = cleaned_src[:match.start()] + cleaned_src[match.end():]
+
+    return cleaned_src
