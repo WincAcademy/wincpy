@@ -24,6 +24,7 @@ def run(student_module):
                                 'height': 178.52,
                                 'nationality': 'Belgium'}))
 
+    passport = sm.add_stamp(passport, 'Belgium')
     passport = sm.add_stamp(passport, 'Afghanistan')
     passport = sm.add_stamp(passport, 'Bulgaria')
     result.append(('add_stamp is correct',
@@ -31,7 +32,10 @@ def run(student_module):
                    and
                    'Afghanistan' in passport['stamps']
                    and
-                   'Bulgaria' in passport['stamps']))
+                   'Bulgaria' in passport['stamps']
+                   and
+                   'Belgium' not in passport['stamps']
+                   ))
 
     allowed_destinations_per_country = {'Belgium': ['The Netherlands', 'Bulgaria']}
     forbidden_origins_per_country = {'The Netherlands': ['Afghanistan']}
