@@ -103,7 +103,7 @@ def get_iddb():
 def get_student_module(path):
     arg_abspath = os.path.abspath(path)
     parent_abspath, student_module_name = os.path.split(arg_abspath)
-    sys.path.insert(1, arg_abspath)
+    sys.path.insert(0, arg_abspath)
 
     # Redirect stdout to the void while importing
     prev_stdout = sys.stdout
@@ -124,7 +124,7 @@ def get_student_module(path):
             sys.path.insert(1, parent_abspath)
             student_module = importlib.import_module(student_module_name)
         except ImportError:
-            # There's just no Winc module around here.
+            # There's just no module around here.
             sys.stderr.write(style.color.red
                              + f'Could not import module {student_module_name} from {parent_abspath}\n'
                              + style.color.end)
