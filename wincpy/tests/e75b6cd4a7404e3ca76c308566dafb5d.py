@@ -14,6 +14,6 @@ def run(student_module):
     main_abspath = get_main_abspath(student_module)
     output, state = exec_assignment_code(main_abspath)
 
-    result.append(('Hello world is printed.', output == 'Hello world'))
+    result.append(('Hello world is printed.', output == 'Hello world\n'))
 
     return result
