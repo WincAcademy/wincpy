@@ -30,7 +30,7 @@ setup(
     description="Assists students in doing Winc Academy exercises.",
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
-    version="0.2.0",
+    version="0.2.1",
     packages=find_packages(),
     url="https://github.com/WincAcademy/wincpy",
     classifiers=[
