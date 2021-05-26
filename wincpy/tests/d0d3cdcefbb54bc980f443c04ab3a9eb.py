@@ -21,6 +21,9 @@ def run(student_module):
         if line == '':
             continue
         requirement = f'Evaluation {i+1} is correct.'
-        result.append((requirement, line == str(expected_evals[i])))
+        try:
+            result.append((requirement, line == str(expected_evals[i])))
+        except IndexError:
+            result.append(('You printed more values than we expected.', False))
 
     return result
