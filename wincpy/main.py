@@ -6,7 +6,7 @@ import sys
 from argparse import ArgumentParser
 import subprocess
 
-from wincpy import helpers, solutions, starts, style, tests
+from wincpy import helpers, solutions, starts, style, checks
 
 
 def main(stdout, stderr):
@@ -104,7 +104,7 @@ def check(args):
 
     winc_id = student_module.__winc_id__
     try:
-        test = importlib.import_module(f'.{winc_id}', 'wincpy.tests')
+        test = importlib.import_module(f'.{winc_id}', 'wincpy.checks')
         # solution_module = importlib.import_module(f'.{winc_id}', 'wincpy.solutions')
     except ImportError:
         sys.stderr.write(style.color.red
