@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 import os
 import subprocess
 import sys
@@ -139,3 +140,30 @@ def get_student_module(path):
     sys.stdout = prev_stdout
     devnull.close()
     return student_module
+
+
+def parse_args():
+    parser = ArgumentParser(description='The Winc Python tool.')
+    subparsers = parser.add_subparsers(dest='action', required=True,
+                                       help='What wincpy should do in this run.')
+    start_parser = subparsers.add_parser('start',
+                                         help='Start a new assignment.')
+    check_parser = subparsers.add_parser('check',
+                                         help='Check an existing assignment.')
+    solve_parser = subparsers.add_parser('solve',
+                                         help="Place Winc's solution here.")
+
+    # Update parser doesn't have any extra arguments, but we must add it as
+    # subparser to have it available as an actions together with the rest.
+    update_parser = subparsers.add_parser('update',
+                                         help='Update wincpy using pip.')
+
+    start_parser.add_argument('winc_id', type=str,
+                              help='Winc ID of an assignment to start.')
+    check_parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
+                              help='Path containing assignment to check.')
+    solve_parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
+                              help='Path containing assignment to check.')
+
+    args = parser.parse_args()
+    return args

@@ -3,37 +3,13 @@ import inspect
 import os
 import shutil
 import sys
-from argparse import ArgumentParser
 import subprocess
 
-from wincpy import helpers, solutions, starts, style, checks
+from wincpy import helpers, solutions, starts, style, checks, ui
 
 
 def main(stdout, stderr):
-    parser = ArgumentParser(description='The Winc Python tool.')
-    subparsers = parser.add_subparsers(dest='action', required=True,
-                                       help='What wincpy should do in this run.')
-    start_parser = subparsers.add_parser('start',
-                                         help='Start a new assignment.')
-    check_parser = subparsers.add_parser('check',
-                                         help='Check an existing assignment.')
-    solve_parser = subparsers.add_parser('solve',
-                                         help="Place Winc's solution here.")
-
-    # Update parser doesn't have any extra arguments, but we must add it as
-    # subparser to have it available as an actions together with the rest.
-    update_parser = subparsers.add_parser('update',
-                                         help='Update wincpy using pip.')
-
-    start_parser.add_argument('winc_id', type=str,
-                              help='Winc ID of an assignment to start.')
-    check_parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
-                              help='Path containing assignment to check.')
-    solve_parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
-                              help='Path containing assignment to check.')
-
-    args = parser.parse_args()
-
+    args = helpers.parse_args()
     print(style.misc.logo)
 
     if args.action == 'start':
@@ -50,27 +26,22 @@ def main(stdout, stderr):
         update()
     elif args.action == 'solve':
         result = check(args)
-        passed = sum([x for _, x in result]) == len(result)
+        passed = all([x for _, x in result])
         if passed:
             solve(args)
         else:
-            sys.stdout.write(style.color.red
-                             + "You should solve the exercise before viewing Winc's solution."
-                             + style.color.end)
+            ui.report_error('solve_first')
             sys.exit(1)
 
 
 def start(args):
     iddb = helpers.get_iddb()
     if args.winc_id not in iddb:
-        sys.stderr.write(style.color.red
-                         + "Unknown Winc ID; can't start assignment.\n"
-                         + style.color.end)
+        ui.report_error('unknown_winc_id')
         sys.exit(1)
 
     human_name = iddb[args.winc_id]['human_name']
-    print(f'{style.color.green}Starting assignment: {human_name}{style.color.end}\n'
-          + f'Winc ID: {args.winc_id}')
+    ui.report_neutral('assignment_start', assignment_name=human_name)
 
     starts_abspath = starts.__path__[0]
     starts_dirs = list(os.walk(starts_abspath))[0][1]
@@ -80,9 +51,8 @@ def start(args):
     if args.winc_id not in starts_dirs:
         try:
             os.mkdir(human_name)
-        except:
-            sys.stderr.write(
-                f"{style.color.red}Error: could not create directory '{human_name}'. Exiting.\n{style.color.end}")
+        except FileExistsError:
+            ui.report_error('dir_exists', dirname=human_name)
             sys.exit(1)
         with open(os.path.join(human_name, 'main.py'), 'w') as fp:
             fp.write('# Do not modify these lines\n'
@@ -92,11 +62,10 @@ def start(args):
     else:
         try:
             shutil.copytree(starts_dirs[args.winc_id], human_name)
-        except:
-            sys.stderr.write(
-                f"Error: could not create directory {human_name}. Exiting.\n")
+        except FileExistsError:
+            ui.report_error('dir_exists', dirname=human_name)
             sys.exit(1)
-    print(f'You can find your starting files in the directory: {human_name}')
+    ui.report_success('assignment_start', assignment_name=human_name)
 
 
 def check(args):
@@ -107,9 +76,7 @@ def check(args):
         test = importlib.import_module(f'.{winc_id}', 'wincpy.checks')
         # solution_module = importlib.import_module(f'.{winc_id}', 'wincpy.solutions')
     except ImportError:
-        sys.stderr.write(style.color.red
-                         + 'There is no test for this assignment yet.\n'
-                         + style.color.end)
+        ui.report_error('no_check_found', assignment_name=student_module.__human_name__)
         sys.exit(1)
 
     # result = test.run(student_module, solution_module)
