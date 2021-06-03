@@ -40,7 +40,12 @@ def run(sm):
 
     requirement = 'pull is implemented correctly'
     result.append((requirement,
-                   round(sm.pull(800, 1500, 3), 10) == 8.8987e-06
-                   and
-                   round(sm.pull(0.1, 5.972 * 10**4, 6.371 * 10**6), 30) == 9.819532033e-21))
+                   sm.pull(1, 2, 3) is not None and round(
+                       sm.pull(800, 1500, 3), 10) == 8.8987e-06
+                   ))
+    result.append((requirement,
+                   sm.pull(1, 2, 3) is not None and round(
+                       sm.pull(0.1, 5.972 * 10**4, 6.371 * 10**6), 30) == 9.819532033e-21
+                   ))
+
     return result
