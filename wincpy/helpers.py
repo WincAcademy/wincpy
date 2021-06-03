@@ -6,7 +6,7 @@ import urllib.request
 import json
 import importlib
 
-from wincpy import style, ui
+from wincpy import ui
 
 
 def exec_assignment_code(filename, quiet=False):
