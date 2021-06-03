@@ -6,31 +6,27 @@ import urllib.request
 import json
 import importlib
 
-from wincpy import style
+from wincpy import style, ui
 
 
-def exec_assignment_code(filename):
-    """ Execs the code in filename and returns a dictionary with the variables
-    in scope minus builtins. """
+def exec_assignment_code(filename, quiet=False):
+    """
+    Execs the code in filename and returns a dictionary with the variables
+    in scope minus builtins.
+    """
 
     with open(filename, 'r') as fp:
         assignment_code = fp.read()
 
-    state = {}
-    print(style.color.gray
-          + 'Output from running ' + os.path.split(filename)[1]
-          + style.color.end)
-    print(style.layout.divider.level_1)
-
     try:
+        ui.mute_stdout()
+        state = {}
         exec(assignment_code, state)
+        ui.unmute_stdout()
     except:
-        print(style.color.red
-              + 'Your code could not be executed successfully.\n'
-              + style.color.end)
+        ui.unmute_stdout()
+        ui.report_error('exec_failed')
         sys.exit(1)
-
-    print(style.layout.divider.level_1 + '\n')
 
     del state['__builtins__']
 
@@ -44,6 +40,8 @@ def exec_assignment_code(filename):
             ['python3', filename], capture_output=True, text=True
         ).stdout
 
+    if not quiet:
+        ui.print_student_output(output)
     return output, state
 
 
@@ -96,7 +94,7 @@ def get_iddb():
         iddb_bytes = urllib.request.urlopen(iddb_url, timeout=1).read()
         iddb = json.loads(iddb_bytes)
     except:
-        sys.stderr.write('Could not load database.\n')
+        ui.report_error('iddb_load_fail')
         sys.exit(1)
     return iddb
 
@@ -107,38 +105,25 @@ def get_student_module(path):
     sys.path.insert(0, arg_abspath)
 
     # Redirect stdout to the void while importing
-    prev_stdout = sys.stdout
-    devnull = open(os.devnull, 'w')
-    sys.stdout = devnull
-
+    ui.mute_stdout()
     try:
         student_module = importlib.import_module('main')
     except ImportError:
-        sys.stderr.write(style.color.red
-                         + f'Could not import module {student_module_name} from {parent_abspath}\n'
-                         + style.color.end)
+        ui.unmute_stdout()
+        ui.report_error('module_import_fail',
+                        module_name=student_module_name,
+                        dir=parent_abspath)
         sys.exit(1)
 
     if not hasattr(student_module, '__winc_id__'):
-        try:
-            # Try to import old-style package for backwards compatibility.
-            sys.path.insert(1, parent_abspath)
-            student_module = importlib.import_module(student_module_name)
-        except ImportError:
-            # There's just no module around here.
-            sys.stderr.write(style.color.red
-                             + f'Could not import module {student_module_name} from {parent_abspath}\n'
-                             + style.color.end)
-        if not hasattr(student_module, '__winc_id__'):
-            sys.stderr.write(style.color.red
-                             + 'This module does not have a Winc ID.\n'
-                             + 'Is it a Winc module?\n'
-                             + style.color.end)
-            sys.exit(1)
+        ui.unmute_stdout()
+        ui.report_error('module_no_winc_id',
+                         module_name=student_module_name,
+                         dir=parent_abspath)
+        sys.exit(1)
 
     # Restore stdout
-    sys.stdout = prev_stdout
-    devnull.close()
+    ui.unmute_stdout()
     return student_module
 
 

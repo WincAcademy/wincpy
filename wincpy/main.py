@@ -5,18 +5,18 @@ import shutil
 import sys
 import subprocess
 
-from wincpy import helpers, solutions, starts, style, checks, ui
+from wincpy import helpers, solutions, starts, checks, ui
 
 
 def main(stdout, stderr):
     args = helpers.parse_args()
-    print(style.misc.logo)
+    ui.print_intro()
 
     if args.action == 'start':
         start(args)
     elif args.action == 'check':
         result = check(args)
-        report(result)
+        ui.report_check_result(result)
         if all([score for _, score in result]):
             sys.exit(0)
         else:
@@ -73,40 +73,16 @@ def check(args):
 
     winc_id = student_module.__winc_id__
     try:
-        test = importlib.import_module(f'.{winc_id}', 'wincpy.checks')
+        check = importlib.import_module(f'.{winc_id}', 'wincpy.checks')
         # solution_module = importlib.import_module(f'.{winc_id}', 'wincpy.solutions')
     except ImportError:
         ui.report_error('no_check_found', assignment_name=student_module.__human_name__)
         sys.exit(1)
 
     # result = test.run(student_module, solution_module)
-    result = test.run(student_module)
+    result = check.run(student_module)
 
     return result
-
-
-def report(result):
-    """
-    Reports the result of the test to the student.
-    """
-    print(style.color.gray + 'Test result' + style.color.end)
-    print(style.layout.divider.level_1)
-    for requirement, score in result:
-        if score:
-            sys.stdout.write(
-                style.color.green
-                + style.icon.thumbsup
-                + requirement
-                + '\n'
-                + style.color.end)
-        else:
-            sys.stdout.write(
-                style.color.red
-                + style.icon.thumbsdown
-                + requirement
-                + '\n'
-                + style.color.end)
-    print(style.layout.divider.level_1)
 
 
 def update():
@@ -122,19 +98,14 @@ def solve(args):
     solutions_abspath = solutions.__path__[0]
     solution_abspath = os.path.join(solutions_abspath, winc_id)
     if not os.path.isdir(solution_abspath):
-        sys.stderr.write(style.color.red
-                         + 'There is no solution available for this exercise.\n'
-                         + style.color.end)
+        ui.report_error('no_solution_available',
+                        exercise_name=student_module.__human_name__)
         sys.exit(1)
 
     try:
         dest_dir = student_module.__human_name__ + '_example_solution'
         shutil.copytree(solution_abspath, dest_dir)
-        sys.stdout.write(style.color.green
-                         + f'You can now find the example solution in {dest_dir}\n'
-                         + style.color.end)
+        ui.report_success('solution_available', solution_dir=dest_dir)
     except:
-        sys.stderr.write(style.color.red
-                         + f'Unable to write solution to folder {dest_dir}\n'
-                         + style.color.end)
+        ui.report_error('dir_exists', dirname=dest_dir)
         sys.exit(1)
