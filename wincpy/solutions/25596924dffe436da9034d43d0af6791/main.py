@@ -1,3 +1,9 @@
+# Don't modify these lines
+__winc_id__ = '25596924dffe436da9034d43d0af6791'
+__human_name__ = 'conditions'
+
+# Your code below this line
+
 def farm_action(weather, time_of_day, cows_need_milking, cows_location, season,
                 slurry_tank_full, grass_long):
 
