@@ -2,7 +2,6 @@ import importlib
 import inspect
 import os
 import shutil
-import sys
 import subprocess
 
 from wincpy import helpers, solutions, starts, checks, ui
@@ -18,10 +17,10 @@ def main(stdout, stderr):
         result = check(args)
         ui.report_check_result(result)
         if all([score for _, score in result]):
-            sys.exit(0)
+            exit(0)
         else:
             # No runtime errors but the solution didn't pass.
-            sys.exit(2)
+            exit(2)
     elif args.action == 'update':
         update()
     elif args.action == 'solve':
@@ -31,14 +30,14 @@ def main(stdout, stderr):
             solve(args)
         else:
             ui.report_error('solve_first')
-            sys.exit(1)
+            exit(1)
 
 
 def start(args):
     iddb = helpers.get_iddb()
     if args.winc_id not in iddb:
         ui.report_error('unknown_winc_id')
-        sys.exit(1)
+        exit(1)
 
     human_name = iddb[args.winc_id]['human_name']
     ui.report_neutral('assignment_start', assignment_name=human_name)
@@ -53,7 +52,7 @@ def start(args):
             os.mkdir(human_name)
         except FileExistsError:
             ui.report_error('dir_exists', dirname=human_name)
-            sys.exit(1)
+            exit(1)
         with open(os.path.join(human_name, 'main.py'), 'w') as fp:
             fp.write('# Do not modify these lines\n'
                      + f"__winc_id__ = '{args.winc_id}'\n"
@@ -64,7 +63,7 @@ def start(args):
             shutil.copytree(starts_dirs[args.winc_id], human_name)
         except FileExistsError:
             ui.report_error('dir_exists', dirname=human_name)
-            sys.exit(1)
+            exit(1)
     ui.report_success('assignment_start', assignment_name=human_name)
 
 
@@ -77,7 +76,7 @@ def check(args):
         # solution_module = importlib.import_module(f'.{winc_id}', 'wincpy.solutions')
     except ImportError:
         ui.report_error('no_check_found', assignment_name=student_module.__human_name__)
-        sys.exit(1)
+        exit(1)
 
     # result = test.run(student_module, solution_module)
     result = check.run(student_module)
@@ -100,7 +99,7 @@ def solve(args):
     if not os.path.isdir(solution_abspath):
         ui.report_error('no_solution_available',
                         exercise_name=student_module.__human_name__)
-        sys.exit(1)
+        exit(1)
 
     try:
         dest_dir = student_module.__human_name__ + '_example_solution'
@@ -108,4 +107,4 @@ def solve(args):
         ui.report_success('solution_available', solution_dir=dest_dir)
     except:
         ui.report_error('dir_exists', dirname=dest_dir)
-        sys.exit(1)
+        exit(1)
