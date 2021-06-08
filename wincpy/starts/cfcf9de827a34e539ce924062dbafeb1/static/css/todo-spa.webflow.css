@@ -1,0 +1,230 @@
+.body {
+  background-color: #090081;
+}
+
+.heading {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  font-family: Montserrat, sans-serif;
+  color: #0ff;
+  font-size: 43px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.add-section {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 64px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.add-todo {
+  width: 65%;
+  padding: 20px;
+  background-color: #d3d3d3;
+  box-shadow: 5px 5px 10px 0 hsla(0, 0%, 100%, 0.7);
+}
+
+.heading-2 {
+  margin-top: 0px;
+  color: #000;
+  text-align: center;
+}
+
+.form-block {
+  margin-bottom: 0px;
+}
+
+.checkbox-field {
+  margin-bottom: 10px;
+}
+
+.todos-section {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.heading-3 {
+  margin-bottom: 20px;
+  font-family: Montserrat, sans-serif;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.todo-card {
+  width: 60%;
+  min-height: 180px;
+  margin-bottom: 40px;
+  padding: 23px 27px;
+  background-color: #d3d3d3;
+}
+
+.todo-heading {
+  margin-top: 0px;
+  font-family: Montserrat, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.todo-footer-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.edit-button {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  font-family: Montserrat, sans-serif;
+  line-height: 20px;
+}
+
+.delete-button {
+  margin-left: 5px;
+  padding: 7px 11px;
+  background-color: #ec4738;
+  font-family: Montserrat, sans-serif;
+}
+
+.dates-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 120px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  font-family: Montserrat, sans-serif;
+  font-style: italic;
+  font-weight: 200;
+}
+
+.buttons-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 120px;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.complete-button {
+  margin-bottom: 0px;
+  background-color: #1fc52d;
+  font-family: Montserrat, sans-serif;
+}
+
+.textfield {
+  font-family: Montserrat, sans-serif;
+  font-weight: 200;
+}
+
+.form-label {
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+}
+
+.textarea {
+  font-family: Montserrat, sans-serif;
+  font-weight: 200;
+}
+
+.paragraph {
+  margin-bottom: 20px;
+  font-family: Montserrat, sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+@media screen and (max-width: 479px) {
+  .todo-footer-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .dates-container {
+    width: auto;
+  }
+
+  .complete-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+
+/* Custom CSS */
+#login-box {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #090081;
+}
+#login-form {
+    width: 400px;
+    height: 200px;
+    background-color: lightgray;
+    padding: 20px;
+}
