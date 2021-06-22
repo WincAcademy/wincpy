@@ -30,7 +30,7 @@ setup(
     description="Assists students in doing Winc Academy exercises.",
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
-    version="0.1.6",
+    version="0.2.3.2",
     packages=find_packages(),
     url="https://github.com/WincAcademy/wincpy",
     classifiers=[
@@ -40,4 +40,5 @@ setup(
     python_requires=">= 3.6",
     package_data={"wincpy": gather_package_data_paths()},
     entry_points={"console_scripts": ["wincpy=wincpy.__main__:console_entry"]},
+    install_requires=['rich==10.2.2']
 )

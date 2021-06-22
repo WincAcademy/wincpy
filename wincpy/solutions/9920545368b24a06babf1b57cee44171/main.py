@@ -1,3 +1,8 @@
+# Don't change this
+__winc_id__ = '9920545368b24a06babf1b57cee44171'
+__human_name__ = 'refactoring'
+
+# Your code below this line.
 class Specialist():
     def __init__(self, name):
         self.name = name

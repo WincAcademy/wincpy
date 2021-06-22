@@ -75,16 +75,16 @@ otherwise pip will not update the local installation.
           exercise.
     - You may find other solutions are packages with a `__init__.py` file, this
       is a deprecated format and support for it will be removed in the future.
-3. Write your tests in this repository, in a new file: `wincpy/tests/<winc_id>.py`
+3. Write your checks in this repository, in a new file: `wincpy/checks/<winc_id>.py`
     - Within `<winc_id>.py`, define a function `run()` that takes a module as its
     argument and returns a list of tuples: `[(requirement_string,
     bool_requirement_satisfied)]`. The requirement strings are printed back to
     the student with thumbs up/down in green/red depending on the bool that
     it's matched with.
-    - Look at the other test files for examples on how to write tests for the
+    - Look at the other test files for examples on how to write checks for the
       student module.
     - There are a number of helper functions available in `wincpy/helpers.py`.
-    - There is also a template you could use for quick start: `wincpy/tests/template.py`.
+    - There is also a template you could use for quick start: `wincpy/checks/template.py`.
 4. Optional: if you would like to provide a starting point for students so that
    they don't have to write lame boilerplate code, do so in a new directory:
    `wincpy/starts/<winc_id>`.
