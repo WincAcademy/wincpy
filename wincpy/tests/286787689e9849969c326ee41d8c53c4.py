@@ -9,29 +9,24 @@ def run(student_module):
         setup_data(student_module.models)
     except peewee.ImproperlyConfigured:
         return [("Database can be initialized", False)]
-    cheapest_dish = student_module.cheapest_dish()
-    vegetarian_dishes = student_module.vegetarian_dishes()
-    best_restaurant = student_module.best_average_rating()
-    current_rating_count = student_module.models.Rating.select().count()
-    student_module.add_rating_to_restaurant()
-    new_rating_count = student_module.models.Rating.select().count()
-    date_restaurants = student_module.dinner_date_possible()
-    new_dish = student_module.add_dish_to_menu()
 
-    result = [
-        ("Models have correct mappings", True),
-        (
+    def cheapest_dish():
+        dish = student_module.cheapest_dish()
+        return (
             "Cheapest dish found",
-            cheapest_dish
+            dish
             == student_module.models.Dish.select()
             .order_by(student_module.models.Dish.price_in_cents)
             .first()
-            if cheapest_dish
+            if dish
             else False,
-        ),
-        (
+        )
+
+    def vegetarian_dishes():
+        dishes = student_module.vegetarian_dishes()
+        return (
             "Vegetarian dishes found",
-            set(vegetarian_dishes)
+            set(dishes)
             == set(
                 [
                     dish
@@ -39,12 +34,15 @@ def run(student_module):
                     if all([i.is_vegetarian for i in dish.ingredients])
                 ]
             )
-            if vegetarian_dishes
+            if dishes
             else False,
-        ),
-        (
+        )
+
+    def best_restaurant():
+        restaurant = student_module.best_restaurant()
+        return (
             "Best average rating found",
-            best_restaurant
+            restaurant
             == (
                 student_module.models.Restaurant.select(
                     student_module.models.Restaurant,
@@ -55,11 +53,19 @@ def run(student_module):
                 .order_by(peewee.fn.AVG(student_module.models.Rating.rating).desc())
                 .first()
             )
-            if best_restaurant
+            if restaurant
             else False,
-        ),
-        ("A rating has been added", current_rating_count < new_rating_count),
-        (
+        )
+
+    def rating_added():
+        current_rating_count = student_module.models.Rating.select().count()
+        student_module.add_rating_to_restaurant()
+        new_rating_count = student_module.models.Rating.select().count()
+        return ("A rating has been added", current_rating_count < new_rating_count)
+
+    def date_restaurants():
+        date_restaurants = student_module.dinner_date_possible()
+        return (
             "Date restaurants have been identified",
             set(date_restaurants)
             == set(
@@ -78,12 +84,20 @@ def run(student_module):
             )
             if date_restaurants
             else False,
-        ),
+        )
+
+    new_dish = student_module.add_dish_to_menu()
+    result = [
+        ("Models have correct mappings", True),
+        cheapest_dish(),
+        vegetarian_dishes(),
+        best_restaurant(),
+        rating_added(),
+        date_restaurants(),
         ("New dish created", new_dish),
         (
             "New dish contains cheese",
-            "cheese" in [x.name for x in new_dish.ingredients] if new_dish
-            else False,
+            "cheese" in [x.name for x in new_dish.ingredients] if new_dish else False,
         ),
         (
             "Cheese not created twice",
