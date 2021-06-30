@@ -15,7 +15,7 @@ def run(student_module):
 
     module_folder = main_abspath.replace('main.py', '')
 
-    cache_path = os.path.join(os.getcwd(), 'cache')
+    cache_path = os.path.join(module_folder, 'cache')
     zip_path = os.path.join(module_folder, 'data.zip')
 
     # Start fresh
