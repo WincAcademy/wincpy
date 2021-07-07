@@ -71,7 +71,7 @@ def compare_states(expected_state, actual_state):
         diff = es_tupleset - as_tupleset
         for key, _ in diff:
             result.append(
-                (f'{style.layout.list_item} Something is wrong with variable {key}.', False))
+                (f'--> Something is wrong with variable {key}.', False))
 
     return result
 
