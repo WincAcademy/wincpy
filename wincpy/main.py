@@ -4,6 +4,7 @@ import os
 import shutil
 import sys
 import subprocess
+import traceback
 
 from wincpy import helpers, solutions, starts, checks, ui
 
@@ -81,10 +82,13 @@ def check(args):
         ui.report_error("no_check_found", assignment_name=student_module.__human_name__)
         sys.exit(1)
 
-    # result = test.run(student_module, solution_module)
-    result = check.run(student_module)
-
-    return result
+    try:
+        #return test.run(student_module, solution_module)
+        return check.run(student_module)
+    except:
+        traceback.print_exc(limit=0)
+        ui.report_error("not_fully_implemented")
+        sys.exit(1)
 
 
 def update():

@@ -19,6 +19,10 @@ errors = {
         'module_import_fail': "Can't import `{{ module_name }}` from directory: `{{ dir }}`.",
         'module_no_winc_id': "Imported module `{{ module_name }}` from directory: `{{ dir }}`, but it has no Winc ID.",
         'no_solution_available': "There's no solution available for the exercise/assignment {{ exercise_name }}.",
+        'not_fully_implemented': "Your code could not be executed successfully. Please see the above error. The problem is likely: " +\
+                                 "(a) You did not use the correct variable names as specified in the assignment. " +\
+                                 "(b) You did not use the correct function names as specified in the assignemt. " +\
+                                 "(c) Your function does not properly return the correct data-type."
     }.items()
 }
 
