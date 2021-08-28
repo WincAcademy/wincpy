@@ -1,6 +1,6 @@
 from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
 
-__winc_id__ = '7152c06aa3ac4d5f964ca8619ecb7e8f'
+__winc_id__ = "7152c06aa3ac4d5f964ca8619ecb7e8f"
 
 
 def run(student_module):

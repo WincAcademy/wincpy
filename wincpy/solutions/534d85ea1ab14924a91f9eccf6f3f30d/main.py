@@ -1,6 +1,6 @@
 # Do not modify these lines
-__winc_id__ = '534d85ea1ab14924a91f9eccf6f3f30d'
-__human_name__ = 'errors'
+__winc_id__ = "534d85ea1ab14924a91f9eccf6f3f30d"
+__human_name__ = "errors"
 
 
 # Your own code for testing your functions here
@@ -15,7 +15,7 @@ to Ask for Forgiveness than Permission (EAFP)"""
 # Returns the addition of x and y if it's defined, otherwise returns 0
 def add(x, y):
     try:
-        return x+y
+        return x + y
     except TypeError:
         return 0
 
@@ -24,9 +24,9 @@ def add(x, y):
 # file does not exist
 def read_file(filename):
     try:
-        return open(filename, 'r').read()
+        return open(filename, "r").read()
     except FileNotFoundError:
-        return ''
+        return ""
 
 
 # Returns item at `index` from list `l` if possible, otherwise returns None
@@ -37,5 +37,5 @@ def get_item_from_list(l, index):
         return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
