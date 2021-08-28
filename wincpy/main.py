@@ -2,10 +2,9 @@ import importlib
 import inspect
 import os
 import shutil
-import sys
 import subprocess
 
-from wincpy import helpers, solutions, starts, checks, ui
+from wincpy import helpers, ui, starts, checks, solutions
 
 
 def main(stdout, stderr):
@@ -18,10 +17,10 @@ def main(stdout, stderr):
         result = check(args)
         ui.report_check_result(result)
         if all([score for _, score in result]):
-            sys.exit(0)
+            exit(0)
         else:
             # No runtime errors but the solution didn't pass.
-            sys.exit(2)
+            exit(1)
     elif args.action == "update":
         update()
     elif args.action == "solve":
@@ -31,14 +30,14 @@ def main(stdout, stderr):
             solve(args)
         else:
             ui.report_error("solve_first")
-            sys.exit(1)
+            exit(1)
 
 
 def start(args):
     iddb = helpers.get_iddb()
     if args.winc_id not in iddb:
         ui.report_error("unknown_winc_id")
-        sys.exit(1)
+        exit(2)
 
     human_name = iddb[args.winc_id]["human_name"]
     ui.report_neutral("assignment_start", assignment_name=human_name)
@@ -53,7 +52,7 @@ def start(args):
             os.mkdir(human_name)
         except FileExistsError:
             ui.report_error("dir_exists", dirname=human_name)
-            sys.exit(1)
+            exit(3)
         with open(os.path.join(human_name, "main.py"), "w") as fp:
             fp.write(
                 "# Do not modify these lines\n"
@@ -66,7 +65,7 @@ def start(args):
             shutil.copytree(starts_dirs[args.winc_id], human_name)
         except FileExistsError:
             ui.report_error("dir_exists", dirname=human_name)
-            sys.exit(1)
+            exit(3)
     ui.report_success("assignment_start", assignment_name=human_name)
 
 
@@ -75,19 +74,35 @@ def check(args):
 
     winc_id = student_module.__winc_id__
     try:
-        check = importlib.import_module(f".{winc_id}", "wincpy.checks")
+        check_module = importlib.import_module(f".{winc_id}", "wincpy.checks")
         # solution_module = importlib.import_module(f'.{winc_id}', 'wincpy.solutions')
     except ImportError:
         ui.report_error("no_check_found", assignment_name=student_module.__human_name__)
-        sys.exit(1)
+        exit(4)
 
-    try:
-        # return test.run(student_module, solution_module)
-        return check.run(student_module)
-    except Exception as e:
-        ui.report_error("check_failed", exception=str(e))
-        sys.exit(1)
-
+    # result = test.run(student_module, solution_module)
+    if hasattr(check_module, "run"):
+        # Old-style check module with a single run method
+        try:
+            result = check_module.run(student_module)
+        except Exception as e:
+            ui.report_error("check_failed", exception=str(e))
+            exit(50)
+    else:
+        # New-style check module with separate checks that start with 'check'
+        checks = [v for k, v in check_module.__dict__.items() if k.startswith("check_")]
+        if not checks:
+            ui.report_error(
+                "empty_check", assignment_name=student_module.__human_name__
+            )
+        result = []
+        for check in checks:
+            try:
+                check(student_module)
+                result.append((check.__doc__, None))
+            except Exception as e:
+                result.append((check.__doc__, e))
+    return result
 
 def update():
     release_url = "git+https://github.com/WincAcademy/wincpy@release"
@@ -104,7 +119,7 @@ def solve(args):
         ui.report_error(
             "no_solution_available", exercise_name=student_module.__human_name__
         )
-        sys.exit(1)
+        exit(5)
 
     try:
         dest_dir = student_module.__human_name__ + "_example_solution"
@@ -112,4 +127,4 @@ def solve(args):
         ui.report_success("solution_available", solution_dir=dest_dir)
     except:
         ui.report_error("dir_exists", dirname=dest_dir)
-        sys.exit(1)
+        exit(3)

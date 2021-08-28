@@ -1,6 +1,6 @@
 from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
 
-__winc_id__ = '63ce21059cf34d3d8ffef497ede7e317'
+__winc_id__ = "63ce21059cf34d3d8ffef497ede7e317"
 
 
 def run(student_module):
@@ -10,12 +10,12 @@ def run(student_module):
 
     assignment_text = open(main_abspath).read()
 
-    requirement = 'The solution contains two end-of-line comments.'
+    requirement = "The solution contains two end-of-line comments."
     end_of_line_comment_count = 0
-    for line in assignment_text.split('\n'):
-        line = line.replace(' ', '')
+    for line in assignment_text.split("\n"):
+        line = line.replace(" ", "")
         try:
-            hash_index = line.index('#')
+            hash_index = line.index("#")
             if hash_index > 0:
                 end_of_line_comment_count += 1
         except ValueError:
@@ -23,21 +23,21 @@ def run(student_module):
             pass
     result.append((requirement, end_of_line_comment_count >= 2))
 
-    requirement = 'The solution contains two single-line comments.'
+    requirement = "The solution contains two single-line comments."
     single_line_comment_count = 0
-    for line in assignment_text.split('\n'):
-        line = line.replace(' ', '')
-        if line != '' and line[0] == '#':
+    for line in assignment_text.split("\n"):
+        line = line.replace(" ", "")
+        if line != "" and line[0] == "#":
             single_line_comment_count += 1
     result.append((requirement, single_line_comment_count >= 2))
 
-    requirement = 'The solution contains two multiline comments.'
+    requirement = "The solution contains two multiline comments."
     multiline_comment_count = 0
-    for line in assignment_text.split('\n'):
-        line = line.replace(' ', '')
+    for line in assignment_text.split("\n"):
+        line = line.replace(" ", "")
         # If we're here we already ran the code, so the multiline comment
         # is also properly terminated somewhere.
-        if line != '' and line[0:3] == '"""':
+        if line != "" and line[0:3] == '"""':
             multiline_comment_count += 1
     result.append((requirement, multiline_comment_count >= 2))
 

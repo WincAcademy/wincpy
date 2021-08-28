@@ -1,6 +1,6 @@
 # Do not modify these lines
-__winc_id__ = '7152c06aa3ac4d5f964ca8619ecb7e8f'
-__human_name__ = 'variables'
+__winc_id__ = "7152c06aa3ac4d5f964ca8619ecb7e8f"
+__human_name__ = "variables"
 
 # Your code below this line
 
@@ -8,7 +8,7 @@ __human_name__ = 'variables'
 
 a = 0
 print(a)
-b = 'Hello, world!'
+b = "Hello, world!"
 print(b)
 c = True
 print(c)

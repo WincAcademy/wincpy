@@ -3,8 +3,10 @@ import os
 
 from rich.console import Console
 from rich.markdown import Markdown
+from rich.table import Table
+from rich.text import Text
 
-console = Console()
+console = Console(width=80)
 
 # Constants
 errors = {
@@ -20,6 +22,7 @@ errors = {
         "module_no_winc_id": "Imported module `{{ module_name }}` from directory: `{{ dir }}`, but it has no Winc ID.",
         "no_solution_available": "There's no solution available for the exercise/assignment {{ exercise_name }}.",
         "check_failed": "Something went wrong while checking your code. Python gave us the following reason:\n> `{{ exception }}`",
+        "empty_check": "There is a check for this exercise/assignment, but it contains no actual check functions.",
     }.items()
 }
 
@@ -42,7 +45,7 @@ tips = {
         ],
         "no_check_found": [
             "It's probably intentional that there is no check for this exercise/assignment.",
-            "You could try updating Wincpy by running `wincpy update`.",
+            "You could retry after updating Wincpy with `wincpy update`.",
         ],
         "exec_failed": [
             "Make sure your code runs OK with with `python` before running `wincpy check`."
@@ -63,6 +66,9 @@ tips = {
             "Some of the **function names** might be different from how they are specified in the assignment.",
             "Your function might not return the correct data type. For example: a string (`'5'`) instead of an `int` (`5`).",
             "You haven't finished implementing the assignment yet, so a function or attribute is still missing.",
+
+        "empty_check": [
+            "This is most likely a development error inside Wincpy. Please report it to a teacher."
         ],
     }.items()
 }
@@ -74,7 +80,7 @@ successes = {
 }
 
 
-logo = """
+logo = """\
 █░█░█ █ █▄░█ █▀▀ █▀█ █▄█
 ▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n"""
 
@@ -98,7 +104,7 @@ def unmute_stdout():
 
 
 def print_intro():
-    console.print(logo, justify="left")
+    console.print(logo, justify="center")
 
 
 def report_error(case, **relevant_vars):
@@ -124,13 +130,36 @@ def report_success(case, **relevant_vars):
 
 
 def report_check_result(result):
-    console.print("Check Result", style="bold underline")
-    for requirement, score in result:
-        if score:
-            console.print(Markdown("- 👍 " + requirement), style="green")
-        else:
-            console.print(Markdown("- 👎 " + requirement), style="red")
+    table = Table(title="Check Result", show_lines=True, width=80)
+    table.add_column("Pass/Fail", justify="center")
+    table.add_column("Requirement")
+    table.add_column("Tips")
 
+    for requirement, fail_reason in result:
+        if not fail_reason:
+            table.add_row("👍", Markdown(requirement, style="green"), "")
+        elif type(fail_reason) is AttributeError:
+            fail_reason = str(fail_reason).split(" ")
+            reason_txt = Text.assemble(
+                ("AttributeError", "bold red"),
+                (": The ", "blue"),
+                (fail_reason[0], "white"),
+                (" ", ""),
+                (" ".join(fail_reason[1:-1]), "blue"),
+                (" ", ""),
+                (fail_reason[-1], "white"),
+            )
+        elif issubclass(type(fail_reason), Exception):
+            reason_txt = Text.assemble(
+                (type(fail_reason).__name__, "bold red"),
+                (": " + str(fail_reason), "blue"),
+            )
+        else:
+            reason_txt = Text(str(fail_reason))
+
+        table.add_row("👎", Markdown(requirement, style="red"), reason_txt)
+    console.print(table)
+          
 
 def print_student_output(output):
     console.print("Output From Your Program", style="bold underline")

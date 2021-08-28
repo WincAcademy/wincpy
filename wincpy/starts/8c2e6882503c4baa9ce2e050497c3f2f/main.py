@@ -1,6 +1,6 @@
 # Leave these lines untouched
-__winc_id__ = '8c2e6882503c4baa9ce2e050497c3f2f'
-__human_name__ = 'stds'
+__winc_id__ = "8c2e6882503c4baa9ce2e050497c3f2f"
+__human_name__ = "stds"
 
 # Your code here
 def main():
@@ -13,5 +13,6 @@ def main():
     # TODO: Print the total number of removed characters to stderr
     ...
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

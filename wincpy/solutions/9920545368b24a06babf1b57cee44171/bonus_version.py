@@ -1,4 +1,4 @@
-class Specialist():
+class Specialist:
     def __init__(self, name):
         self.name = name
 
@@ -15,7 +15,7 @@ class Plumber(Specialist):
     pass
 
 
-class Homeowner():
+class Homeowner:
     def __init__(self, name, address, needs):
         self.name = name
         self.address = address
@@ -28,19 +28,21 @@ class Homeowner():
 
 # Classes are hashable so they can be used as keys in dictionaries
 specialists = {
-    Electrician: Electrician('Alice Aliceville'),
-    Painter: Painter('Bob Bobsville'),
-    Plumber: Plumber('Craig Craigsville')
+    Electrician: Electrician("Alice Aliceville"),
+    Painter: Painter("Bob Bobsville"),
+    Plumber: Plumber("Craig Craigsville"),
 }
 
 homeowners = [
-    Homeowner('Alfred Alfredson', 'Alfredslane 123', [Painter, Plumber]),
-    Homeowner('Bert Bertson', 'Bertslane 231', [Plumber]),
-    Homeowner('Candice Candicedottir', 'Candicelane 312', [Electrician, Painter])
+    Homeowner("Alfred Alfredson", "Alfredslane 123", [Painter, Plumber]),
+    Homeowner("Bert Bertson", "Bertslane 231", [Plumber]),
+    Homeowner("Candice Candicedottir", "Candicelane 312", [Electrician, Painter]),
 ]
 
 for homeowner in homeowners:
     for need in homeowner.needs:
         homeowner.add_contract(specialists[need])
-    print(f"{homeowner.name}'s contracts:",
-          [specialist.name for specialist in homeowner.contracts])
+    print(
+        f"{homeowner.name}'s contracts:",
+        [specialist.name for specialist in homeowner.contracts],
+    )
