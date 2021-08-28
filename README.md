@@ -97,3 +97,18 @@ otherwise pip will not update the local installation.
 6. If everything works as expected, commit and push the added files to the
    master branch for this repository on GitHub. If you're feeling daring today,
    merge into release.
+
+## Exit Codes
+
+| Code | Meaning                                                          |
+|------|------------------------------------------------------------------|
+| 0    | OK and solution passed                                           |
+| 1    | OK but solution didn't pass                                      |
+| 2    | Unknown Winc ID provided in start command                        |
+| 3    | Couldn't create directory (FileExistsError)                      |
+| 4    | No check for the found Winc ID                                   |
+| 5    | No solution for the found Winc ID                                |
+| 6    | Couldn't load Winc ID database                                   |
+| 50   | Executing student code failed                                    |
+| 51   | Importing student module failed                                  |
+| 52   | Imported (supposed) student module has no `__winc_id__` property |
