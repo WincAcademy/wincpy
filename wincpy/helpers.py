@@ -75,7 +75,6 @@ def compare_states(expected_state, actual_state):
                     False,
                 )
             )
-
     return result
 
 
