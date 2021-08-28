@@ -21,6 +21,7 @@ errors = {
         "module_import_fail": "Can't import `{{ module_name }}` from directory: `{{ dir }}`.",
         "module_no_winc_id": "Imported module `{{ module_name }}` from directory: `{{ dir }}`, but it has no Winc ID.",
         "no_solution_available": "There's no solution available for the exercise/assignment {{ exercise_name }}.",
+        "check_failed": "Something went wrong while checking your code. Python gave us the following reason:\n> `{{ exception }}`",
         "empty_check": "There is a check for this exercise/assignment, but it contains no actual check functions.",
     }.items()
 }
@@ -59,6 +60,12 @@ tips = {
         "no_solution_available": [
             "It's probably intentional that there is no solution for this exercise/assignment.",
             "You could try updating Wincpy by running `wincpy update`.",
+        ],
+        "check_failed": [
+            "Some of the **variable names** might be different from how they are specified in the assignment.",
+            "Some of the **function names** might be different from how they are specified in the assignment.",
+            "Your function might not return the correct data type. For example: a string (`'5'`) instead of an `int` (`5`).",
+            "You haven't finished implementing the assignment yet, so a function or attribute is still missing.",
         ],
         "empty_check": [
             "This is most likely a development error inside Wincpy. Please report it to a teacher."

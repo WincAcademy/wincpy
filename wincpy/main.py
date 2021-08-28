@@ -83,10 +83,13 @@ def check(args):
     # result = test.run(student_module, solution_module)
     if hasattr(check_module, "run"):
         # Old-style check module with a single run method
-        result = check_module.run(student_module)
-
+        try:
+            result = check_module.run(student_module)
+        except Exception as e:
+            ui.report_error("check_failed", exception=str(e))
+            exit(50)
     else:
-        # New-style check module with separate checks that start with
+        # New-style check module with separate checks that start with 'check'
         checks = [v for k, v in check_module.__dict__.items() if k.startswith("check_")]
         if not checks:
             ui.report_error(
@@ -99,7 +102,6 @@ def check(args):
                 result.append((check.__doc__, None))
             except Exception as e:
                 result.append((check.__doc__, e))
-
     return result
 
 
