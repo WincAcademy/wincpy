@@ -4,7 +4,6 @@ import os
 import shutil
 import sys
 import subprocess
-import traceback
 
 from wincpy import helpers, solutions, starts, checks, ui
 
@@ -83,11 +82,10 @@ def check(args):
         sys.exit(1)
 
     try:
-        #return test.run(student_module, solution_module)
+        # return test.run(student_module, solution_module)
         return check.run(student_module)
-    except:
-        traceback.print_exc(limit=0)
-        ui.report_error("not_fully_implemented")
+    except Exception as e:
+        ui.report_error("check_failed", exception=str(e))
         sys.exit(1)
 
 
