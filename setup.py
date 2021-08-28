@@ -40,5 +40,5 @@ setup(
     python_requires=">= 3.6",
     package_data={"wincpy": gather_package_data_paths()},
     entry_points={"console_scripts": ["wincpy=wincpy.__main__:console_entry"]},
-    install_requires=['rich==10.2.2']
+    install_requires=["rich==10.2.2"],
 )

@@ -104,6 +104,7 @@ def check(args):
                 result.append((check.__doc__, e))
     return result
 
+
 def update():
     release_url = "git+https://github.com/WincAcademy/wincpy@release"
     subprocess.run(["pip", "install", release_url, "--upgrade"], check=True)

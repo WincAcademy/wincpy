@@ -66,7 +66,7 @@ tips = {
             "Some of the **function names** might be different from how they are specified in the assignment.",
             "Your function might not return the correct data type. For example: a string (`'5'`) instead of an `int` (`5`).",
             "You haven't finished implementing the assignment yet, so a function or attribute is still missing.",
-
+        ],
         "empty_check": [
             "This is most likely a development error inside Wincpy. Please report it to a teacher."
         ],
@@ -159,7 +159,7 @@ def report_check_result(result):
 
         table.add_row("👎", Markdown(requirement, style="red"), reason_txt)
     console.print(table)
-          
+
 
 def print_student_output(output):
     console.print("Output From Your Program", style="bold underline")
