@@ -123,3 +123,7 @@ otherwise pip will not update the local installation.
 | 50   | Executing student code failed                                    |
 | 51   | Importing student module failed                                  |
 | 52   | Imported (supposed) student module has no `__winc_id__` property |
+
+## Versions
+
+Find current and old versions on packages.wincacademy.nl.
