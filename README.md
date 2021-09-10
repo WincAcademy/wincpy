@@ -10,7 +10,18 @@ on students' code yourself, inspect the file for malicious effects.
 
 ## Installation
 
-`pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade`
+### Using pip
+
+```sh
+pip install --extra-index-url https://packages.wincacademy.nl wincpy --user
+```
+
+### Using git
+
+```sh
+pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade
+```
+
 
 ## Usage
 
@@ -101,7 +112,7 @@ otherwise pip will not update the local installation.
 ## Exit Codes
 
 | Code | Meaning                                                          |
-|------|------------------------------------------------------------------|
+| ---- | ---------------------------------------------------------------- |
 | 0    | OK and solution passed                                           |
 | 1    | OK but solution didn't pass                                      |
 | 2    | Unknown Winc ID provided in start command                        |
