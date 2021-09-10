@@ -1,12 +1,15 @@
-import sys
 import os
+import sys
+import traceback
+
 
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.table import Table
 from rich.text import Text
+from rich import box
 
-console = Console(width=80)
+console = Console(width=100)
 
 # Constants
 errors = {
@@ -130,14 +133,22 @@ def report_success(case, **relevant_vars):
 
 
 def report_check_result(result):
-    table = Table(title="Check Result", show_lines=True, width=80)
+    table = Table(title="Check Result", show_lines=True, width=100, box=box.ROUNDED)
     table.add_column("Pass/Fail", justify="center")
     table.add_column("Requirement")
     table.add_column("Tips")
 
     for requirement, fail_reason in result:
         if not fail_reason:
-            table.add_row("👍", Markdown(requirement, style="green"), "")
+            table.add_row("✅", Markdown(requirement, style="green"), "")
+            continue
+        elif type(fail_reason) is AssertionError:
+            tb = traceback.extract_tb(fail_reason.__traceback__, limit=-1)
+            reason_txt = Text.assemble(
+                ("AssertionError", "bold red"),
+                (": We expected\n", "blue"),
+                (tb[0].line.replace("assert ", "") + "\n", "white"),
+            )
         elif type(fail_reason) is AttributeError:
             fail_reason = str(fail_reason).split(" ")
             reason_txt = Text.assemble(
@@ -157,7 +168,7 @@ def report_check_result(result):
         else:
             reason_txt = Text(str(fail_reason))
 
-        table.add_row("👎", Markdown(requirement, style="red"), reason_txt)
+        table.add_row("❌", Markdown(requirement, style="red"), reason_txt)
     console.print(table)
 
 
