@@ -55,7 +55,9 @@ tips = {
         ],
         "iddb_load_fail": ["Check if you have a working internet connection."],
         "module_import_fail": [
-            "Check if there is a file called `main.py` in the directory."
+            "We got this error: `{{ exception }}`",
+            "Does your code work if you run it yourself?",
+            "Is there a file called `main.py` in the directory?",
         ],
         "module_no_winc_id": [
             "Open `main.py` and check if it has a Winc ID. It should look like this: ```__winc_id__ = '31a...59f'```"
@@ -117,7 +119,8 @@ def report_error(case, **relevant_vars):
 
     # Give tips if we have them
     try:
-        console.print(Markdown(tips[case]), style="blue")
+        string = __assemble_ui_string(tips[case], relevant_vars)
+        console.print(Markdown(string), style="blue")
     except KeyError:
         pass
 
@@ -144,11 +147,14 @@ def report_check_result(result):
             continue
         elif type(fail_reason) is AssertionError:
             tb = traceback.extract_tb(fail_reason.__traceback__, limit=-1)
-            reason_txt = Text.assemble(
-                ("AssertionError", "bold red"),
-                (": We expected\n", "blue"),
-                (tb[0].line.replace("assert ", "") + "\n", "white"),
-            )
+            if fail_reason.args:
+                reason_txt = fail_reason.args[0]
+            else:
+                reason_txt = Text.assemble(
+                    ("AssertionError", "bold red"),
+                    (": We expected\n", "blue"),
+                    (tb[0].line.replace("assert ", "") + "\n", "white"),
+                )
         elif type(fail_reason) is AttributeError:
             fail_reason = str(fail_reason).split(" ")
             reason_txt = Text.assemble(
@@ -167,6 +173,9 @@ def report_check_result(result):
             )
         else:
             reason_txt = Text(str(fail_reason))
+
+        if type(reason_txt) is not Text:
+            reason_txt = Markdown(reason_txt)
 
         table.add_row("❌", Markdown(requirement, style="red"), reason_txt)
     console.print(table)
