@@ -110,10 +110,13 @@ def get_student_module(path):
     ui.mute_stdout()
     try:
         student_module = importlib.import_module("main")
-    except ImportError:
+    except Exception as e:
         ui.unmute_stdout()
         ui.report_error(
-            "module_import_fail", module_name=student_module_name, dir=parent_abspath
+            "module_import_fail",
+            module_name=student_module_name,
+            dir=parent_abspath,
+            exception=str(e),
         )
         exit(51)
 
