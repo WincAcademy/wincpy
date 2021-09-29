@@ -1,4 +1,4 @@
-name: Deploy using Digital Ocean Spaces
+name: Deploy
 
 on:
   push:

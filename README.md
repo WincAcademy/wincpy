@@ -124,6 +124,8 @@ otherwise pip will not update the local installation.
 | 51   | Importing student module failed                                  |
 | 52   | Imported (supposed) student module has no `__winc_id__` property |
 
-## Versions
+## Deployment
 
-Find current and old versions on packages.wincacademy.nl.
+Manually trigger the Deploy GitHub Action to upload a new build to packages.wincacademy.nl.
+
+The version from [setup.py](/setup.py) is used for the build.
