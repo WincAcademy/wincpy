@@ -1,8 +1,8 @@
 name: Deploy using Digital Ocean Spaces
 
 on:
-  # push:
-  #   branches: [feature/package]
+  push:
+    branches: [feature/package]
   workflow_dispatch:
 
 jobs:
