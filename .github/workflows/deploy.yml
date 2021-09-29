@@ -1,33 +1,33 @@
 name: Deploy using Digital Ocean Spaces
 
 on:
-  push:
-    branches: [ feature/package ]
+  # push:
+  #   branches: [feature/package]
+  workflow_dispatch:
 
 jobs:
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install wheel
-    - name: Build package
-      run: |
-        python setup.py bdist_wheel
-    - name: Upload artifact to Digital Ocean Spaces
-      uses: BetaHuhn/do-spaces-action@v2
-      with:
-        access_key: ${{ secrets.DIGITALOCEAN_SPACES_ACCESS_KEY}}
-        secret_key: ${{ secrets.DIGITALOCEAN_SPACES_ACCESS_SECRET }}
-        space_name: ${{ secrets.DIGITALOCEAN_SPACES_NAME }}
-        space_region: ${{ secrets.DIGITALOCEAN_SPACES_REGION }}
-        source: dist
-        out_dir: wincpy
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install wheel
+      - name: Build package
+        run: |
+          python setup.py bdist_wheel
+      - name: Upload artifact to Digital Ocean Spaces
+        uses: BetaHuhn/do-spaces-action@v2
+        with:
+          access_key: ${{ secrets.DIGITALOCEAN_SPACES_ACCESS_KEY}}
+          secret_key: ${{ secrets.DIGITALOCEAN_SPACES_ACCESS_SECRET }}
+          space_name: ${{ secrets.DIGITALOCEAN_SPACES_NAME }}
+          space_region: ${{ secrets.DIGITALOCEAN_SPACES_REGION }}
+          source: dist
+          out_dir: wincpy
