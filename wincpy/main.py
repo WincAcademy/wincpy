@@ -89,7 +89,14 @@ def check(args):
 
 def update():
     release_url = "git+https://github.com/WincAcademy/wincpy@release"
-    subprocess.run(["pip", "install", release_url, "--upgrade"], check=True)
+    try:
+        subprocess.run(
+            ["python3" "-m", "pip", "install", release_url, "--upgrade"], check=True
+        )
+    except:
+        subprocess.run(
+            ["python", "-m", "pip", "install", release_url, "--upgrade"], check=True
+        )
 
 
 def solve(args):
