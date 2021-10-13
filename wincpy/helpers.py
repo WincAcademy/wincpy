@@ -32,12 +32,12 @@ def exec_assignment_code(filename, quiet=False):
 
     try:
         output = subprocess.run(
-            ['python', filename], capture_output=True, text=True
+            ['python3', filename], capture_output=True, text=True
         ).stdout
     except:
         # User might have python under python3
         output = subprocess.run(
-            ['python3', filename], capture_output=True, text=True
+            ['python', filename], capture_output=True, text=True
         ).stdout
 
     if not quiet:
