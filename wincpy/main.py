@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 
+import wincpy
 from wincpy import helpers, ui, starts, checks, solutions
 
 
@@ -31,6 +32,8 @@ def main(stdout, stderr):
         else:
             ui.report_error("solve_first")
             exit(1)
+    elif args.action == "version":
+        ui.print_version()
 
 
 def start(args):
@@ -100,7 +103,12 @@ def check(args):
 
 def update():
     release_url = "git+https://github.com/WincAcademy/wincpy@release"
-    subprocess.run(["pip", "install", release_url, "--upgrade"], check=True)
+    args = ["python3", "-m", "pip", "install", release_url, "--upgrade"]
+    try:
+        subprocess.run(args, check=True)
+    except:
+        args[0] = "python"
+        subprocess.run(args, check=True)
 
 
 def solve(args):

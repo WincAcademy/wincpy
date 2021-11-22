@@ -64,9 +64,8 @@ def parse_args():
     check_parser = subparsers.add_parser("check", help="Check an existing assignment.")
     solve_parser = subparsers.add_parser("solve", help="Place Winc's solution here.")
 
-    # Update parser doesn't have any extra arguments, but we must add it as
-    # subparser to have it available as an actions together with the rest.
-    update_parser = subparsers.add_parser("update", help="Update wincpy using pip.")
+    subparsers.add_parser("update", help="Update wincpy using pip.")
+    subparsers.add_parser("version", help="Print wincpy's version.")
 
     start_parser.add_argument(
         "winc_id", type=str, help="Winc ID of an assignment to start."
