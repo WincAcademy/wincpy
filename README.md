@@ -10,7 +10,7 @@ on students' code yourself, inspect the file for malicious effects.
 
 ## Installation
 
-`pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade`
+`python3 -m pip install git+https://github.com/WincAcademy/wincpy@release --upgrade`
 
 ## Usage
 
