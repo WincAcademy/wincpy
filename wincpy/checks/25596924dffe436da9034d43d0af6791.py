@@ -1,76 +1,27 @@
-from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
-
 __winc_id__ = "25596924dffe436da9034d43d0af6791"
 
 
-def run(student_module):
-    result = []
-
-    # Shortr
-    f = student_module.farm_action
-
-    requirement = (
-        "Case: farm_action('sunny', 'day', True, 'pasture', 'spring', False, True)"
-    )
-    result.append(
+def check_farm_action(student_module):
+    """`farm_action` returns correct values for all test cases"""
+    cases = [
         (
-            requirement,
-            f("sunny", "day", True, "pasture", "spring", False, True)
-            == "take cows to cowshed\n"
-            "milk cows\n"
-            "take cows back to pasture",
-        )
-    )
-
-    requirement = (
-        "Case: farm_action('rainy', 'night', False, 'cowshed', 'winter', False, True)"
-    )
-    result.append(
+            ("sunny", "day", True, "pasture", "spring", False, True),
+            "take cows to cowshed\nmilk cows\ntake cows back to pasture",
+        ),
+        (("rainy", "night", False, "cowshed", "winter", False, True), "wait"),
         (
-            requirement,
-            f("rainy", "night", False, "cowshed", "winter", False, True) == "wait",
-        )
-    )
+            ("rainy", "night", False, "cowshed", "winter", True, True),
+            "fertilize pasture",
+        ),
+        (("windy", "night", True, "cowshed", "winter", True, True), "milk cows"),
+        (("bowling", "night", False, "cowshed", "winter", False, True), "wait"),
+        (("sunny", "night", True, "cowshed", "summer", False, True), "milk cows"),
+    ]
 
-    requirement = (
-        "Case: farm_action('rainy', 'night', False, 'cowshed', 'winter', True, True)"
-    )
-    result.append(
-        (
-            requirement,
-            f("rainy", "night", False, "cowshed", "winter", True, True)
-            == "fertilize pasture",
+    for args, return_val in cases:
+        assert student_module.farm_action(*args) == return_val, (
+            "Your implementation did not work when called with these parameters: "
+            + "`"
+            + str(args)
+            + "`"
         )
-    )
-
-    requirement = (
-        "Case: farm_action('windy', 'night', True, 'cowshed', 'winter', True, True)"
-    )
-    result.append(
-        (
-            requirement,
-            f("windy", "night", True, "cowshed", "winter", True, True) == "milk cows",
-        )
-    )
-
-    requirement = (
-        "Case: farm_action('bowling', 'night', False, 'cowshed', 'winter', False, True)"
-    )
-    result.append(
-        (
-            requirement,
-            f("bowling", "night", False, "cowshed", "winter", False, True) == "wait",
-        )
-    )
-
-    requirement = (
-        "Case: farm_action('sunny', 'night', True, 'cowshed', 'summer', False, True)"
-    )
-    result.append(
-        (
-            requirement,
-            f("sunny", "night", True, "cowshed", "summer", False, True) == "milk cows",
-        )
-    )
-
-    return result

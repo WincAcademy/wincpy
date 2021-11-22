@@ -1,113 +1,92 @@
 import peewee
-from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
 
 __winc_id__ = "286787689e9849969c326ee41d8c53c4"
 
 
-def run(student_module):
-    try:
-        setup_data(student_module.models)
-    except peewee.ImproperlyConfigured:
-        return [("Database can be initialized", False)]
+def check_db_init(student_module):
+    """The database can be initialized properly"""
+    setup_data(student_module.models)
 
-    def cheapest_dish():
-        dish = student_module.cheapest_dish()
-        return (
-            "Cheapest dish found",
+
+def check_cheapest_dish(student_module):
+    """`cheapest_dish` is implemented correctly"""
+    dish = student_module.cheapest_dish()
+    assert dish == (
+        student_module.models.Dish.select()
+        .order_by(student_module.models.Dish.price_in_cents)
+        .first()
+    ), f"Expected the cheapest dish to be {dish}"
+
+
+def check_vegetarian_dishes(student_module):
+    """`vegetarian_dishes` is implemented correctly"""
+    dishes = student_module.vegetarian_dishes()
+    assert set(dishes) == set(
+        [
             dish
-            == student_module.models.Dish.select()
-            .order_by(student_module.models.Dish.price_in_cents)
-            .first()
-            if dish
-            else False,
-        )
+            for dish in student_module.models.Dish.select()
+            if all([i.is_vegetarian for i in dish.ingredients])
+        ]
+    ), f"Expected the set of vegetarian dishes to be {set(dishes)}"
 
-    def vegetarian_dishes():
-        dishes = student_module.vegetarian_dishes()
-        return (
-            "Vegetarian dishes found",
-            set(dishes)
-            == set(
-                [
-                    dish
-                    for dish in student_module.models.Dish.select()
-                    if all([i.is_vegetarian for i in dish.ingredients])
-                ]
-            )
-            if dishes
-            else False,
-        )
 
-    def best_restaurant():
-        restaurant = student_module.best_restaurant()
-        return (
-            "Best average rating found",
+def check_best_restaurant(student_module):
+    """`best_average_rating` is implemented correctly"""
+    restaurant = student_module.best_average_rating()
+    assert restaurant == (
+        student_module.models.Restaurant.select(
+            student_module.models.Restaurant,
+            peewee.fn.AVG(student_module.models.Rating.rating).alias("average"),
+        )
+        .join(student_module.models.Rating)
+        .group_by(student_module.models.Restaurant)
+        .order_by(peewee.fn.AVG(student_module.models.Rating.rating).desc())
+        .first()
+    ), f"Expected the restaurant with the best average rating to be {restaurant}"
+
+
+def check_add_rating(student_module):
+    """`add_rating_to_restaurant` is implemented correctly"""
+    current_rating_count = student_module.models.Rating.select().count()
+    student_module.add_rating_to_restaurant()
+    new_rating_count = student_module.models.Rating.select().count()
+    assert (
+        current_rating_count < new_rating_count
+    ), f"Expected number of ratings to go from {current_rating_count} to {new_rating_count}"
+
+
+def check_dinner_date_possible(student_module):
+    """`dinner_date_possible` is implemented correctly"""
+    date_restaurants = student_module.dinner_date_possible()
+    assert set(date_restaurants) == set(
+        [
             restaurant
-            == (
-                student_module.models.Restaurant.select(
-                    student_module.models.Restaurant,
-                    peewee.fn.AVG(student_module.models.Rating.rating).alias("average"),
-                )
-                .join(student_module.models.Rating)
-                .group_by(student_module.models.Restaurant)
-                .order_by(peewee.fn.AVG(student_module.models.Rating.rating).desc())
-                .first()
-            )
-            if restaurant
-            else False,
-        )
-
-    def rating_added():
-        current_rating_count = student_module.models.Rating.select().count()
-        student_module.add_rating_to_restaurant()
-        new_rating_count = student_module.models.Rating.select().count()
-        return ("A rating has been added", current_rating_count < new_rating_count)
-
-    def date_restaurants():
-        date_restaurants = student_module.dinner_date_possible()
-        return (
-            "Date restaurants have been identified",
-            set(date_restaurants)
-            == set(
+            for restaurant in student_module.models.Restaurant.select()
+            .where(student_module.models.Restaurant.opening_time <= "19:00")
+            .where(student_module.models.Restaurant.closing_time >= "19:00")
+            if any(
                 [
-                    restaurant
-                    for restaurant in student_module.models.Restaurant.select()
-                    .where(student_module.models.Restaurant.opening_time <= "19:00")
-                    .where(student_module.models.Restaurant.closing_time >= "19:00")
-                    if any(
-                        [
-                            all([i.is_vegan for i in dish.ingredients])
-                            for dish in restaurant.dish_set.select()
-                        ]
-                    )
+                    all([i.is_vegan for i in dish.ingredients])
+                    for dish in restaurant.dish_set.select()
                 ]
             )
-            if date_restaurants
-            else False,
-        )
+        ]
+    ), f"Expected dinner date restaurants to be {date_restaurants}"
 
+
+def check_add_dish_to_menu(student_module):
+    """`add_dish_to_menu` is implemented correctly"""
     new_dish = student_module.add_dish_to_menu()
-    result = [
-        ("Models have correct mappings", True),
-        cheapest_dish(),
-        vegetarian_dishes(),
-        best_restaurant(),
-        rating_added(),
-        date_restaurants(),
-        ("New dish created", new_dish),
-        (
-            "New dish contains cheese",
-            "cheese" in [x.name for x in new_dish.ingredients] if new_dish else False,
-        ),
-        (
-            "Cheese not created twice",
-            student_module.models.Ingredient.select()
-            .where(student_module.models.Ingredient.name == "cheese")
-            .count()
-            == 1,
-        ),
-    ]
-    return result
+    assert new_dish, "Expected the new dish to be returned"
+    assert "cheese" in [
+        x.name for x in new_dish.ingredients
+    ], "Expected 'cheese' to be in the ingredients for the new dish"
+    assert (
+        student_module.models.Ingredient.select()
+        .where(student_module.models.Ingredient.name == "cheese")
+        .count()
+        == 1
+    ), "The ingredient 'cheese' was created twice"
 
 
 def setup_data(models):

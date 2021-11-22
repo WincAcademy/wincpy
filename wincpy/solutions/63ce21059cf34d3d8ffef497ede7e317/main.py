@@ -19,9 +19,6 @@ num_brussel_sprout = 10
 
 """This is a big one. I need multiple lines to explain this.
 Fortunately I have this multiline comment.
-
-"\" at the end of a line tells Python to continue reading this instruction
-on the next line.
 """
 
 sum_total = (
