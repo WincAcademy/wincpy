@@ -1,54 +1,66 @@
-""" template.py
+__winc_id__ = "25a8041d2d5e4e3ab61ab1be43bfb863"
 
-Template for writing tests. This is just a file for convenience and has no
-importance beyond it."""
+TEST_DATA = {
+    "name": "Hank Bobbiton",
+    "date_of_birth": "1980-12-31",
+    "place_of_birth": "Brussels",
+    "height": 178.52,
+    "nationality": "Belgium",
+}
 
-from wincpy.helpers import (compare_states, exec_assignment_code,
-                            get_main_abspath)
 
-__winc_id__ = '25a8041d2d5e4e3ab61ab1be43bfb863'
+def check_create_passport(student_module):
+    """`create_passport` is implemented correctly"""
+    passport = student_module.create_passport(**TEST_DATA)
+    assert passport == TEST_DATA, "The returned dict is as expected."
 
 
-def run(student_module):
-    result = []
+def check_add_stamp(student_module):
+    """`add_stamp` is implemented correctly"""
+    passport = student_module.create_passport(**TEST_DATA)
 
-    # Shortaciousness
-    sm = student_module
+    nationality = TEST_DATA["nationality"]
+    assert nationality not in passport.get(
+        "stamps", {}
+    ), f"Did not expect to find {nationality} in stamps"
 
-    passport = sm.create_passport(
-        'Hank Bobbiton', '1980-12-31', 'Brussels', 178.52, 'Belgium')
-    result.append(('create_passport is correct',
-                   passport == {'name': 'Hank Bobbiton',
-                                'date_of_birth': '1980-12-31',
-                                'place_of_birth': 'Brussels',
-                                'height': 178.52,
-                                'nationality': 'Belgium'}))
+    for country in ["Afghanistan", "Bulgaria"]:
+        assert country not in passport.get(
+            "stamps", {}
+        ), f"Did not expect to find {country} in the passport yet"
+        passport = student_module.add_stamp(passport, country)
+        assert (
+            country in passport["stamps"]
+        ), f"Expected to find {country} in the passport"
 
-    passport = sm.add_stamp(passport, 'Belgium')
-    passport = sm.add_stamp(passport, 'Afghanistan')
-    passport = sm.add_stamp(passport, 'Bulgaria')
-    result.append(('add_stamp is correct',
-                   'stamps' in passport
-                   and
-                   'Afghanistan' in passport['stamps']
-                   and
-                   'Bulgaria' in passport['stamps']
-                   and
-                   'Belgium' not in passport['stamps']
-                   ))
 
-    allowed_destinations_per_country = {'Belgium': ['The Netherlands', 'Bulgaria']}
-    forbidden_origins_per_country = {'The Netherlands': ['Afghanistan']}
-    result.append(('check_passport is correct',
-                   not sm.check_passport(passport,
-                                     'The Netherlands',
-                                     allowed_destinations_per_country,
-                                     forbidden_origins_per_country)
-                   and sm.check_passport(passport,
-                                     'Bulgaria',
-                                     allowed_destinations_per_country,
-                                     forbidden_origins_per_country)
-                   ==
-                   sm.add_stamp(passport, 'Bulgaria')))
+def check_passport(student_module):
+    """`check_passport` is implemented correctly"""
+    passport = student_module.create_passport(**TEST_DATA)
+    for country in ["Afghanistan", "Bulgaria"]:
+        passport = student_module.add_stamp(passport, country)
+    allowed_destinations_per_country = {
+        "Belgium": ["The Netherlands", "Bulgaria", "Denmark"],
+    }
+    forbidden_origins_per_country = {"The Netherlands": ["Afghanistan"]}
 
-    return result
+    assert student_module.check_passport(
+        passport,
+        "Denmark",
+        allowed_destinations_per_country,
+        forbidden_origins_per_country,
+    ).get("stamps", []) == [
+        "Afghanistan",
+        "Bulgaria",
+        "Denmark",
+    ], "`check_passport` didn't correctly handle a passport that should receive a stamp"
+
+    assert (
+        student_module.check_passport(
+            passport,
+            "The Netherlands",
+            allowed_destinations_per_country,
+            forbidden_origins_per_country,
+        )
+        is False  # Explicit check against `False` is intentional
+    ), "`check_passport` approved a passport with a stamp from a forbidden origin"

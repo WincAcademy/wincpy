@@ -1,34 +1,34 @@
-from wincpy.helpers import exec_assignment_code, compare_states, get_main_abspath
+from wincpy.checks import utils
 
-__winc_id__ = '499e67d5cb54448e93cee7465be2c866'
+__winc_id__ = "499e67d5cb54448e93cee7465be2c866"
 
 
-def run(student_module):
-    result = []
-    main_abspath = get_main_abspath(student_module)
-
+def check_state(student_module):
+    """All variables are named, filled in and computed correctly."""
     expected_state = {
-        'broccoli': 2,
-        'leek': 2,
-        'potato': 3,
-        'brussel_sprout': 7,
-        'sum_one_each': 14,
-        'avg_price': 3.5,
-        'num_broccolis': 5,
-        'num_leeks': 2,
-        'num_potatoes': 7,
-        'num_brussel_sprouts': 10,
-        'sum_total': 105,
-        'discount_percentage': 30,
-        'discounted_sum_total': 73.5}
+        "broccoli": 2,
+        "leek": 2,
+        "potato": 3,
+        "brussel_sprout": 7,
+        "sum_one_each": 14,
+        "avg_price": 3.5,
+        "num_broccolis": 5,
+        "num_leeks": 2,
+        "num_potatoes": 7,
+        "num_brussel_sprouts": 10,
+        "sum_total": 105,
+        "discount_percentage": 30,
+        "discounted_sum_total": 73.5,
+    }
 
-    output, assignment_state = exec_assignment_code(main_abspath)
-    result += compare_states(expected_state, assignment_state)
+    _, state = utils.exec_main(student_module)
+    utils.check_state(expected_state=expected_state, actual_state=state)
 
-    requirement = 'You printed the correct discounted sum total.'
-    try:
-        result.append((requirement, float(output) == 73.5))
-    except ValueError:
-        result.append((requirement, False))
 
-    return result
+def check_output(student_module):
+    """The output is as expected."""
+    output, _ = utils.exec_main(student_module)
+
+    assert (
+        float(output.strip()) == 73.5
+    ), f"We expected your program's output to be `73.5`, but it was `{output}`"

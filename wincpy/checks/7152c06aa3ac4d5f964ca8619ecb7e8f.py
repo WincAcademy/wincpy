@@ -1,22 +1,28 @@
-from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
+from wincpy.checks import utils
 
-__winc_id__ = '7152c06aa3ac4d5f964ca8619ecb7e8f'
+__winc_id__ = "7152c06aa3ac4d5f964ca8619ecb7e8f"
 
 
-def run(student_module):
-    result = []
-    main_abspath = get_main_abspath(student_module)
+def check_bool(student_module):
+    """There's a `bool` in your code"""
+    assert bool in __get_types_in_state(
+        student_module
+    ), "There's no variable with a `bool` stored in it after running your code"
 
-    _, assignment_state = exec_assignment_code(main_abspath)
-    types_in_state = [type(var) for var in assignment_state.values()]
 
-    requirement = "There's a bool in your code."
-    result.append((requirement, bool in types_in_state))
+def check_str(student_module):
+    """There's a `str` in your code"""
+    assert str in __get_types_in_state(
+        student_module
+    ), "There's no variable with a `str` stored in it after running your code"
 
-    requirement = "There's a string in your code."
-    result.append((requirement, str in types_in_state))
 
-    requirement = "There's an int in your code."
-    result.append((requirement, int in types_in_state))
+def check_int(student_module):
+    """There's an `int` in your code"""
+    assert int in __get_types_in_state(
+        student_module
+    ), "There's no variable with an `int` stored in it after running your code"
 
-    return result
+
+def __get_types_in_state(student_module):
+    return set([type(v) for v in utils.exec_main(student_module)[1].values()])

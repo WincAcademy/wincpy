@@ -1,12 +1,14 @@
-__winc_id__ = '04da020dedb24d42adf41382a231b1ed'
-__human_name__ = 'classes'
+__winc_id__ = "04da020dedb24d42adf41382a231b1ed"
+__human_name__ = "classes"
 
 
-class Player():
+class Player:
     def __init__(self, name, speed, endurance, accuracy):
         for x in [speed, endurance, accuracy]:
             if x > 1 or x < 0:
-                raise ValueError('Speed, endurance and accuracy must be in range [0, 1]')
+                raise ValueError(
+                    "Speed, endurance and accuracy must be in range [0, 1]"
+                )
 
         self.name = name
         self.speed = speed
@@ -14,24 +16,26 @@ class Player():
         self.accuracy = accuracy
 
     def introduce(self):
-        return f'Hello everyone, my name is {self.name}.'
+        return f"Hello everyone, my name is {self.name}."
 
     def strength(self):
         best = (None, -1)
-        for attr in ['speed', 'endurance', 'accuracy']:
+        for attr in ["speed", "endurance", "accuracy"]:
             value = getattr(self, attr)
             if value > best[1]:
                 best = (attr, value)
         return best
 
 
-class Commentator():
+class Commentator:
     def __init__(self, name):
         self.name = name
 
     def sum_player(self, p):
         # We received 'self' here even though we are not using it
-        return sum([getattr(p, 'speed'), getattr(p, 'endurance'), getattr(p, 'accuracy')])
+        return sum(
+            [getattr(p, "speed"), getattr(p, "endurance"), getattr(p, "accuracy")]
+        )
 
     def compare_players(self, p1, p2, attr):
         p1_attr = getattr(p1, attr)
@@ -58,26 +62,26 @@ class Commentator():
             return p2.name
 
         # Finally..
-        return 'These two players might as well be twins!'
+        return "These two players might as well be twins!"
 
 
-if __name__ == '__main__':
-    alice = Player('Alice', 0.8, 0.2, 0.6)
-    bob = Player('Bob', 0.5, 0.2, 0.6)
-    candice = Player('Candice', 0.8, 0.2, 0.7)
-    dirk = Player('Dirk', 0.5, 0.2, 0.6)
-    eric = Player('Eric', 0.5, 0.2, 0.6)
+if __name__ == "__main__":
+    alice = Player("Alice", 0.8, 0.2, 0.6)
+    bob = Player("Bob", 0.5, 0.2, 0.6)
+    candice = Player("Candice", 0.8, 0.2, 0.7)
+    dirk = Player("Dirk", 0.5, 0.2, 0.6)
+    eric = Player("Eric", 0.5, 0.2, 0.6)
 
     print(alice.strength())
     print(bob.introduce())
 
-    ray = Commentator('Ray')
+    ray = Commentator("Ray")
 
     # Winner: Alice
-    print(ray.compare_players(alice, bob, 'speed'))
+    print(ray.compare_players(alice, bob, "speed"))
 
     # Winner: Candice
-    print(ray.compare_players(alice, candice, 'accuracy'))
+    print(ray.compare_players(alice, candice, "accuracy"))
 
     # Winner: twins!
-    print(ray.compare_players(dirk, eric, 'speed'))
+    print(ray.compare_players(dirk, eric, "speed"))

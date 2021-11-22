@@ -7,5 +7,5 @@ def console_entry() -> None:
     main(sys.stdout, sys.stderr)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.stdout, sys.stderr)

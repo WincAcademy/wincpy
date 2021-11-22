@@ -1,44 +1,40 @@
-from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
+from wincpy.checks import utils
 
-__winc_id__ = '63ce21059cf34d3d8ffef497ede7e317'
+__winc_id__ = "63ce21059cf34d3d8ffef497ede7e317"
 
 
-def run(student_module):
-    result = []
+def check_end_of_line_comments(student_module):
+    """Your `main.py` contains two end-of-line comments"""
+    src = __get_main_src(student_module)
+    count = sum([True if l.strip().find("#") > 0 else False for l in src.split("\n")])
+    assert (
+        count >= 2
+    ), f"There should be at least `2` end-of-line comments, but there were only `{count}`"
 
-    main_abspath = get_main_abspath(student_module)
 
-    assignment_text = open(main_abspath).read()
+def check_single_line_comments(student_module):
+    """Your `main.py` contains two single-line comments"""
+    src = __get_main_src(student_module)
+    count = sum([True if l.strip().find("#") == 0 else False for l in src.split("\n")])
+    assert (
+        count >= 2
+    ), f"There should be at least `2` single-line comments, but there were only `{count}`"
 
-    requirement = 'The solution contains two end-of-line comments.'
-    end_of_line_comment_count = 0
-    for line in assignment_text.split('\n'):
-        line = line.replace(' ', '')
-        try:
-            hash_index = line.index('#')
-            if hash_index > 0:
-                end_of_line_comment_count += 1
-        except ValueError:
-            # No comment on this line
-            pass
-    result.append((requirement, end_of_line_comment_count >= 2))
 
-    requirement = 'The solution contains two single-line comments.'
-    single_line_comment_count = 0
-    for line in assignment_text.split('\n'):
-        line = line.replace(' ', '')
-        if line != '' and line[0] == '#':
-            single_line_comment_count += 1
-    result.append((requirement, single_line_comment_count >= 2))
+def check_multiline_comments(student_module):
+    """Your `main.py` contains two multi-line comments"""
+    src = __get_main_src(student_module)
+    count = sum(
+        [
+            True if l.strip() != "" and l.strip()[:3] == '"""' else False
+            for l in src.split("\n")
+        ]
+    )
+    assert (
+        count >= 2
+    ), f"There should be at least `2` multi-line comments, but there were only `{count}`"
 
-    requirement = 'The solution contains two multiline comments.'
-    multiline_comment_count = 0
-    for line in assignment_text.split('\n'):
-        line = line.replace(' ', '')
-        # If we're here we already ran the code, so the multiline comment
-        # is also properly terminated somewhere.
-        if line != '' and line[0:3] == '"""':
-            multiline_comment_count += 1
-    result.append((requirement, multiline_comment_count >= 2))
 
-    return result
+def __get_main_src(student_module):
+    with open(utils.get_main_abspath(student_module), "r") as f:
+        return f.read()

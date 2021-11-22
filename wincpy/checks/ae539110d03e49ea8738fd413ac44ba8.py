@@ -2,54 +2,84 @@ import tempfile
 import shutil
 import os
 
-from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
+from wincpy.checks import utils
 
-__winc_id__ = 'ae539110d03e49ea8738fd413ac44ba8'
+__winc_id__ = "ae539110d03e49ea8738fd413ac44ba8"
 
 
-def run(student_module):
-    result = []
-
-    main_abspath = get_main_abspath(student_module)
-    # output, state = exec_assignment_code(main_abspath)
-
-    module_folder = main_abspath.replace('main.py', '')
-
-    cache_path = os.path.join(module_folder, 'cache')
-    zip_path = os.path.join(module_folder, 'data.zip')
-
-    # Start fresh
-    try:
-        shutil.rmtree(cache_path)
-    except:
-        pass
-
-    requirement = 'clean_cache() creates a new directory'
+def check_clean_cache(student_module):
+    cache_path, _ = __get_paths(student_module)
     student_module.clean_cache()
-    result.append((requirement, os.path.isdir(cache_path)))
+    assert os.path.isdir(cache_path), f"`cache_path` did not create {cache_path}"
 
-    requirement = 'clean_cache() ensures a clean cache'
-    # Put some bogus file in it, should be gone after calling clean_cache()
-    with open(os.path.join(cache_path, 'throwaway'), 'w') as fp:
-        fp.write('You can remove this file.')
+    # Put some bogus file in it that should be gone after calling clean_cache()
+    with open(os.path.join(cache_path, "throwaway"), "w") as fp:
+        fp.write("You can remove this file.")
     student_module.clean_cache()
-    result.append((requirement, not os.path.exists(os.path.join(cache_path, 'throwaway'))))
+    assert not os.listdir(
+        cache_path
+    ), f"`clean_cache` does not ensure the cache is empty"
 
-    requirement = 'cache_zip() unpacks the zip file into a clean cache folder'
+    __clean(student_module)
+
+
+def check_cache_zip(student_module):
+    __clean(student_module)
+    cache_path, zip_path = __get_paths(student_module)
     student_module.cache_zip(zip_path, cache_path)
-    result.append((requirement, len(os.listdir(cache_path)) == 1000))
+    n_cached_files = len(os.listdir(cache_path))
+    assert (
+        n_cached_files == 1000
+    ), f"Expected to find 1000 files in the cache folder after running `cache_zip` but found {n_cached_files}"
 
-    requirement = 'cached_files() returns a list of absolute paths to all the files in the cache'
+    __clean(student_module)
+
+
+def check_cached_files(student_module):
+    try:
+        check_cache_zip(student_module)
+    except:
+        raise AssertionError(
+            "You need to implement `cache_zip` before we can check `cached_files`"
+        )
+
+    cache_path, zip_path = __get_paths(student_module)
+    student_module.cache_zip(zip_path, cache_path)
+
     cached_stuff = [os.path.join(cache_path, f) for f in os.listdir(cache_path)]
     cached_files = [f for f in cached_stuff if os.path.isfile(f)]
     cached_files_student = student_module.cached_files()
-    result.append((requirement, cached_files == cached_files_student))
+    assert (
+        cached_files == cached_files_student
+    ), f"We got a different list of files than you returned. Here's our first one:\n\n{cached_files[0]}\n\nRemember to use *absolute* paths!"
 
-    requirement = 'find_password() returns the right password'
-    pw = student_module.find_password(student_module.cached_files())
-    result.append((requirement, pw == 'correct_horse_battery_staple'))
+    __clean(student_module)
 
-    # Clean up
-    shutil.rmtree(cache_path)
 
-    return result
+def check_find_password(student_module):
+    try:
+        check_cached_files(student_module)
+    except:
+        raise AssertionError(
+            "You need to implement `cached_files` before we can check `find_password`"
+        )
+    cache_path, zip_path = __get_paths(student_module)
+    student_module.cache_zip(zip_path, cache_path)
+    student_module.find_password(
+        student_module.cached_files()
+    ) == "correct_horse_battery_staple", "The returned password is not correct."
+
+
+def __get_paths(student_module):
+    module_base_dir = os.path.split(utils.get_main_abspath(student_module))[0]
+    return os.path.join(module_base_dir, "cache"), os.path.join(
+        module_base_dir, "data.zip"
+    )
+
+
+def __clean(student_module):
+    cache_path, zip_path = __get_paths(student_module)
+    try:
+        shutil.rmtree(cache_path)
+    except FileNotFoundError:
+        pass

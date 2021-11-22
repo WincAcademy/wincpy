@@ -1,22 +1,22 @@
-__winc_id__ = '9920545368b24a06babf1b57cee44171'
-__human_name__ = 'refactoring'
+__winc_id__ = "9920545368b24a06babf1b57cee44171"
+__human_name__ = "refactoring"
 
-alice_name = 'Alice Aliceville'
-alice_profession = 'electrician'
-bob_name = 'Bob Bobsville'
-bob_profession = 'painter'
-craig_name = 'Craig Craigsville'
-craig_profession = 'plumber'
+alice_name = "Alice Aliceville"
+alice_profession = "electrician"
+bob_name = "Bob Bobsville"
+bob_profession = "painter"
+craig_name = "Craig Craigsville"
+craig_profession = "plumber"
 
-alfred_name = 'Alfred Alfredson'
-alfred_address = 'Alfredslane 123'
-alfred_needs = ['painter', 'plumber']
-bert_name = 'Bert Bertson'
-bert_address = 'Bertslane 231'
-bert_needs = ['plumber']
-candice_name = 'Candice Candicedottir'
-candice_address = 'Candicelane 312'
-candice_needs = ['electrician', 'painter']
+alfred_name = "Alfred Alfredson"
+alfred_address = "Alfredslane 123"
+alfred_needs = ["painter", "plumber"]
+bert_name = "Bert Bertson"
+bert_address = "Bertslane 231"
+bert_needs = ["plumber"]
+candice_name = "Candice Candicedottir"
+candice_address = "Candicelane 312"
+candice_needs = ["electrician", "painter"]
 
 alfred_contracts = []
 for need in alfred_needs:

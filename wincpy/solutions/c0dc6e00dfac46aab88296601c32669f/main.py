@@ -1,7 +1,7 @@
 from helpers import random_koala_fact
 
-__winc_id__ = 'c0dc6e00dfac46aab88296601c32669f'
-__human_name__ = 'while'
+__winc_id__ = "c0dc6e00dfac46aab88296601c32669f"
+__human_name__ = "while"
 
 
 def unique_koala_facts(num_requested):
@@ -31,19 +31,19 @@ def num_joey_facts():
             times_seen_first_fact += 1
         if fact not in unique_facts:
             unique_facts.append(fact)
-            if 'joey' in fact.lower():
+            if "joey" in fact.lower():
                 num_joey_facts += 1
     return num_joey_facts
 
 
 def koala_weight():
     fact = random_koala_fact()
-    while 'kg' not in fact.lower():
+    while "kg" not in fact.lower():
         fact = random_koala_fact()
-    return int(fact.split('kg')[0].split(' ')[-1])
+    return int(fact.split("kg")[0].split(" ")[-1])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(unique_koala_facts(20))
     print(len(unique_koala_facts(50)))
     print(num_joey_facts())
