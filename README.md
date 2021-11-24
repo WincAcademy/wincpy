@@ -10,7 +10,18 @@ on students' code yourself, inspect the file for malicious effects.
 
 ## Installation
 
-`python3 -m pip install git+https://github.com/WincAcademy/wincpy@release --upgrade`
+### Using pip
+
+```sh
+python3 -m pip install --extra-index-url https://packages.wincacademy.nl wincpy --user
+```
+
+### Using git
+
+```sh
+python3 -m pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade
+```
+
 
 ## Usage
 
@@ -101,7 +112,7 @@ otherwise pip will not update the local installation.
 ## Exit Codes
 
 | Code | Meaning                                                          |
-|------|------------------------------------------------------------------|
+| ---- | ---------------------------------------------------------------- |
 | 0    | OK and solution passed                                           |
 | 1    | OK but solution didn't pass                                      |
 | 2    | Unknown Winc ID provided in start command                        |
@@ -112,3 +123,9 @@ otherwise pip will not update the local installation.
 | 50   | Executing student code failed                                    |
 | 51   | Importing student module failed                                  |
 | 52   | Imported (supposed) student module has no `__winc_id__` property |
+
+## Deployment
+
+Manually trigger the Deploy GitHub Action to upload a new build to packages.wincacademy.nl.
+
+The version from [setup.py](/setup.py) is used for the build.
