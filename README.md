@@ -13,13 +13,13 @@ on students' code yourself, inspect the file for malicious effects.
 ### Using pip
 
 ```sh
-pip install --extra-index-url https://packages.wincacademy.nl wincpy --user
+python3 -m pip install --extra-index-url https://packages.wincacademy.nl wincpy --user
 ```
 
 ### Using git
 
 ```sh
-pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade
+python3 -m pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade
 ```
 
 

@@ -7,7 +7,8 @@ def gather_package_data_paths():
     package_data_paths = []
 
     # Reuse .gitignore to keep it in sync
-    ignorelist = open(".gitignore").read().split("\n")
+    with open(".gitignore", "r") as f:
+        ignorelist = f.read().split("\n")
 
     for root, dirs, files in os.walk("wincpy"):
         for item in ignorelist:
@@ -23,6 +24,11 @@ def gather_package_data_paths():
     return package_data_paths
 
 
+state = {}
+with open(os.path.join("wincpy", "__init__.py"), "r") as f:
+    src = f.read()
+exec(src, state)
+
 setup(
     name="wincpy",
     author="Stefan Wijnja (stfwn)",
@@ -30,7 +36,7 @@ setup(
     description="Assists students in doing Winc Academy exercises.",
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
-    version="0.9.1",
+    version=state["__version__"],
     packages=find_packages(),
     url="https://github.com/WincAcademy/wincpy",
     classifiers=[

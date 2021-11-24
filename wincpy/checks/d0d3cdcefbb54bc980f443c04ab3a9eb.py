@@ -3,27 +3,22 @@
 Template for writing tests. This is just a file for convenience and has no
 importance beyond it."""
 
-from wincpy.helpers import compare_states, exec_assignment_code, get_main_abspath
+from wincpy.checks import utils
 
 __winc_id__ = "d0d3cdcefbb54bc980f443c04ab3a9eb"
 
 
-def run(student_module):
-    result = []
+def check_output(student_module):
+    """All output is as expected"""
+    # TODO: FEATURE: check if the correct operators have been used in addition
+    # to just checking the result.
+    output, state = utils.exec_main(student_module)
 
-    main_abspath = get_main_abspath(student_module)
-    output, state = exec_assignment_code(main_abspath)
+    expected = [str(x) for x in [False, True, True, False, True, True, True]]
+    output = output.split("\n")
+    assert len(output) == len(
+        expected
+    ), f"Output was expected to be `{len(expected)}` lines long but was `{len(output)}` lines."
 
-    expected_evals = [False, True, True, False, True, True, True]
-    # TODO (not urgent, improvement): check if the correct operators have been
-    # used in addition to just checking the result.
-    for i, line in enumerate(output.split("\n")):
-        if line == "":
-            continue
-        requirement = f"Evaluation {i+1} is correct."
-        try:
-            result.append((requirement, line == str(expected_evals[i])))
-        except IndexError:
-            result.append(("You printed more values than we expected.", False))
-
-    return result
+    for i, (o, e) in enumerate(zip(output, expected)):
+        assert o == e, f"Output line {i} should be {e} but was {o}"

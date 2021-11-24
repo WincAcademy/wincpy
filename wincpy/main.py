@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 
+import wincpy
 from wincpy import helpers, ui, starts, checks, solutions
 
 
@@ -31,6 +32,8 @@ def main(stdout, stderr):
         else:
             ui.report_error("solve_first")
             exit(1)
+    elif args.action == "version":
+        ui.print_version()
 
 
 def start(args):
@@ -80,34 +83,32 @@ def check(args):
         ui.report_error("no_check_found", assignment_name=student_module.__human_name__)
         exit(4)
 
-    # result = test.run(student_module, solution_module)
-    if hasattr(check_module, "run"):
-        # Old-style check module with a single run method
-        try:
-            result = check_module.run(student_module)
-        except Exception as e:
-            ui.report_error("check_failed", exception=str(e))
-            exit(50)
-    else:
-        # New-style check module with separate checks that start with 'check'
-        checks = [v for k, v in check_module.__dict__.items() if k.startswith("check_")]
-        if not checks:
-            ui.report_error(
-                "empty_check", assignment_name=student_module.__human_name__
+    checks = [v for k, v in check_module.__dict__.items() if k.startswith("check_")]
+    if not checks:
+        ui.report_error("empty_check", assignment_name=student_module.__human_name__)
+    result = []
+    for check in checks:
+        if not check.__doc__:
+            fname = check.__qualname__
+            check.__doc__ = (
+                "`" + fname[fname.find("_") + 1 :] + "` is implemented correctly"
             )
-        result = []
-        for check in checks:
-            try:
-                check(student_module)
-                result.append((check.__doc__, None))
-            except Exception as e:
-                result.append((check.__doc__, e))
+        try:
+            check(student_module)
+            result.append((check.__doc__, None))
+        except Exception as e:
+            result.append((check.__doc__, e))
     return result
 
 
 def update():
     release_url = "git+https://github.com/WincAcademy/wincpy@release"
-    subprocess.run(["pip", "install", release_url, "--upgrade"], check=True)
+    args = ["python3", "-m", "pip", "install", release_url, "--upgrade"]
+    try:
+        subprocess.run(args, check=True)
+    except:
+        args[0] = "python"
+        subprocess.run(args, check=True)
 
 
 def solve(args):

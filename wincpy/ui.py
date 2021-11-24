@@ -9,6 +9,8 @@ from rich.table import Table
 from rich.text import Text
 from rich import box
 
+import wincpy
+
 console = Console(width=100)
 
 # Constants
@@ -110,6 +112,9 @@ def unmute_stdout():
 
 def print_intro():
     console.print(logo, justify="center")
+
+def print_version():
+    console.print(Markdown("# Version " + wincpy.__version__))
 
 
 def report_error(case, **relevant_vars):
