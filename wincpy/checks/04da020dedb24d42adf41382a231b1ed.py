@@ -9,7 +9,7 @@ __winc_id__ = "04da020dedb24d42adf41382a231b1ed"
 def check_player_class_init(student_module):
     """The `Player.__init__` method is implemented correctly"""
     player = student_module.Player("Super Bob", 0.3, 0.5, 0.5)
-    assert player.name == "Super Bob", "player.name is initialized correctly"
+    assert player.name == "Super Bob", "player.name is not initialized correctly"
     assert player.speed == 0.3
     assert player.endurance == 0.5
     assert player.accuracy == 0.5
