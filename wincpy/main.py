@@ -26,7 +26,7 @@ def main(stdout, stderr):
         update()
     elif args.action == "solve":
         result = check(args)
-        passed = all([x for _, x in result])
+        passed = all([not x for _, x in result])
         if passed:
             solve(args)
         else:
