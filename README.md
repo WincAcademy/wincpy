@@ -62,6 +62,10 @@ python3 -m pip install git+https://github.com/WincAcademy/wincpy@release --user 
   Updates Wincpy to the version on the *release*-branch of this repository on
   GitHub. Requires a working installation of pip in `$PATH`.
 
+- `wincpy version`
+
+  Show which version of Wincpy is installed.
+
 See also `wincpy --help`.
 
 ## Develop
@@ -78,36 +82,38 @@ otherwise pip will not update the local installation.
 1. Generate a new Winc ID with [wincid](https://github.com/WincAcademy/wincid).
    Save the generated id in your clipboard and push the updated `json` to
    GitHub.
-2. Write your solution in this repository, in a new directory: `wincpy/solutions/<winc_id>/`.
+2. **Write your solution** in this repository, in a new directory:
+   `wincpy/solutions/<winc_id>/`.
     - In `main.py`, there must be two properties:
         - `__winc_id__`: a string containing the Winc ID that this solution
           belongs to.
         - `__human_name__`: a string containing the human name for this
           exercise.
-    - You may find other solutions are packages with a `__init__.py` file, this
-      is a deprecated format and support for it will be removed in the future.
-3. Write your checks in this repository, in a new file: `wincpy/checks/<winc_id>.py`
-    - Within `<winc_id>.py`, define a function `run()` that takes a module as its
-    argument and returns a list of tuples: `[(requirement_string,
-    bool_requirement_satisfied)]`. The requirement strings are printed back to
-    the student with thumbs up/down in green/red depending on the bool that
-    it's matched with.
-    - Look at the other test files for examples on how to write checks for the
-      student module.
-    - There are a number of helper functions available in `wincpy/helpers.py`.
-    - There is also a template you could use for quick start: `wincpy/checks/template.py`.
-4. Optional: if you would like to provide a starting point for students so that
-   they don't have to write lame boilerplate code, do so in a new directory:
-   `wincpy/starts/<winc_id>`.
+3. **Write your checks** in this repository, in a new file:
+   `wincpy/checks/<winc_id>.py`
+    - Within `<winc_id>.py`, write test functions with names that start with
+      `check_` (e.g.: `check_add_numbers`), similar to Pytest's `test_`. These
+      functions will be called with a student module as their first argument.
+    - Write assertions with helpful tips as their error message.
+    - Everything else (running checks, catching errors, printing stuff, etc.)
+      is handled by Wincpy.
+    - There are a number of utility functions available in `wincpy/checks/utils.py`.
+    - Look at the other test files for examples on how to write checks.
+4. Optional: **write a start**. If you would like to provide a starting point
+   for students so that they don't have to write boilerplate code, do so in a
+   new directory: `wincpy/starts/<winc_id>`.
    - Make sure your `main.py` contains the properties `__winc_id__` and
      `__human_name__`, just like the solution.
 5. Test your solution, test and (optional) start.
-    1. Run `pip install .` in the top-level directory of this repository.
-    2. Go to your solution dir and run `wincpy check`.
-    3. (optional) Go to your start dir and run `wincpy check`.
+    1. Run `pip install -e .` in the top-level directory of this repository.
+       (the `-e` flag installs a symlink to the wincpy module instead of a copy
+       so you only need to install once if you're iterating)
+    2. Go to your solution dir and run `wincpy check`. Ensure the solution passes.
+    3. (optional) Go to your start dir and run `wincpy check`. Ensure your
+       checks fail with useful tips.
 6. If everything works as expected, commit and push the added files to the
    master branch for this repository on GitHub. If you're feeling daring today,
-   merge into release.
+   bump the version and merge into the release branch.
 
 ## Exit Codes
 
@@ -126,6 +132,7 @@ otherwise pip will not update the local installation.
 
 ## Deployment
 
-Manually trigger the Deploy GitHub Action to upload a new build to packages.wincacademy.nl.
+Manually trigger the Deploy GitHub Action to upload a new build to
+packages.wincacademy.nl.
 
 The version from [setup.py](/setup.py) is used for the build.
