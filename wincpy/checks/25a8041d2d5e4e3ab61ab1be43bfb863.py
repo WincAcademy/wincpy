@@ -12,7 +12,7 @@ TEST_DATA = {
 def check_create_passport(student_module):
     """`create_passport` is implemented correctly"""
     passport = student_module.create_passport(**TEST_DATA)
-    assert passport == TEST_DATA, "The returned dict is as expected."
+    assert passport == TEST_DATA, "The returned dict is not as we expected it to be."
 
 
 def check_add_stamp(student_module):
