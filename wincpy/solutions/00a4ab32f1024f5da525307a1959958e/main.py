@@ -44,13 +44,14 @@ if __name__ == "__main__":
     print(hank)
 
     # Part 3: Add biometric data
-    hank = add_biometric_data(hank, "eye_color_left", "blue", "2020-05-05")
-    hank = add_biometric_data(hank, "eye_color_right", "blue", "2020-05-05")
-    print(hank)
+    omari = create_passport("Omari Muchumba", "1995-07-16", "Kampala", 184.31, "Uganda")
+    omari = add_biometric_data(omari, "eye_color_left", "blue", "2020-05-05")
+    omari = add_biometric_data(omari, "eye_color_right", "blue", "2020-05-05")
+    print(omari)
 
-    # Hank gets a new left eye because of an accident
-    hank = add_biometric_data(hank, "eye_color_left", "brown", "2022-01-10")
-    print(hank)
+    # Omari gets a new left eye because of an accident
+    omari = add_biometric_data(omari, "eye_color_left", "brown", "2022-01-10")
+    print(omari)
 
     # Add fingerprints too: just another value, but this is also a dict.
     fingerprint_data = {
@@ -65,5 +66,5 @@ if __name__ == "__main__":
         "right_ring": "12332538",
         "right_pinky": "32458970",
     }
-    hank = add_biometric_data(hank, "finger_prints", fingerprint_data, "2022-01-12")
-    print(hank)
+    omari = add_biometric_data(omari, "finger_prints", fingerprint_data, "2022-01-12")
+    print(omari)
