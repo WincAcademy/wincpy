@@ -4,7 +4,7 @@ import io
 import os
 import subprocess
 from types import FunctionType
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Type, Union
 
 from wincpy import ui
 
@@ -75,11 +75,20 @@ class StandardChecks:
     """Singleton that contains checks that are used often."""
 
     @staticmethod
-    def n_params(func: FunctionType, n_params: int):
-        fname = func.__name__
-        sig = inspect.signature(func)
-        params = sig.parameters
+    def n_params(obj: Union[FunctionType, Type], n_params: int, count_optionals=False):
+        sig = inspect.signature(obj)
+        params = (
+            [p for p in sig.parameters.values() if p.default is p.empty]
+            if not count_optionals
+            else sig.parameters
+        )
         plural, singular = "parameters", "parameter"
+        if isinstance(obj, type):
+            obj_type = "The class "
+        elif isinstance(obj, FunctionType):
+            obj_type = "The function "
+        else:
+            obj_type = ""
         assert (
             len(params) == n_params
-        ), f"`The function {fname}` should take `{n_params}` {singular if n_params == 1 else plural}, but your implementation takes `{len(params)}`"
+        ), f"{obj_type}`{obj.__name__}` should take `{n_params}` {singular if n_params == 1 else plural}, but your implementation takes `{len(params)}`"

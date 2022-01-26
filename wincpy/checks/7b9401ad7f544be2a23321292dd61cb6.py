@@ -3,8 +3,10 @@
 Template for writing tests. This is just a file for convenience and has no
 importance beyond it."""
 
-from wincpy.checks import utils
 import random
+
+from wincpy.checks import utils
+from wincpy.checks.utils import StandardChecks
 
 __winc_id__ = "7b9401ad7f544be2a23321292dd61cb6"
 
@@ -12,6 +14,7 @@ RANDOM_STR = str(random.random())
 
 
 def check_greet(student_module):
+    StandardChecks.n_params(student_module.greet, n_params=2, count_optionals=True)
     name = f"Bob #{RANDOM_STR}"
     assert (
         student_module.greet(name) == f"Hello, {name}!"
@@ -24,6 +27,8 @@ def check_greet(student_module):
 
 
 def check_force(student_module):
+    StandardChecks.n_params(student_module.force, n_params=2, count_optionals=True)
+
     assert student_module.force(10) == 98, "Did you use earth's gravity by default?"
     assert (
         round(student_module.force(50)) == 490
@@ -38,6 +43,7 @@ def check_force(student_module):
 
 
 def check_pull(student_module):
+    StandardChecks.n_params(student_module.pull, n_params=3)
     assert student_module.pull(1, 2, 3) is not None
     assert round(student_module.pull(800, 1500, 3), 10) == 8.8987e-06
     assert (

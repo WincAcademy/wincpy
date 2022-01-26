@@ -1,3 +1,5 @@
+from wincpy.checks.utils import StandardChecks
+
 __winc_id__ = "00a4ab32f1024f5da525307a1959958e"
 
 TEST_DATA = {
@@ -10,13 +12,16 @@ TEST_DATA = {
 
 
 def check_create_passport(student_module):
-    """`create_passport` is implemented correctly"""
+    StandardChecks.n_params(student_module.create_passport, n_params=5)
+
     passport = student_module.create_passport(**TEST_DATA)
     assert passport == TEST_DATA, "The returned dict is not as we expected it to be."
 
 
 def check_add_stamp(student_module):
-    """`add_stamp` is implemented correctly"""
+    StandardChecks.n_params(student_module.create_passport, n_params=5)
+    StandardChecks.n_params(student_module.add_stamp, n_params=2)
+
     passport = student_module.create_passport(**TEST_DATA)
 
     nationality = TEST_DATA["nationality"]
@@ -35,7 +40,9 @@ def check_add_stamp(student_module):
 
 
 def check_add_biometric_data(student_module):
-    """`add_biometric_data` is implemented correctly"""
+    StandardChecks.n_params(student_module.create_passport, n_params=5)
+    StandardChecks.n_params(student_module.add_biometric_data, n_params=4)
+
     passport = student_module.create_passport(**TEST_DATA)
 
     passport = student_module.add_biometric_data(
@@ -71,13 +78,12 @@ def check_add_biometric_data(student_module):
     assert 2 == len(
         passport["biometric"]
     ), "Adding more biometric data does not result in correct number of biometric data values."
-    assert (
-        {
-            "eye_color_left": {"date": "2020-05-05", "value": "blue"},
-            "eye_color_right": {"date": "2020-06-06", "value": "brown"},
-        }
-        == passport["biometric"],
-    ), "Adding more biometric data results in incorrect data on passport."
+    assert {
+        "eye_color_left": {"date": "2020-05-05", "value": "blue"},
+        "eye_color_right": {"date": "2020-06-06", "value": "brown"},
+    } == passport[
+        "biometric"
+    ], "Adding more biometric data results in incorrect data on passport."
 
     # Updating a measurement
     passport = student_module.add_biometric_data(

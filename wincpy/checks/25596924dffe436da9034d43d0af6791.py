@@ -1,8 +1,11 @@
+from wincpy.checks.utils import StandardChecks
+
 __winc_id__ = "25596924dffe436da9034d43d0af6791"
 
 
 def check_farm_action(student_module):
     """`farm_action` returns correct values for all test cases"""
+    StandardChecks.n_params(student_module.farm_action, n_params=7)
     cases = [
         (
             ("sunny", "day", True, "pasture", "spring", False, True),
