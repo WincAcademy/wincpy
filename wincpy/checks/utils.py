@@ -1,7 +1,9 @@
 from contextlib import redirect_stdout
+import inspect
 import io
 import os
 import subprocess
+from types import FunctionType
 from typing import Dict, Tuple
 
 from wincpy import ui
@@ -67,3 +69,17 @@ def check_state(expected_state, actual_state):
 def get_main_src(student_module):
     with open(get_main_abspath(student_module), "r") as f:
         return f.read()
+
+
+class StandardChecks:
+    """Singleton that contains checks that are used often."""
+
+    @staticmethod
+    def n_params(func: FunctionType, n_params: int):
+        fname = func.__name__
+        sig = inspect.signature(func)
+        params = sig.parameters
+        plural, singular = "parameters", "parameter"
+        assert (
+            len(params) == n_params
+        ), f"`The function {fname}` should take `{n_params}` {singular if n_params == 1 else plural}, but your implementation takes `{len(params)}`"
