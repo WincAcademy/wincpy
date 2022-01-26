@@ -1,11 +1,13 @@
+import inspect
 from wincpy.checks import utils
+from wincpy.checks.utils import StandardChecks
 
 __winc_id__ = "c0dc6e00dfac46aab88296601c32669f"
 
 
 def check_random_koala_fact(student_module):
+    StandardChecks.n_params(student_module.random_koala_fact, n_params=0)
     facts = __get_all_facts(student_module)
-
     for _ in range(10):
         assert (
             student_module.random_koala_fact() in facts
@@ -13,6 +15,7 @@ def check_random_koala_fact(student_module):
 
 
 def check_unique_koala_fact(student_module):
+    StandardChecks.n_params(student_module.unique_koala_facts, n_params=1)
     facts = __get_all_facts(student_module)
 
     for n in range(15):
@@ -30,12 +33,14 @@ def check_unique_koala_fact(student_module):
 
 
 def check_num_joey_facts(student_module):
+    StandardChecks.n_params(student_module.num_joey_facts, n_params=0)
     assert (
         student_module.num_joey_facts() == 2
     ), "`num_joey_facts` did not return the right number"
 
 
 def check_koala_weight(student_module):
+    StandardChecks.n_params(student_module.koala_weight, n_params=0)
     assert (
         student_module.koala_weight() == 14
     ), "`koala_weight` did not return the right number"
