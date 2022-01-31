@@ -76,9 +76,10 @@ def check_find_password(student_module):
 
     cache_path, zip_path = __get_paths(student_module)
     student_module.cache_zip(zip_path, cache_path)
-    student_module.find_password(
-        student_module.cached_files()
-    ) == "correct_horse_battery_staple", "The returned password is not correct."
+    assert (
+        student_module.find_password(student_module.cached_files())
+        == "correct_horse_battery_staple"
+    ), "The returned password is not correct."
 
 
 def __get_paths(student_module):
