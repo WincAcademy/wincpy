@@ -1,3 +1,5 @@
+from wincpy.checks.utils import StandardChecks
+
 __winc_id__ = "25a8041d2d5e4e3ab61ab1be43bfb863"
 
 TEST_DATA = {
@@ -10,15 +12,17 @@ TEST_DATA = {
 
 
 def check_create_passport(student_module):
-    """`create_passport` is implemented correctly"""
+    StandardChecks.n_params(student_module.create_passport, n_params=5)
+
     passport = student_module.create_passport(**TEST_DATA)
     assert passport == TEST_DATA, "The returned dict is not as we expected it to be."
 
 
 def check_add_stamp(student_module):
-    """`add_stamp` is implemented correctly"""
-    passport = student_module.create_passport(**TEST_DATA)
+    StandardChecks.n_params(student_module.create_passport, n_params=5)
+    StandardChecks.n_params(student_module.add_stamp, n_params=2)
 
+    passport = student_module.create_passport(**TEST_DATA)
     nationality = TEST_DATA["nationality"]
     assert nationality not in passport.get(
         "stamps", {}
@@ -34,8 +38,11 @@ def check_add_stamp(student_module):
         ), f"Expected to find {country} in the passport"
 
 
-def check_passport(student_module):
-    """`check_passport` is implemented correctly"""
+def check_check_passport(student_module):
+    StandardChecks.n_params(student_module.create_passport, n_params=5)
+    StandardChecks.n_params(student_module.add_stamp, n_params=2)
+    StandardChecks.n_params(student_module.check_passport, n_params=4)
+
     passport = student_module.create_passport(**TEST_DATA)
     for country in ["Afghanistan", "Bulgaria"]:
         passport = student_module.add_stamp(passport, country)

@@ -5,7 +5,7 @@ __winc_id__ = "63ce21059cf34d3d8ffef497ede7e317"
 
 def check_end_of_line_comments(student_module):
     """Your `main.py` contains two end-of-line comments"""
-    src = __get_main_src(student_module)
+    src = utils.get_main_src(student_module)
     count = sum([True if l.strip().find("#") > 0 else False for l in src.split("\n")])
     assert (
         count >= 2
@@ -14,7 +14,7 @@ def check_end_of_line_comments(student_module):
 
 def check_single_line_comments(student_module):
     """Your `main.py` contains two single-line comments"""
-    src = __get_main_src(student_module)
+    src = utils.get_main_src(student_module)
     count = sum([True if l.strip().find("#") == 0 else False for l in src.split("\n")])
     assert (
         count >= 2
@@ -23,7 +23,7 @@ def check_single_line_comments(student_module):
 
 def check_multiline_comments(student_module):
     """Your `main.py` contains two multi-line comments"""
-    src = __get_main_src(student_module)
+    src = utils.get_main_src(student_module)
     count = sum(
         [
             True if l.strip() != "" and l.strip()[:3] == '"""' else False

@@ -3,11 +3,14 @@ import shutil
 import os
 
 from wincpy.checks import utils
+from wincpy.checks.utils import StandardChecks
 
 __winc_id__ = "ae539110d03e49ea8738fd413ac44ba8"
 
 
 def check_clean_cache(student_module):
+    StandardChecks.n_params(student_module.clean_cache, n_params=0)
+
     cache_path, _ = __get_paths(student_module)
     student_module.clean_cache()
     assert os.path.isdir(cache_path), f"`cache_path` did not create {cache_path}"
@@ -24,6 +27,8 @@ def check_clean_cache(student_module):
 
 
 def check_cache_zip(student_module):
+    StandardChecks.n_params(student_module.cache_zip, n_params=2)
+
     __clean(student_module)
     cache_path, zip_path = __get_paths(student_module)
     student_module.cache_zip(zip_path, cache_path)
@@ -42,6 +47,8 @@ def check_cached_files(student_module):
         raise AssertionError(
             "You need to implement `cache_zip` before we can check `cached_files`"
         )
+    StandardChecks.n_params(student_module.cache_zip, n_params=2)
+    StandardChecks.n_params(student_module.cached_files, n_params=0)
 
     cache_path, zip_path = __get_paths(student_module)
     student_module.cache_zip(zip_path, cache_path)
@@ -63,11 +70,16 @@ def check_find_password(student_module):
         raise AssertionError(
             "You need to implement `cached_files` before we can check `find_password`"
         )
+
+    StandardChecks.n_params(student_module.cache_zip, n_params=2)
+    StandardChecks.n_params(student_module.cached_files, n_params=0)
+
     cache_path, zip_path = __get_paths(student_module)
     student_module.cache_zip(zip_path, cache_path)
-    student_module.find_password(
-        student_module.cached_files()
-    ) == "correct_horse_battery_staple", "The returned password is not correct."
+    assert (
+        student_module.find_password(student_module.cached_files())
+        == "correct_horse_battery_staple"
+    ), "The returned password is not correct."
 
 
 def __get_paths(student_module):

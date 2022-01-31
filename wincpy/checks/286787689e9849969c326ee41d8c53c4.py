@@ -1,4 +1,5 @@
-import peewee
+import peewee  # type: ignore
+from wincpy.checks.utils import StandardChecks
 
 __winc_id__ = "286787689e9849969c326ee41d8c53c4"
 
@@ -10,6 +11,9 @@ def check_db_init(student_module):
 
 def check_cheapest_dish(student_module):
     """`cheapest_dish` is implemented correctly"""
+    StandardChecks.n_params(student_module.cheapest_dish, n_params=0)
+    StandardChecks.n_params(student_module.models.Dish.select, n_params=1)
+
     dish = student_module.cheapest_dish()
     assert dish == (
         student_module.models.Dish.select()
@@ -20,6 +24,9 @@ def check_cheapest_dish(student_module):
 
 def check_vegetarian_dishes(student_module):
     """`vegetarian_dishes` is implemented correctly"""
+    StandardChecks.n_params(student_module.vegetarian_dishes, n_params=0)
+    StandardChecks.n_params(student_module.models.Dish.select, n_params=1)
+
     dishes = student_module.vegetarian_dishes()
     assert set(dishes) == set(
         [
@@ -32,6 +39,8 @@ def check_vegetarian_dishes(student_module):
 
 def check_best_restaurant(student_module):
     """`best_average_rating` is implemented correctly"""
+    StandardChecks.n_params(student_module.best_average_rating, n_params=0)
+
     restaurant = student_module.best_average_rating()
     assert restaurant == (
         student_module.models.Restaurant.select(
@@ -47,6 +56,8 @@ def check_best_restaurant(student_module):
 
 def check_add_rating(student_module):
     """`add_rating_to_restaurant` is implemented correctly"""
+    StandardChecks.n_params(student_module.add_rating_to_restaurant, n_params=0)
+
     current_rating_count = student_module.models.Rating.select().count()
     student_module.add_rating_to_restaurant()
     new_rating_count = student_module.models.Rating.select().count()
@@ -57,6 +68,8 @@ def check_add_rating(student_module):
 
 def check_dinner_date_possible(student_module):
     """`dinner_date_possible` is implemented correctly"""
+    StandardChecks.n_params(student_module.dinner_date_possible, n_params=0)
+
     date_restaurants = student_module.dinner_date_possible()
     assert set(date_restaurants) == set(
         [
@@ -76,6 +89,8 @@ def check_dinner_date_possible(student_module):
 
 def check_add_dish_to_menu(student_module):
     """`add_dish_to_menu` is implemented correctly"""
+    StandardChecks.n_params(student_module.add_dish_to_menu, n_params=0)
+
     new_dish = student_module.add_dish_to_menu()
     assert new_dish, "Expected the new dish to be returned"
     assert "cheese" in [

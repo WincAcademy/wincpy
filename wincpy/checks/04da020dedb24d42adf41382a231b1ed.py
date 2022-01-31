@@ -1,13 +1,12 @@
-""" template.py
-
-Template for writing tests. This is just a file for convenience and has no
-importance beyond it."""
+from wincpy.checks.utils import StandardChecks
 
 __winc_id__ = "04da020dedb24d42adf41382a231b1ed"
 
 
 def check_player_class_init(student_module):
     """The `Player.__init__` method is implemented correctly"""
+    StandardChecks.n_params(student_module.Player, n_params=4)
+
     player = student_module.Player("Super Bob", 0.3, 0.5, 0.5)
     assert player.name == "Super Bob", "player.name is not initialized correctly"
     assert player.speed == 0.3
@@ -25,12 +24,15 @@ def check_player_class_init(student_module):
 
 def check_player_introduce(student_module):
     """The `Player.introduce` method is implemented correctly"""
+    StandardChecks.n_params(student_module.Player, n_params=4)
+
     player = student_module.Player("Super Bob", 0.3, 0.5, 0.5)
     assert player.introduce() == "Hello everyone, my name is Super Bob."
 
 
 def check_player_strength(student_module):
     """The `Player.strength` method is implemented correctly"""
+    StandardChecks.n_params(student_module.Player, n_params=4)
 
     tip = "`.strength()` should return a tuple of the player's best attribute and its value"
     Player = student_module.Player
@@ -42,6 +44,8 @@ def check_player_strength(student_module):
 
 def check_commentator_init(student_module):
     """The `Commentator.__init__` method has been implemented correctly"""
+    StandardChecks.n_params(student_module.Commentator, n_params=1)
+
     commentator = student_module.Commentator("Super Double Plus Commentator")
     assert (
         commentator.name == "Super Double Plus Commentator"
@@ -50,6 +54,9 @@ def check_commentator_init(student_module):
 
 def check_commentator_sum_player(student_module):
     """The `Commentator.sum_player` method has been implemented correctly"""
+    StandardChecks.n_params(student_module.Commentator, n_params=1)
+    StandardChecks.n_params(student_module.Commentator.sum_player, n_params=2)
+
     commentator = student_module.Commentator("Super Double Plus Commentator")
     player = student_module.Player("Super Bob", 0.3, 0.5, 0.5)
     assert (
@@ -59,6 +66,10 @@ def check_commentator_sum_player(student_module):
 
 def check_commentatory_compare_players(student_module):
     """The `Commentator.compare_players` method has been implemented correctly"""
+    StandardChecks.n_params(student_module.Player, n_params=4)
+    StandardChecks.n_params(student_module.Commentator, n_params=1)
+    StandardChecks.n_params(student_module.Commentator.compare_players, n_params=4)
+
     commentator = student_module.Commentator("Super Double Plus Commentator")
     alice = student_module.Player("Alice", 0.8, 0.2, 0.6)
     bob = student_module.Player("Bob", 0.5, 0.2, 0.6)

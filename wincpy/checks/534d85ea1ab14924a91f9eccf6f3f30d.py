@@ -2,11 +2,14 @@ import inspect
 import re
 
 from wincpy.checks import utils
+from wincpy.checks.utils import StandardChecks
 
 __winc_id__ = "534d85ea1ab14924a91f9eccf6f3f30d"
 
 
 def check_add(student_module):
+    StandardChecks.n_params(student_module.add, n_params=2)
+
     assert student_module.add(1, 1) == 2, "`1+1` should be 2"
     assert student_module.add(1.2, 3.8) == 5, "`1.2 + 3.8` should be 5"
     assert student_module.add("Hi", 2) == 0, "'Hi' + 2 should return `0`"
@@ -19,6 +22,8 @@ def check_add(student_module):
 
 
 def check_read_file(student_module):
+    StandardChecks.n_params(student_module.read_file, n_params=1)
+
     main_abspath = utils.get_main_abspath(student_module)
     with open(main_abspath, "r") as f:
         main_src = f.read()
@@ -37,6 +42,8 @@ def check_read_file(student_module):
 
 
 def check_get_item_from_list(student_module):
+    StandardChecks.n_params(student_module.get_item_from_list, n_params=2)
+
     foo = list(range(10))
     assert student_module.get_item_from_list(foo, 9) == 9
     assert student_module.get_item_from_list(foo, -1) == 9
