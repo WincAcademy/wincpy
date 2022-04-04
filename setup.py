@@ -43,7 +43,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires=">= 3.9",
+    python_requires=">= 3.8",
     package_data={"wincpy": gather_package_data_paths()},
     entry_points={"console_scripts": ["wincpy=wincpy.__main__:console_entry"]},
     install_requires=["rich>=10.9.0"],
