@@ -28,13 +28,14 @@ def check_vegetarian_dishes(student_module):
     StandardChecks.n_params(student_module.models.Dish.select, n_params=1)
 
     dishes = student_module.vegetarian_dishes()
-    assert set(dishes) == set(
+    expected = set(
         [
             dish
             for dish in student_module.models.Dish.select()
             if all([i.is_vegetarian for i in dish.ingredients])
         ]
-    ), f"Expected the set of vegetarian dishes to be {set(dishes)}"
+    )
+    assert set(dishes) == expected, f"Expected the set of vegetarian dishes to be {expected}"
 
 
 def check_best_restaurant(student_module):
@@ -42,7 +43,7 @@ def check_best_restaurant(student_module):
     StandardChecks.n_params(student_module.best_average_rating, n_params=0)
 
     restaurant = student_module.best_average_rating()
-    assert restaurant == (
+    expected = (
         student_module.models.Restaurant.select(
             student_module.models.Restaurant,
             peewee.fn.AVG(student_module.models.Rating.rating).alias("average"),
@@ -51,7 +52,8 @@ def check_best_restaurant(student_module):
         .group_by(student_module.models.Restaurant)
         .order_by(peewee.fn.AVG(student_module.models.Rating.rating).desc())
         .first()
-    ), f"Expected the restaurant with the best average rating to be {restaurant}"
+    )
+    assert restaurant == expected, f"Expected the restaurant with the best average rating to be {expected}"
 
 
 def check_add_rating(student_module):
@@ -71,7 +73,7 @@ def check_dinner_date_possible(student_module):
     StandardChecks.n_params(student_module.dinner_date_possible, n_params=0)
 
     date_restaurants = student_module.dinner_date_possible()
-    assert set(date_restaurants) == set(
+    expected = set(
         [
             restaurant
             for restaurant in student_module.models.Restaurant.select()
@@ -84,7 +86,8 @@ def check_dinner_date_possible(student_module):
                 ]
             )
         ]
-    ), f"Expected dinner date restaurants to be {date_restaurants}"
+    )
+    assert set(date_restaurants) == expected, f"Expected dinner date restaurants to be {expected}"
 
 
 def check_add_dish_to_menu(student_module):
