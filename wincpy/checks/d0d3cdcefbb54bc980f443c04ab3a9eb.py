@@ -14,7 +14,7 @@ def check_output(student_module):
     # to just checking the result.
     output, state = utils.exec_main(student_module)
 
-    expected = [str(x) for x in [False, True, True, False, True, True, True]]
+    expected = [str(x) for x in [False, True, False, True, True, True, True]]
     output = output.split("\n")
     assert len(output) == len(
         expected
