@@ -34,12 +34,16 @@ def check_force(student_module):
         round(student_module.force(50)) == 490
     ), "Did you use earth's gravity by default?"
 
-    assert student_module.force(10, "sun") == 2740, "'sun' is not handled correctly"
-    assert student_module.force(10, "pluto") == 6, "'pluto' is not handled correctly"
-    assert (
-        student_module.force(10, "saturn") == 104
-    ), "'saturn' is not handled correctly"
+    assert student_module.force(10, "pluto") == 7, "'pluto' is not handled correctly"
+    assert student_module.force(10, "saturn") == 90, "'saturn' is not handled correctly"
     assert student_module.force(10, "earth") == 98, "'earth' is not handled correctly"
+    assert (
+        student_module.force(10, "jupiter") == 231
+    ), "'jupiter' is not handled correctly"
+    assert (
+        student_module.force(10, "neptune") == 110
+    ), "'neptune' is not handled correctly"
+    assert student_module.force(10, "moon") == 16, "'moon' is not handled correctly"
 
 
 def check_pull(student_module):
@@ -47,6 +51,6 @@ def check_pull(student_module):
     assert student_module.pull(1, 2, 3) is not None
     assert round(student_module.pull(800, 1500, 3), 10) == 8.8987e-06
     assert (
-        round(student_module.pull(0.1, 5.972 * 10 ** 4, 6.371 * 10 ** 6), 30)
+        round(student_module.pull(0.1, 5.972 * 10**4, 6.371 * 10**6), 30)
         == 9.819532033e-21
     )
