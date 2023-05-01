@@ -24,7 +24,6 @@ def check_unique_koala_fact(student_module):
         len(set(student_module.unique_koala_facts(0))) != 29
     ), "When asking for 0 facts, all the facts are returned"
 
-
     for n in range(15):
         assert (
             len(set(student_module.unique_koala_facts(n))) == n

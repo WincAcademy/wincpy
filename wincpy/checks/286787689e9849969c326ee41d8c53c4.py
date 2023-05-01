@@ -22,7 +22,9 @@ def check_cheapest_dish(student_module):
     )
     print(f"{dish} and {expected_dish}")
     assert dish == expected_dish, f"Expected the cheapest dish to be {expected_dish}."
-    assert type(dish) == type(expected_dish), f"Expected the cheapest dish to be {expected_dish}."
+    assert type(dish) == type(
+        expected_dish
+    ), f"Expected the cheapest dish to be {expected_dish}."
 
 
 def check_vegetarian_dishes(student_module):
@@ -38,7 +40,9 @@ def check_vegetarian_dishes(student_module):
             if all([i.is_vegetarian for i in dish.ingredients])
         ]
     )
-    assert set(dishes) == expected_dishes, f"Expected vegetarian dishes to be {expected_dishes}"
+    assert (
+        set(dishes) == expected_dishes
+    ), f"Expected vegetarian dishes to be {expected_dishes}"
 
 
 def check_best_restaurant(student_module):
@@ -54,9 +58,14 @@ def check_best_restaurant(student_module):
         .join(student_module.models.Rating)
         .group_by(student_module.models.Restaurant)
         .order_by(peewee.fn.AVG(student_module.models.Rating.rating).desc())
-        .first())
-    assert restaurant == expected_restaurant, f"Expected the best restaurant to be {expected_restaurant}"
-    assert type(restaurant) == type(expected_restaurant), f"Expected the best restaurant to be {expected_restaurant}"
+        .first()
+    )
+    assert (
+        restaurant == expected_restaurant
+    ), f"Expected the best restaurant to be {expected_restaurant}"
+    assert type(restaurant) == type(
+        expected_restaurant
+    ), f"Expected the best restaurant to be {expected_restaurant}"
 
 
 def check_add_rating(student_module):
@@ -77,18 +86,20 @@ def check_dinner_date_possible(student_module):
 
     date_restaurants = student_module.dinner_date_possible()
     expected_date_restaurants = [
-            restaurant
-            for restaurant in student_module.models.Restaurant.select()
-            .where(student_module.models.Restaurant.opening_time <= "19:00")
-            .where(student_module.models.Restaurant.closing_time >= "19:00")
-            if any(
-                [
-                    all([i.is_vegan for i in dish.ingredients])
-                    for dish in restaurant.dish_set.select()
-                ]
-            )
-        ]
-    assert set(date_restaurants) == set(expected_date_restaurants), f"Expected dinner date restaurants to be {expected_date_restaurants}"
+        restaurant
+        for restaurant in student_module.models.Restaurant.select()
+        .where(student_module.models.Restaurant.opening_time <= "19:00")
+        .where(student_module.models.Restaurant.closing_time >= "19:00")
+        if any(
+            [
+                all([i.is_vegan for i in dish.ingredients])
+                for dish in restaurant.dish_set.select()
+            ]
+        )
+    ]
+    assert set(date_restaurants) == set(
+        expected_date_restaurants
+    ), f"Expected dinner date restaurants to be {expected_date_restaurants}"
 
 
 def check_add_dish_to_menu(student_module):
