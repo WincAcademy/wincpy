@@ -28,7 +28,8 @@ def check_state(student_module):
 def check_output(student_module):
     """The output is as expected."""
     output, _ = utils.exec_main(student_module)
-
+    split_output = output.split("\n")
+    last_print = split_output[-1]
     assert (
-        float(output.strip()) == 73.5
-    ), f"We expected your program's output to be `73.5`, but it was `{output}`"
+        float(last_print) == 73.5
+    ), f"We expected your program's last print to be `73.5`, but it was `{last_print}`"
