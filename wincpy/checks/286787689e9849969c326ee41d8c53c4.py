@@ -15,11 +15,14 @@ def check_cheapest_dish(student_module):
     StandardChecks.n_params(student_module.models.Dish.select, n_params=1)
 
     dish = student_module.cheapest_dish()
-    assert dish == (
+    expected_dish = (
         student_module.models.Dish.select()
         .order_by(student_module.models.Dish.price_in_cents)
         .first()
-    ), f"Expected the cheapest dish to be {dish}"
+    )
+    print(f"{dish} and {expected_dish}")
+    assert dish == expected_dish, f"Expected the cheapest dish to be {expected_dish}."
+    assert type(dish) == type(expected_dish), f"Expected the cheapest dish to be {expected_dish}."
 
 
 def check_vegetarian_dishes(student_module):
@@ -28,13 +31,14 @@ def check_vegetarian_dishes(student_module):
     StandardChecks.n_params(student_module.models.Dish.select, n_params=1)
 
     dishes = student_module.vegetarian_dishes()
-    assert set(dishes) == set(
+    expected_dishes = set(
         [
             dish
             for dish in student_module.models.Dish.select()
             if all([i.is_vegetarian for i in dish.ingredients])
         ]
-    ), f"Expected the set of vegetarian dishes to be {set(dishes)}"
+    )
+    assert set(dishes) == expected_dishes, f"Expected vegetarian dishes to be {expected_dishes}"
 
 
 def check_best_restaurant(student_module):
@@ -42,7 +46,7 @@ def check_best_restaurant(student_module):
     StandardChecks.n_params(student_module.best_average_rating, n_params=0)
 
     restaurant = student_module.best_average_rating()
-    assert restaurant == (
+    expected_restaurant = (
         student_module.models.Restaurant.select(
             student_module.models.Restaurant,
             peewee.fn.AVG(student_module.models.Rating.rating).alias("average"),
@@ -50,8 +54,9 @@ def check_best_restaurant(student_module):
         .join(student_module.models.Rating)
         .group_by(student_module.models.Restaurant)
         .order_by(peewee.fn.AVG(student_module.models.Rating.rating).desc())
-        .first()
-    ), f"Expected the restaurant with the best average rating to be {restaurant}"
+        .first())
+    assert restaurant == expected_restaurant, f"Expected the best restaurant to be {expected_restaurant}"
+    assert type(restaurant) == type(expected_restaurant), f"Expected the best restaurant to be {expected_restaurant}"
 
 
 def check_add_rating(student_module):
@@ -63,7 +68,7 @@ def check_add_rating(student_module):
     new_rating_count = student_module.models.Rating.select().count()
     assert (
         current_rating_count < new_rating_count
-    ), f"Expected number of ratings to go from {current_rating_count} to {new_rating_count}"
+    ), f"Expected number of ratings to go from {current_rating_count} to {current_rating_count + 1}"
 
 
 def check_dinner_date_possible(student_module):
@@ -71,8 +76,7 @@ def check_dinner_date_possible(student_module):
     StandardChecks.n_params(student_module.dinner_date_possible, n_params=0)
 
     date_restaurants = student_module.dinner_date_possible()
-    assert set(date_restaurants) == set(
-        [
+    expected_date_restaurants = [
             restaurant
             for restaurant in student_module.models.Restaurant.select()
             .where(student_module.models.Restaurant.opening_time <= "19:00")
@@ -84,7 +88,7 @@ def check_dinner_date_possible(student_module):
                 ]
             )
         ]
-    ), f"Expected dinner date restaurants to be {date_restaurants}"
+    assert set(date_restaurants) == set(expected_date_restaurants), f"Expected dinner date restaurants to be {expected_date_restaurants}"
 
 
 def check_add_dish_to_menu(student_module):
