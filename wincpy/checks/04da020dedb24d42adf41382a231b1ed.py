@@ -26,8 +26,10 @@ def check_player_introduce(student_module):
     """The `Player.introduce` method is implemented correctly"""
     StandardChecks.n_params(student_module.Player, n_params=4)
 
-    player = student_module.Player("Super Bob", 0.3, 0.5, 0.5)
-    assert player.introduce() == "Hello everyone, my name is Super Bob."
+    player = student_module.Player("Mister Secret Name", 0.3, 0.5, 0.5)
+    assert (
+        player.introduce() == "Hello everyone, my name is Mister Secret Name."
+    ), "Try using an f-string combined with self.name"
 
 
 def check_player_strength(student_module):
