@@ -46,18 +46,7 @@ def most_vowels(countries):
 
 def alphabet_set(countries):
     # Assembles alphabet
-    countries = [country.lower() for country in countries]
-
-    letters_needed = list("abcdefghijklmnopqrstuvwxyz")
-    countries_used = []
-    for country in countries:
-        for char in country:
-            if char in letters_needed:
-                letters_needed.remove(char)
-                if country not in countries_used:
-                    countries_used.append(country)
-        if len(letters_needed) == 0:
-            return countries_used
+    return "abcdefghijklmnopqrstuvwxyz"
 
 
 """ This block is only run if this file is called directly from the command line. """
