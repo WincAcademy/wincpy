@@ -12,8 +12,8 @@ def check_bool(student_module):
 
 def check_str(student_module):
     """There's a `str` in your code"""
-    assert str in __get_types_in_state(
-        student_module
+    assert (
+        str in __get_types_in_state(student_module)[2:]
     ), "There's no variable with a `str` stored in it after running your code"
 
 
@@ -25,4 +25,4 @@ def check_int(student_module):
 
 
 def __get_types_in_state(student_module):
-    return set([type(v) for v in utils.exec_main(student_module)[1].values()])
+    return [type(v) for v in utils.exec_main(student_module)[1].values()]
