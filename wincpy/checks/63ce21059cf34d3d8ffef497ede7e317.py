@@ -15,9 +15,11 @@ def check_end_of_line_comments(student_module):
 def check_single_line_comments(student_module):
     """Your `main.py` contains two single-line comments"""
     src = utils.get_main_src(student_module)
+
     count = sum([True if l.strip().find("#") == 0 else False for l in src.split("\n")])
+
     assert (
-        count >= 2
+        count >= 4
     ), f"There should be at least `2` single-line comments, but there were only `{count}`"
 
 
