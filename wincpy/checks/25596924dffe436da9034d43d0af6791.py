@@ -19,6 +19,10 @@ def check_farm_action(student_module):
         (("windy", "night", True, "cowshed", "winter", True, True), "milk cows"),
         (("bowling", "night", False, "cowshed", "winter", False, True), "wait"),
         (("sunny", "night", True, "cowshed", "summer", False, True), "milk cows"),
+        (
+            ("rainy", "night", False, "pasture", "winter", False, False),
+            "take cows to cowshed",
+        ),
     ]
 
     for args, return_val in cases:

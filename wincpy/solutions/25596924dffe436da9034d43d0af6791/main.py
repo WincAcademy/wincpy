@@ -45,3 +45,6 @@ def farm_action(
         actions += "wait\n"
 
     return actions[:-1]
+
+
+print(farm_action("rainy", "night", False, "pasture", "winter", False, False))
