@@ -10,12 +10,14 @@ TEST_DATA = {
     "nationality": "Belgium",
 }
 
+# did you use name, date_of_birth, place_of_birth, height and nationality as arguments?
+
 
 def check_create_passport(student_module):
     StandardChecks.n_params(student_module.create_passport, n_params=5)
 
     passport = student_module.create_passport(**TEST_DATA)
-    assert passport == TEST_DATA, "The returned dict is not as we expected it to be."
+    assert passport == TEST_DATA, "create_passport did not create a correct dictionary"
 
 
 def check_add_stamp(student_module):

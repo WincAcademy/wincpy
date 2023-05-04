@@ -36,15 +36,22 @@ def check_most_vowels(student_module):
         "South Georgia and the South Sandwich Islands",
         "Micronesia, Federated States of",
         "United States Minor Outlying Islands",
-    }, "Your top 3 is not correct."
+    }, "Your top 3 is not correct. Did you think about capital letters?"
 
 
 def check_alphabet_set(student_module):
     StandardChecks.n_params(student_module.alphabet_set, n_params=1)
 
     countries = student_module.get_countries()
+    student_output = student_module.alphabet_set(countries)
+
     alpha = {chr(i) for i in range(97, 123)}
-    provided = set("".join([x.lower() for x in student_module.alphabet_set(countries)]))
+    provided = set("".join([x.lower() for x in student_output]))
+
+    assert (
+        len(student_output) <= 14
+    ), f"The amount of countries returned should be 14 or less, yours was {len(student_output)}"
+
     assert provided.issuperset(
         alpha
     ), f"Your set of countries does not provide these letters: {alpha - provided}"

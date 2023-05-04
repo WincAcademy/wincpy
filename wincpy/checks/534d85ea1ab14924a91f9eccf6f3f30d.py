@@ -56,14 +56,19 @@ def check_get_item_from_list(student_module):
 
 
 def strip_comments(src):
-    single_line_comment = re.compile(r"#.*\n")
-    multiline_comment = re.compile(r'""".*"""')
-
-    cleaned_src = src
-    for match in single_line_comment.finditer(src):
-        cleaned_src = cleaned_src[: match.start()] + cleaned_src[match.end() :]
-
-    for match in multiline_comment.finditer(src):
-        cleaned_src = cleaned_src[: match.start()] + cleaned_src[match.end() :]
-
+    cleaned_src = re.sub(r"#.*\n", "", src)
     return cleaned_src
+
+
+# def strip_comments(src):
+#     single_line_comment = re.compile(r"#.*\n")
+#     multiline_comment = re.compile(r'""".*"""')
+
+#     cleaned_src = src
+#     for match in single_line_comment.finditer(src):
+#         cleaned_src = cleaned_src[: match.start()] + cleaned_src[match.end() :]
+
+#     for match in multiline_comment.finditer(src):
+#         cleaned_src = cleaned_src[: match.start()] + cleaned_src[match.end() :]
+
+#     return cleaned_src

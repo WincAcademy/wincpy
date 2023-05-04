@@ -113,6 +113,7 @@ def unmute_stdout():
 def print_intro():
     console.print(logo, justify="center")
 
+
 def print_version():
     console.print(Markdown("# Version " + wincpy.__version__))
 

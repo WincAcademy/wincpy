@@ -18,6 +18,10 @@ def check_unique_koala_fact(student_module):
     StandardChecks.n_params(student_module.unique_koala_facts, n_params=1)
     facts = __get_all_facts(student_module)
 
+    assert (
+        len(set(student_module.unique_koala_facts(0))) != 29
+    ), "When asking for 0 facts, all the facts are returned"
+
     for n in range(15):
         assert (
             len(set(student_module.unique_koala_facts(n))) == n
@@ -34,6 +38,9 @@ def check_unique_koala_fact(student_module):
 
 def check_num_joey_facts(student_module):
     StandardChecks.n_params(student_module.num_joey_facts, n_params=0)
+    assert (
+        type(student_module.num_joey_facts()) == int
+    ), "`num_joey_facts` returned a `str` but it should be an `int`"
     assert (
         student_module.num_joey_facts() == 2
     ), "`num_joey_facts` did not return the right number"

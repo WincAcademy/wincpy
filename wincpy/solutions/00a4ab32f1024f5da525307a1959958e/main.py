@@ -18,7 +18,7 @@ def add_stamp(passport, country):
     if "stamps" not in passport:
         passport["stamps"] = []
 
-    if country not in passport["stamps"]:
+    if country not in passport["stamps"] and country is not passport["nationality"]:
         passport["stamps"].append(country)
 
     return passport
