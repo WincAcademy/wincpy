@@ -36,7 +36,7 @@ def check_most_vowels(student_module):
         "South Georgia and the South Sandwich Islands",
         "Micronesia, Federated States of",
         "United States Minor Outlying Islands",
-    }, "Your top 3 is not correct."
+    }, "Your top 3 is not correct. Did you think about capital letters?"
 
 
 def check_alphabet_set(student_module):
