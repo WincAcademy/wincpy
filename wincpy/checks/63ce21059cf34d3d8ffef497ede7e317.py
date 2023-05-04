@@ -20,7 +20,7 @@ def check_single_line_comments(student_module):
 
     assert (
         count >= 4
-    ), f"There should be at least `2` single-line comments, but there were only `{count}`"
+    ), f"There should be at least `2` single-line comments, but there were only `{count - 2}`"
 
 
 def check_multiline_comments(student_module):
