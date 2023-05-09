@@ -85,3 +85,7 @@ def logout():
         # User was not logged in. That's fine.
         pass
     return redirect(url_for("index"))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
