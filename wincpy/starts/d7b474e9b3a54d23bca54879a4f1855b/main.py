@@ -1,6 +1,8 @@
+# Do not modify these lines
 __winc_id__ = "d7b474e9b3a54d23bca54879a4f1855b"
 __human_name__ = "Betsy Webshop"
 
+# Add your code after this line
 
 def search(term):
     ...
