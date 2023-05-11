@@ -17,7 +17,9 @@ __winc_id__ = "78029e0e504a49e5b16482a7a23af58c"
 
 def check_zen(student_module):
     """The Zen of Python is imported"""
-    assert "import this" in utils.get_main_src(student_module), f"The Zen of Python is not imported."
+    assert "import this" in utils.get_main_src(
+        student_module
+    ), f"The Zen of Python is not imported."
 
 
 def check_wait(student_module):
