@@ -1,5 +1,8 @@
+# Do not modify these lines
 __winc_id__ = "9920545368b24a06babf1b57cee44171"
 __human_name__ = "refactoring"
+
+# Add your code after this line
 
 alice_name = "Alice Aliceville"
 alice_profession = "electrician"

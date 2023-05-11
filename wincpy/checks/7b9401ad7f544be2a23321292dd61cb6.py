@@ -23,7 +23,7 @@ def check_greet(student_module):
     template = f"Testing, <name>{RANDOM_STR}!"
     assert student_module.greet(name, template) == template.replace(
         "<name>", name
-    ), "The greeting with a template is not not correct."
+    ), "The greeting with a template is not correct."
 
 
 def check_force(student_module):
