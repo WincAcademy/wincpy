@@ -11,25 +11,16 @@ def check_bouncer_bot(student_module):
             (False, False, False, False, 17, False),
             "You're too young. Please come back when you're older.",
         ),
-        (
-            (False, False, False, True, 25, False), 
-            "Please come back when you're sober."
-        ),
+        ((False, False, False, True, 25, False), "Please come back when you're sober."),
         (
             (True, False, False, False, 25, False),
             "It's ladies night. Come back another night.",
         ),
-        (
-            (False, False, True, False, 25, False), 
-            "No, too busy right now."
-        ),
-        (
-        (False, False, False, False, 25, True), 
-        "Welcome!"
-        ),
+        ((False, False, True, False, 25, False), "No, too busy right now."),
+        ((False, False, False, False, 25, True), "Welcome!"),
     ]
 
     for args, return_val in cases:
-        assert student_module.bouncer_bot(*args) == return_val, (
-            f"When using these parameters: `{str(args)}` The output was not `{return_val}`"
-        )
+        assert (
+            student_module.bouncer_bot(*args) == return_val
+        ), f"When using these parameters: `{str(args)}` The output was not `{return_val}`"

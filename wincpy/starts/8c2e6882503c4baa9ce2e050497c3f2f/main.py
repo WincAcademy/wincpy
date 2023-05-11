@@ -4,6 +4,7 @@ __human_name__ = "stds"
 
 # Add your code after this line
 
+
 def main():
     # TODO: read text from stdin
 
