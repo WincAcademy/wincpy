@@ -1,6 +1,6 @@
 import peewee
 
-db = peewee.SqliteDatabase(":memory:")
+db = peewee.SqliteDatabase("database.db")
 
 
 class Ingredient(peewee.Model):
