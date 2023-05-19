@@ -10,7 +10,7 @@ def bouncer_bot(
 ):
     # Add your code below! #
 
-    print("Welcome!")
+    return "Welcome!"
 
 
 # Different combinations of arguments to test all the conditions

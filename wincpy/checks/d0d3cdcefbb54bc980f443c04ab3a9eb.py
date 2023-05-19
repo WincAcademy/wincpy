@@ -21,4 +21,4 @@ def check_output(student_module):
     ), f"Output was expected to be `{len(expected)}` lines long but was `{len(output)}` lines."
 
     for i, (o, e) in enumerate(zip(output, expected)):
-        assert o == e, f"Output line {i} should be {e} but was {o}"
+        assert o == e, f"Output line {i + 1} should be {e} but was {o}"

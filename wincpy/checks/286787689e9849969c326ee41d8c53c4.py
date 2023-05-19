@@ -20,7 +20,6 @@ def check_cheapest_dish(student_module):
         .order_by(student_module.models.Dish.price_in_cents)
         .first()
     )
-    print(f"{dish} and {expected_dish}")
     assert dish == expected_dish, f"Expected the cheapest dish to be {expected_dish}."
     assert type(dish) == type(
         expected_dish
