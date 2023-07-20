@@ -13,7 +13,7 @@ def check_clean_cache(student_module):
 
     cache_path, _ = __get_paths(student_module)
     student_module.clean_cache()
-    assert os.path.isdir(cache_path), f"`cache_path` did not create {cache_path}"
+    assert os.path.isdir(cache_path), f"The cache directory was not created properly."
 
     # Put some bogus file in it that should be gone after calling clean_cache()
     with open(os.path.join(cache_path, "throwaway"), "w") as fp:
