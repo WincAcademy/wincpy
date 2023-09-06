@@ -33,7 +33,7 @@ def force(mass, body="earth"):
     force = mass * bodies[body]
     return force
 
-
+print(force(10, "pluto"))
 # 3
 
 

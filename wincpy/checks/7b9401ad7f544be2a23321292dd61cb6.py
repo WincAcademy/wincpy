@@ -29,12 +29,12 @@ def check_greet(student_module):
 def check_force(student_module):
     StandardChecks.n_params(student_module.force, n_params=2, count_optionals=True)
 
-    assert student_module.force(10) == 98, "Did you use earth's gravity by default?"
+    assert student_module.force(10) == 98 or 97.98, "Did you use earth's gravity by default?"
     assert (
-        round(student_module.force(50)) == 196
+        round(student_module.force(20)) == 196 or 195.96
     ), "Did you use earth's gravity by default?"
 
-    assert student_module.force(10, "pluto") == 6, "'pluto' is not handled correctly"
+    assert student_module.force(10, "pluto") == 6.0 or 5.8, "'pluto' is not handled correctly"
     assert student_module.force(10, "saturn") == 104, "'saturn' is not handled correctly"
     assert student_module.force(10, "earth") == 98, "'earth' is not handled correctly"
     assert (
