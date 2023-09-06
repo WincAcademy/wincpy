@@ -30,7 +30,7 @@ def force(mass, body="earth"):
         "moon": 1.62
     }
 
-    force = mass * bodies[body]
+    force = mass * round(bodies[body])
     return force
 
 print(force(10, "pluto"))

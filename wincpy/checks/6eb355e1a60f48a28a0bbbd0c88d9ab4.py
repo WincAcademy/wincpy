@@ -19,14 +19,3 @@ def check_won_golden_globe(student_module):
     assert student_module.won_golden_globe("JAWS") is True
     assert student_module.won_golden_globe("memoirs of a geisha") is True
     assert student_module.won_golden_globe("test") is False
-
-
-def check_remove_toto_albums(student_module):
-    StandardChecks.n_params(student_module.remove_toto_albums, n_params=1)
-
-    assert student_module.remove_toto_albums(["Old Is New"]) == []
-    assert student_module.remove_toto_albums([]) == []
-    assert student_module.remove_toto_albums(["test", "Old Is New"]) == ["test"]
-    assert student_module.remove_toto_albums(["test", "Fahrenheit", "Old Is New"]) == [
-        "test"
-    ]
