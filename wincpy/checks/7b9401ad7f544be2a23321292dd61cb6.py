@@ -31,17 +31,17 @@ def check_force(student_module):
 
     assert student_module.force(10) == 98, "Did you use earth's gravity by default?"
     assert (
-        round(student_module.force(50)) == 490
+        round(student_module.force(50)) == 196
     ), "Did you use earth's gravity by default?"
 
-    assert student_module.force(10, "pluto") == 7, "'pluto' is not handled correctly"
-    assert student_module.force(10, "saturn") == 90, "'saturn' is not handled correctly"
+    assert student_module.force(10, "pluto") == 6, "'pluto' is not handled correctly"
+    assert student_module.force(10, "saturn") == 104, "'saturn' is not handled correctly"
     assert student_module.force(10, "earth") == 98, "'earth' is not handled correctly"
     assert (
-        student_module.force(10, "jupiter") == 231
+        student_module.force(10, "jupiter") == 249
     ), "'jupiter' is not handled correctly"
     assert (
-        student_module.force(10, "neptune") == 110
+        student_module.force(10, "neptune") == 112
     ), "'neptune' is not handled correctly"
     assert student_module.force(10, "moon") == 16, "'moon' is not handled correctly"
 

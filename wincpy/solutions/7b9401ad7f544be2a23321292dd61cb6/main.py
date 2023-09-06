@@ -17,23 +17,21 @@ def greet(name, greeting="Hello, <name>!"):
 
 def force(mass, body="earth"):
     bodies = {
-        "jupiter": 23.1,
-        "neptune": 11.0,
-        "saturn": 9.0,
-        "earth": 9.8,
-        "uranus": 8.7,
-        "venus": 8.9,
-        "mars": 3.7,
+        "sun": 274,
         "mercury": 3.7,
-        "moon": 1.6,
-        "pluto": 0.7,
+        "venus": 8.87,
+        "earth": 9.798,
+        "mars": 3.71,
+        "jupiter": 24.92,
+        "saturn": 10.44,
+        "uranus": 8.87,
+        "neptune": 11.15,
+        "pluto": 0.58,
+        "moon": 1.62
     }
 
     force = mass * bodies[body]
     return force
-
-
-print(force(10, "moon"))
 
 
 # 3
