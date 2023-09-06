@@ -47,4 +47,4 @@ def farm_action(
     return actions[:-1]
 
 
-print(farm_action("rainy", "night", False, "pasture", "winter", False, False))
+print(farm_action("sunny", "day", True, "pasture", "spring", False, True))

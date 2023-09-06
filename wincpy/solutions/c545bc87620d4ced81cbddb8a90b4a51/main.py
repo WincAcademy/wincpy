@@ -5,18 +5,12 @@ __human_name__ = "for"
 
 
 def shortest_names(countries):
-    shortest_len = float("inf")
+    shortest = min(countries, key=len)
     shortest_names = []
-
     for country in countries:
-        country_len = len(country)
-        if country_len < shortest_len:
-            shortest_len = country_len
-            shortest_names = [country]
-        elif country_len == shortest_len:
+        if len(country) == len(shortest):
             shortest_names.append(country)
-
-    return shortest_names
+    return(shortest_names)
 
 
 def most_vowels(countries):
