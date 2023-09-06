@@ -62,6 +62,9 @@ def check_state(expected_state, actual_state):
             k in actual_state.keys()
         ), f"We expected `{k}` to be a variable in your program"
         assert (
+            type(expected_state[k]) == type(actual_state[k])), f"We expected `{k}` to be of tpye `{type(expected_state[k])}` but it was `{type(actual_state[k])}`"
+        
+        assert (
             expected_state[k] == actual_state[k]
         ), f"We expected `{k}` to be `{expected_state[k]}` but it was `{actual_state[k]}`"
 
