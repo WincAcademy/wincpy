@@ -12,7 +12,7 @@ from wincpy import ui
 
 
 def get_iddb():
-    iddb_url = "iddb_url = "https://raw.githubusercontent.com/WincAcademy/wincid/master/iddb.json?token=GHSAT0AAAAAACSDK43X26RKUAOMDHGRSRAQZULSZSQ""
+    iddb_url = "https://raw.githubusercontent.com/WincAcademy/wincid/master/iddb.json?token=GHSAT0AAAAAACSDK43X26RKUAOMDHGRSRAQZULSZSQ"
     iddb_bytes = urllib.request.urlopen(iddb_url, timeout=1).read()
     iddb = json.loads(iddb_bytes)
     try:
