@@ -1,4 +1,4 @@
-# Wincpy 1.3.2
+# Wincpy 1.3.3
 
 [![.github/workflows/check-solutions.yml](https://github.com/WincAcademy/wincpy/actions/workflows/check-solutions.yml/badge.svg?branch=master)](https://github.com/WincAcademy/wincpy/actions/workflows/check-solutions.yml)
 
