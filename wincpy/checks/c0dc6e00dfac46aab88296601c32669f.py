@@ -7,7 +7,6 @@ __winc_id__ = "c0dc6e00dfac46aab88296601c32669f"
 
 def check_random_koala_fact(student_module):
     StandardChecks.n_params(student_module.random_koala_fact, n_params=0)
-
     facts = __get_all_facts(student_module)
     for _ in range(10):
         assert (
@@ -17,7 +16,6 @@ def check_random_koala_fact(student_module):
 
 def check_unique_koala_fact(student_module):
     StandardChecks.n_params(student_module.unique_koala_facts, n_params=1)
-
     facts = __get_all_facts(student_module)
 
     assert (
@@ -40,7 +38,6 @@ def check_unique_koala_fact(student_module):
 
 def check_num_joey_facts(student_module):
     StandardChecks.n_params(student_module.num_joey_facts, n_params=0)
-
     assert (
         type(student_module.num_joey_facts()) == int
     ), "`num_joey_facts` returned a `str` but it should be an `int`"
@@ -51,7 +48,6 @@ def check_num_joey_facts(student_module):
 
 def check_koala_weight(student_module):
     StandardChecks.n_params(student_module.koala_weight, n_params=0)
-
     assert (
         student_module.koala_weight() == 14
     ), "`koala_weight` did not return the right number"
